@@ -60,15 +60,6 @@ const MyFirstGrid = () => {
             {block.i}
           </button>
         ))}
-        {/* <div key="1" className="red">
-          a
-        </div>
-        <div key="2" className="red">
-          b
-        </div>
-        <div key="3" className="red">
-          c
-        </div> */}
       </ResponsiveGridLayout>
     </>
   )
