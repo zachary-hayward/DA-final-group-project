@@ -12,7 +12,6 @@ const UserContext = createContext<User | undefined>(undefined)
 export const useUser = () => useContext(UserContext)
 
 function App() {
-  const [token, setToken] = useState('notarealtokenyet')
   const [user, setUser] = useState<User>()
   const {isAuthenticated, getAccessTokenSilently} = useAuth0()
   
@@ -20,9 +19,8 @@ function App() {
     const getUserByToken = async () => {
       try {
         const newToken = await getAccessTokenSilently()
-        setToken(newToken)
-        // const user = await getUserByAuth(token)
-        // setUser(user)
+        const user = await getUserByAuth(newToken)
+        setUser(user)
       } catch(error) {
         console.error(error)
       }
@@ -36,10 +34,13 @@ function App() {
         <NavBar />
         {!isAuthenticated ?
           <LandingPage />
-        : 
-            <UserContext.Provider value={user}>
-              <Outlet />
-            </UserContext.Provider>
+        : <>{!user ? 
+              <Register />
+            :
+              <UserContext.Provider value={user}>
+                <Outlet />
+              </UserContext.Provider>
+          }</>
         }
         <Footer />
       </div>

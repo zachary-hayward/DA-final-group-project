@@ -8,10 +8,10 @@ const router = Router()
 
 router.get('/users', checkJwt, async (req:JwtRequest, res) => {
   const auth0Id = req.auth?.sub
-  console.log(req.auth)
   if (!auth0Id) return res.sendStatus(401)
   try {
     const userDB = await db.getUserByAuth0Id(auth0Id)
+    if (!userDB) return res.json(userDB)
     const user: UserDB = {id: userDB.id, username: userDB.username, location: userDB.location}
     res.json(user)
   } catch (error) {
