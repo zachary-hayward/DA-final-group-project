@@ -1,9 +1,9 @@
 import { createRoutesFromElements, Route } from 'react-router-dom'
 import App from './components/App.tsx'
-import Register from './components/Register.tsx'
+import Home from './components/Home.tsx'
 
 export default createRoutesFromElements(
   <Route path='/' element={<App />}>
-    <Route path='/register' element={<Register />} />
+    <Route index element={<Home />} />
   </Route>
 )
