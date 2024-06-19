@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
      * TODO: replace domain, clientId, and audience
      */
     <Auth0Provider
-      domain=""
-      clientId=""
+      domain="https://whai-2024-zachary.us.auth0.com"
+      clientId="3djVB6gAA8HhFRGjDz8FxLspWb4pEXwA"
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: '',
+        audience: 'https://grow-grub/api',
       }}
     >
       <QueryClientProvider client={queryClient}>
