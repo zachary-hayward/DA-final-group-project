@@ -1,6 +1,7 @@
 export interface User {
-  id: number
-  auth0Id: string
   username: string
   location: string
+}
+export interface UserDB extends User {
+  id: number
 }
