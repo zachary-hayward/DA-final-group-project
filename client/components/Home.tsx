@@ -2,7 +2,8 @@ import { useUser } from "./App"
 
 export default function Home() {
   const user = useUser()
-  console.log(user)
+  if (!user) return <>Getting your details..</>
+  
   return (<>
     <div>Your garden and stuff</div>
   </>)

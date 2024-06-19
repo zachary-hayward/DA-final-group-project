@@ -13,6 +13,7 @@ export const useUser = () => useContext(UserContext)
 
 function App() {
   const [user, setUser] = useState<User>()
+  const [redirecting, setRedirecting] = useState(true)
   const {isAuthenticated, getAccessTokenSilently} = useAuth0()
   
   useEffect(() => {
@@ -21,27 +22,28 @@ function App() {
         const newToken = await getAccessTokenSilently()
         const user = await getUserByAuth(newToken)
         setUser(user)
+        setRedirecting(false)
       } catch(error) {
         console.error(error)
       }
     }
     getUserByToken()
-  })
+  },[isAuthenticated, getAccessTokenSilently])
   
   return (
     <>
-      <div className="app">
+      <div className='app min-w-screen min-h-screen'>
         <NavBar />
-        {!isAuthenticated ?
-          <LandingPage />
-        : <>{!user ? 
-              <Register />
-            :
-              <UserContext.Provider value={user}>
-                <Outlet />
-              </UserContext.Provider>
-          }</>
-        }
+          {(!isAuthenticated || redirecting) ?
+            <LandingPage />
+          : <>{!user ? 
+                <Register />
+              :
+                <UserContext.Provider value={user}>
+                  <Outlet />
+                </UserContext.Provider>
+            }</>
+          }
         <Footer />
       </div>
     </>

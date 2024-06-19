@@ -5,7 +5,7 @@
 export const up = function(knex) {
   return knex.schema.createTable('gardens', (table) => {
     table.increments('id').primary()
-    table.number('user_id').notNullable()
+    table.integer('user_id').notNullable()
       .references('id').inTable('users').onDelete('CASCADE')
   })  
 }
