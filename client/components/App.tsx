@@ -21,15 +21,15 @@ function App() {
       try {
         const newToken = await getAccessTokenSilently()
         setToken(newToken)
-        const user = await getUserByAuth(token)
-        setUser(user)
+        // const user = await getUserByAuth(token)
+        // setUser(user)
       } catch(error) {
         console.error(error)
       }
     }
     getUserByToken()
   })
-
+  
   return (
     <>
       <div className="app">
@@ -37,12 +37,9 @@ function App() {
         {!isAuthenticated ?
           <LandingPage />
         : 
-          <>{!user ? <Register />
-          :
             <UserContext.Provider value={user}>
               <Outlet />
             </UserContext.Provider>
-          }</>
         }
         <Footer />
       </div>

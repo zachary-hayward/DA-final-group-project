@@ -3,8 +3,10 @@
 export default function Register() {
 
   return (<>
-    <div className=''>
-      Lets get signed up.
+    <div className='flex flex-col align-middle'>
+      <div className='bg-slate-300'>
+
+      </div>
     </div>
   </>)
 }
