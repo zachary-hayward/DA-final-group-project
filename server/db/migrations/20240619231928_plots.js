@@ -12,6 +12,7 @@ export const up = function(knex) {
     table.integer('plot_type')
     table.integer('size')
     table.integer('average_wind')
+    table.string('name')
   })
 };
 
