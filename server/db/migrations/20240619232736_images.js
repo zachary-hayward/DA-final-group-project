@@ -6,7 +6,6 @@ export const up = function(knex) {
   return knex.schema.createTable('images', (table) => {
     table.increments('id').primary()
     table.integer('plot_notes_id').notNullable()
-      .references('id').inTable('plot_notes').onDelete('CASCADE')
     table.string('image')
   })
 };

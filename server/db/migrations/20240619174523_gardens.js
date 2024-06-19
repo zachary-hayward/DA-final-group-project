@@ -7,6 +7,7 @@ export const up = function(knex) {
     table.increments('id').primary()
     table.integer('user_id').notNullable()
       .references('id').inTable('users').onDelete('CASCADE')
+    table.string('layout')
   })  
 }
 
