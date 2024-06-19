@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import { useAuth0 } from "@auth0/auth0-react"
 
 export default function NavBar() {
@@ -19,11 +18,6 @@ export default function NavBar() {
       >
         {isAuthenticated ? 'Logout' : 'Login'}
       </button>
-      {isAuthenticated && <>
-        <Link to='/register'
-          className='btn-nav'
-        >Register</Link>
-      </>}
     </div>
   </>)
 }
