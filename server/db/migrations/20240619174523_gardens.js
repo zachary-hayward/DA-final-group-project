@@ -3,13 +3,11 @@
  * @returns { Promise<void> }
  */
 export const up = function(knex) {
-  return knex.schema.createTable('users', (table) => {
+  return knex.schema.createTable('gardens', (table) => {
     table.increments('id').primary()
-    table.string('auth0_id').unique().notNullable()
-    table.string('username').unique()
-    table.string('location')
-  })
-  
+    table.number('user_id').notNullable()
+      .references('id').inTable('users').onDelete('CASCADE')
+  })  
 }
 
 /**
@@ -17,5 +15,5 @@ export const up = function(knex) {
  * @returns { Promise<void> }
  */
 export const down = function(knex) {
-  return knex.schema.dropTable('users')
+  return knex.schema.dropTable('gardens')
 }
