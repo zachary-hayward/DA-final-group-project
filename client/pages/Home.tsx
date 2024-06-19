@@ -1,4 +1,4 @@
-import { useUser } from "./App"
+import { useUser } from "../components/App"
 
 export default function Home() {
   const user = useUser()
