@@ -1,0 +1,692 @@
+{
+  "crops": {
+    "Apple": {
+      "northernPlanting": ["May", "June", "July", "August", "September"],
+      "middlePlanting": ["May", "June", "July", "August", "September"],
+      "southernPlanting": ["May", "June", "July", "August", "September"],
+      "harvestTime": "2-4 years"
+    },
+    "Asparagus": {
+      "northernPlanting": ["August", "September", "October"],
+      "middlePlanting": ["August", "September", "October"],
+      "southernPlanting": ["August", "September", "October"],
+      "harvestTime": "2 years"
+    },
+    "Basil": {
+      "northernPlanting": [
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "middlePlanting": [
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "southernPlanting": [
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "harvestTime": "40-60 days"
+    },
+    "Beetroot": {
+      "northernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "middlePlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "southernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "harvestTime": "90-120 days"
+    },
+    "Blueberry": {
+      "northernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "middlePlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "southernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "harvestTime": "60-90 days from flower"
+    },
+    "Blackberry": {
+      "northernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "middlePlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "southernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "harvestTime": "1 year"
+    },
+    "Bok choi": {
+      "northernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "middlePlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "southernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "harvestTime": "20-45 days"
+    },
+    "Broad bean": {
+      "northernPlanting": ["April", "May", "June", "July", "August"],
+      "middlePlanting": ["April", "May", "June", "July", "August"],
+      "southernPlanting": ["April", "May", "June", "July", "August"],
+      "harvestTime": "85-110 days"
+    },
+    "Broccoli": {
+      "northernPlanting": [
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "middlePlanting": [
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "southernPlanting": [
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "harvestTime": "60-120 days"
+    },
+    "Capsicum": {
+      "northernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January"
+      ],
+      "middlePlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January"
+      ],
+      "southernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January"
+      ],
+      "harvestTime": "80-100 days"
+    },
+    "Carrot": {
+      "northernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "middlePlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "southernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March",
+        "April"
+      ],
+      "harvestTime": "50-65 days"
+    },
+    "Cauliflower": {
+      "northernPlanting": [
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September"
+      ],
+      "middlePlanting": [
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September"
+      ],
+      "southernPlanting": [
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September"
+      ],
+      "harvestTime": "90-120 days"
+    },
+    "Celery": {
+      "northernPlanting": [
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September"
+      ],
+      "middlePlanting": ["April", "May", "June", "July", "August", "September"],
+      "southernPlanting": [
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September"
+      ],
+      "harvestTime": "80-85 days"
+    },
+    "Coriander": {
+      "northernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "middlePlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "southernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "harvestTime": "30-45 days"
+    },
+    "Courgette": {
+      "northernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "middlePlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "southernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "harvestTime": "60-85 days"
+    },
+    "Cucumber": {
+      "northernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "middlePlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "southernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "harvestTime": "60-80 days"
+    },
+    "Eggplant": {
+      "northernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "middlePlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "southernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "harvestTime": "85-110 days"
+    },
+    "Feijoa": {
+      "northernPlanting": ["May", "June", "July", "August", "September"],
+      "middlePlanting": ["May", "June", "July", "August", "September"],
+      "southernPlanting": ["May", "June", "July", "August", "September"],
+      "harvestTime": "2-3 years"
+    },
+    "Garlic": {
+      "northernPlanting": ["April", "May", "June", "July"],
+      "middlePlanting": ["April", "May", "June", "July"],
+      "southernPlanting": ["April", "May", "June", "July"],
+      "harvestTime": "170 days"
+    },
+    "Kale": {
+      "northernPlanting": [
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September"
+      ],
+      "middlePlanting": ["April", "May", "June", "July", "August", "September"],
+      "southernPlanting": [
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September"
+      ],
+      "harvestTime": "60-70 days"
+    },
+    "Lemon": {
+      "northernPlanting": ["May", "June", "July", "August", "September"],
+      "middlePlanting": ["May", "June", "July", "August", "September"],
+      "southernPlanting": ["May", "June", "July", "August", "September"],
+      "harvestTime": "2-4 years"
+    },
+    "Lettuce": {
+      "northernPlanting": ["All year round"],
+      "middlePlanting": ["All year round"],
+      "southernPlanting": ["All year round"],
+      "harvestTime": "40-70 days"
+    },
+    "Lime": {
+      "northernPlanting": ["May", "June", "July", "August", "September"],
+      "middlePlanting": ["May", "June", "July", "August", "September"],
+      "southernPlanting": ["May", "June", "July", "August", "September"],
+      "harvestTime": "2-4 years"
+    },
+    "Mandarin": {
+      "northernPlanting": ["May", "June", "July", "August", "September"],
+      "middlePlanting": ["May", "June", "July", "August", "September"],
+      "southernPlanting": ["May", "June", "July", "August", "September"],
+      "harvestTime": "2-4 years"
+    },
+    "Mesclun": {
+      "northernPlanting": ["All year round"],
+      "middlePlanting": ["All year round"],
+      "southernPlanting": ["All year round"],
+      "harvestTime": "40-60 days"
+    },
+    "Onion": {
+      "northernPlanting": ["March", "April", "May", "June", "July"],
+      "middlePlanting": ["March", "April", "May", "June", "July"],
+      "southernPlanting": ["March", "April", "May", "June", "July"],
+      "harvestTime": "70-180 days"
+    },
+    "Orange": {
+      "northernPlanting": ["May", "June", "July", "August", "September"],
+      "middlePlanting": ["May", "June", "July", "August", "September"],
+      "southernPlanting": ["May", "June", "July", "August", "September"],
+      "harvestTime": "2-4 years"
+    },
+    "Parsley": {
+      "northernPlanting": ["All year round"],
+      "middlePlanting": ["All year round"],
+      "southernPlanting": ["All year round"],
+      "harvestTime": "45-85 days"
+    },
+    "Passionfruit": {
+      "northernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "middlePlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "southernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "harvestTime": "12-18 months"
+    },
+    "Pea": {
+      "northernPlanting": ["March", "April", "May", "June", "July"],
+      "middlePlanting": ["March", "April", "May", "June", "July"],
+      "southernPlanting": ["March", "April", "May", "June", "July"],
+      "harvestTime": "45-70 days"
+    },
+    "Pear": {
+      "northernPlanting": ["May", "June", "July", "August", "September"],
+      "middlePlanting": ["May", "June", "July", "August", "September"],
+      "southernPlanting": ["May", "June", "July", "August", "September"],
+      "harvestTime": "2-4 years"
+    },
+    "Potato": {
+      "northernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "middlePlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "southernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February",
+        "March"
+      ],
+      "harvestTime": "90-160 days"
+    },
+    "Pumpkin & squash": {
+      "northernPlanting": ["October", "November", "December", "January"],
+      "middlePlanting": ["October", "November", "December", "January"],
+      "southernPlanting": ["October", "November", "December", "January"],
+      "harvestTime": "110-170 days"
+    },
+    "Radish": {
+      "northernPlanting": ["All year round"],
+      "middlePlanting": ["All year round"],
+      "southernPlanting": ["All year round"],
+      "harvestTime": "30-40 days"
+    },
+    "Raspberry": {
+      "northernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "middlePlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "southernPlanting": [
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "harvestTime": "1 year"
+    },
+    "Rocket": {
+      "northernPlanting": ["All year round"],
+      "middlePlanting": ["All year round"],
+      "southernPlanting": ["All year round"],
+      "harvestTime": "30-40 days"
+    },
+    "Silverbeet": {
+      "northernPlanting": ["All year round"],
+      "middlePlanting": ["All year round"],
+      "southernPlanting": ["All year round"],
+      "harvestTime": "40-60 days"
+    },
+    "Spinach": {
+      "northernPlanting": ["All year round"],
+      "middlePlanting": ["All year round"],
+      "southernPlanting": ["All year round"],
+      "harvestTime": "30-40 days"
+    },
+    "Spring onion": {
+      "northernPlanting": ["All year round"],
+      "middlePlanting": ["All year round"],
+      "southernPlanting": ["All year round"],
+      "harvestTime": "60-70 days"
+    },
+    "Strawberry": {
+      "northernPlanting": ["April", "May", "June", "July", "August"],
+      "middlePlanting": ["April", "May", "June", "July", "August"],
+      "southernPlanting": ["April", "May", "June", "July", "August"],
+      "harvestTime": "140-160 days"
+    },
+    "Sweetcorn": {
+      "northernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February"
+      ],
+      "middlePlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February"
+      ],
+      "southernPlanting": [
+        "September",
+        "October",
+        "November",
+        "December",
+        "January",
+        "February"
+      ],
+      "harvestTime": "90-100 days"
+    }
+  }
+}
