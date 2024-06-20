@@ -1,4 +1,4 @@
-import { useContext, createContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Outlet } from 'react-router-dom'
 import Footer from './Footer.tsx'
@@ -6,42 +6,38 @@ import NavBar from './NavBar.tsx'
 import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
-import { User } from '../../models/growGrub.ts'
-
-const UserContext = createContext<User | undefined>(undefined)
-export const useUser = () => useContext(UserContext)
 
 function App() {
-  const [user, setUser] = useState<User>()
-  const [redirecting, setRedirecting] = useState(true)
+  const [processing, setProcessing] = useState(false)
+  const [registered, setRegistered] = useState(false)
   const {isAuthenticated, getAccessTokenSilently} = useAuth0()
-  
+
   useEffect(() => {
-    const getUserByToken = async () => {
+    const getUser = async () => {
+      setProcessing(true)
+      const token = await getAccessTokenSilently()
       try {
-        const newToken = await getAccessTokenSilently()
-        const user = await getUserByAuth(newToken)
-        setUser(user)
-        setRedirecting(false)
-      } catch(error) {
-        console.error(error)
+        const result = await getUserByAuth(token)
+        if (result.id) setRegistered(true)
+      } catch (error) {
+        setRegistered(false)
+      } finally {
+        setProcessing(false)
       }
     }
-    getUserByToken()
+    if (isAuthenticated) getUser()
   },[isAuthenticated, getAccessTokenSilently])
-  
+
   return (
     <>
-      <div className='app min-w-screen min-h-screen'>
+      <div className="app min-w-screen min-h-screen">
         <NavBar />
-          {(!isAuthenticated || redirecting) ?
+          {(!isAuthenticated || processing) ?
             <LandingPage />
-          : <>{!user ? 
-                <Register />
+          : <>{registered ? 
+                <Outlet />
               :
-                <UserContext.Provider value={user}>
-                  <Outlet />
-                </UserContext.Provider>
+                <Register registered={registered} setRegistered={setRegistered}/>
             }</>
           }
         <Footer />
@@ -51,3 +47,20 @@ function App() {
 }
 
 export default App
+
+//Swap this:
+
+// {(!isAuthenticated) ?
+//   <LandingPage />
+// : <>{!registered ? 
+//       <Register registered={registered} setRegistered={setRegistered}/>
+//     :
+//       <Outlet />
+//   }</>
+// }
+
+//For this:
+
+// <Outlet />
+
+//To Test things

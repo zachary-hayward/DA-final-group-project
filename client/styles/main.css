@@ -1,7 +1,58 @@
+@import 'react-grid-layout/css/styles.css';
+@import 'react-resizable/css/styles.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .btn-nav {
-  @apply rounded bg-white hover:bg-slate-300 m-1 pl-1 pr-1
+  @apply m-1 rounded bg-white pl-1 pr-1 hover:bg-slate-300;
+}
+
+/* Grid */
+
+.red {
+  background-color: red;
+}
+
+.gardenview {
+  display: flex;
+  flex-direction: row;
+}
+
+.garden-grid {
+  flex: 3;
+}
+
+.garden-form {
+  margin-left: 0.5em;
+  padding: 1em 1em;
+  flex: 1;
+  background-color: #fbfbfb;
+  height: 100vh;
+}
+
+.dropmenu {
+  border-width: 1px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0.25em;
+  padding: 0.1em;
+}
+
+.save-garden {
+  background-color: #609936;
+  color: white;
+  padding: 0.25em 0.7em;
+  border-radius: 0.35em;
+  margin-top: 1em;
+}
+
+.add-plant {
+  background-color: #e4ffd0;
+  padding: 0.25em 0.7em;
+  border-radius: 0.35em;
+}
+
+#nameInput {
+  background-color: #fbfbfb;
 }
