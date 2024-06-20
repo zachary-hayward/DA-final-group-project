@@ -24,5 +24,5 @@ function useMutationTemplate<TData = unknown, TVariables = unknown>(
 
 interface UseAddUser { userData: UserData; token: string}
 function useAddUser() {
-  return useMutationTemplate(({userData, token}: UseAddUser) => API.addUser(userData, token), ['recipes'])
+  return useMutationTemplate(({userData, token}: UseAddUser) => API.addUser(userData, token), ['users'])
 }

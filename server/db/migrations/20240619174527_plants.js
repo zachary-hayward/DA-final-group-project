@@ -10,7 +10,7 @@ export const up = function(knex) {
     table.string('planting_starts')
     table.string('planting_ends')
     table.string('watering_frequency')
-    table.integer('sunlight')
+    table.string('sun_level')
     table.string('cycle')
   })
 };
