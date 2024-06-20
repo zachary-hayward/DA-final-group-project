@@ -28,10 +28,12 @@ export default function SinglePlant() {
         <>
         <div className = " ">
         </div> 
-            <h2>{plantData.plantName}</h2>
-            <h3>{plantData.scientificName}</h3>
-            <p>{plantData.description}</p>
+        <div className="title-section">
+            <h2 className="plant-name">{plantData.plantName}</h2>
+            <h3 className="plant-scientific-name">{plantData.scientificName}</h3>
+            <p className="plant-description">{plantData.description}</p>
             <img src="image-url" alt="your plant"></img>
+        </div>
             <h3>Care instructions</h3>
             <p>here are some instructions</p>
             <h3>Todo</h3>  
