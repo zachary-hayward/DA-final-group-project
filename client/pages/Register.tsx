@@ -1,13 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useState, ChangeEvent } from "react"
-import { useHooks } from "../hooks/useHooks"
+import { addUser } from "../apis/growGrub"
 
-
-export default function Register() {
+interface Props {registered:boolean; setRegistered: (boolean: boolean) => void}
+export default function Register({registered, setRegistered}: Props) {
   const {getAccessTokenSilently} = useAuth0()
   const [formData, setFormData] = useState({username: '', location: ''})
-  const hooks = useHooks()
-  const addUser = hooks.addUser
+  const [displayMessage, setDisplayMessage] = useState('')
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
@@ -16,7 +15,16 @@ export default function Register() {
 
   const handleOnClick = async () => {
     const token = await getAccessTokenSilently()
-    addUser.mutate({userData: formData, token})
+    try {
+      await addUser(formData, token)
+      setDisplayMessage('Registered successfully! Redirecting you...')
+      setTimeout(() => {
+        setRegistered(true)
+      }, 1500)
+    } catch (error) {
+      setRegistered(false)
+      setDisplayMessage('Something went wrong, try a different username.')
+    }
   }
 
   return (<>
@@ -38,10 +46,13 @@ export default function Register() {
             onChange={handleChange}
           />
         </div>
-        <button type='button'
-          onClick={() => handleOnClick()}
-        >Register</button>
+        {!registered &&
+          <button type='button'
+            onClick={() => handleOnClick()}
+          >Register</button>
+        }
       </form>
+      {displayMessage && <div>{displayMessage}</div>}
     </div>
   </>)
 }
