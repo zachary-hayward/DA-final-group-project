@@ -12,9 +12,9 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  { name: 'My Garden', href: '#', current: false },
+  { name: 'My Tasks', href: '#', current: false },
+  { name: 'My Plants', href: '#', current: false },
 ]
 
 function classNames(...classes) {
@@ -23,7 +23,7 @@ function classNames(...classes) {
 
 export default function Example() {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-white-800">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -44,8 +44,8 @@ export default function Example() {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    src="/images/growgrub_logo.png"
+                    alt="Grow-grub Ltd. logo"
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
@@ -55,7 +55,7 @@ export default function Example() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          item.current ? 'bg-gray-900 text-black' : 'text-gray-300 hover:bg-gray-700 hover:text-black',
                           'rounded-md px-3 py-2 text-sm font-medium',
                         )}
                         aria-current={item.current ? 'page' : undefined}
