@@ -20,8 +20,9 @@ function App() {
   useEffect(() => {
     const getUserByToken = async () => {
       try {
-        const newToken = await getAccessTokenSilently()
-        const user = await getUserByAuth(newToken)
+        const token = await getAccessTokenSilently()
+        const user = await getUserByAuth(token)
+        // console.log(token) use this to grab your token for thunderclient testing
         setUser(user)
         setRedirecting(false)
       } catch(error) {
