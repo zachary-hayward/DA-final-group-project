@@ -42,10 +42,6 @@ export function GardenView() {
 
   const [activeID, setActiveID] = useState<string>('1')
 
-  // useEffect(() => {
-  //   console.log(activeID)
-  // }, [activeID])
-
   return (
     <>
       <div className="gardenview">
