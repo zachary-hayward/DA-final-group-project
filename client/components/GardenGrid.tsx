@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Responsive, WidthProvider } from 'react-grid-layout'
+import { Layout, Responsive, WidthProvider } from 'react-grid-layout'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
@@ -78,12 +78,19 @@ export function GardenGrid({
   }
 
   const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
-    setActiveID(e.target.id.slice(5))
+    console.log('handleclick triggered: ', e.target)
+    console.log(e.target.tagName)
+    e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(5)) : null
   }
 
   const handleLayoutChange = (newLay: GridDatum[]) => {
     setLayout(newLay)
   }
+
+  // const handleResize = (e: Layout[]) => {
+  //   setActiveID('')
+  // }
+
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }
   return (
     <div className="garden-grid">
@@ -92,6 +99,7 @@ export function GardenGrid({
         className="layout"
         // layout={layout}
         onLayoutChange={handleLayoutChange}
+        // onResizeStop={handleResize}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={cols}
         rowHeight={30}

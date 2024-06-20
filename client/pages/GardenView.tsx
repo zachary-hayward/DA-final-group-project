@@ -61,3 +61,20 @@ export function GardenView() {
     </>
   )
 }
+
+{
+  /* <GardenGrid > 
+  <p>
+Saving a garden for the first time (i.e. creating a garden)
+
+Single hook that saves the current garden (blockData, layout):
+
+1) saving the layout to the gardens db - making a new entry in the db
+1.5) get the new garden/layout ID from the DB
+2) going through the block data, for each datum/plot, saving that in the plots db using teh new garden ID (blocksData, newGardenID) - note: all handling in backend
+2.5) return the new plot IDs
+3) loop through the plants for each plot data, save that data to the plants_plots table using the new plot ID(s)
+
+</p>
+</GardenGrid> */
+}

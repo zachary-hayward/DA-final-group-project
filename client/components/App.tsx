@@ -6,11 +6,12 @@ import NavBar from './NavBar.tsx'
 import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
+import { GardenView } from '../pages/GardenView.tsx'
 
 function App() {
   const [processing, setProcessing] = useState(false)
   const [registered, setRegistered] = useState(false)
-  const {isAuthenticated, getAccessTokenSilently} = useAuth0()
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 
   useEffect(() => {
     const getUser = async () => {
@@ -26,20 +27,26 @@ function App() {
       }
     }
     if (isAuthenticated) getUser()
-  },[isAuthenticated, getAccessTokenSilently])
+  }, [isAuthenticated, getAccessTokenSilently])
 
   return (
     <>
       <div className="app min-w-screen min-h-screen">
         <NavBar />
-          {(!isAuthenticated || processing) ?
+        {!isAuthenticated || processing ? (
+          <>
             <LandingPage />
-          : <>{registered ? 
-                <Outlet />
-              :
-                <Register registered={registered} setRegistered={setRegistered}/>
-            }</>
-          }
+            <GardenView />
+          </>
+        ) : (
+          <>
+            {registered ? (
+              <Outlet />
+            ) : (
+              <Register registered={registered} setRegistered={setRegistered} />
+            )}
+          </>
+        )}
         <Footer />
       </div>
     </>
@@ -52,7 +59,7 @@ export default App
 
 // {(!isAuthenticated) ?
 //   <LandingPage />
-// : <>{!registered ? 
+// : <>{!registered ?
 //       <Register registered={registered} setRegistered={setRegistered}/>
 //     :
 //       <Outlet />
