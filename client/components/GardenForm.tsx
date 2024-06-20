@@ -8,7 +8,8 @@ type BlockDatum = {
   blockType: string
   size: string
   shade: number
-  wind: string
+  wind: number
+  growable: boolean
 }
 
 interface Props {
@@ -22,7 +23,9 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
     blockData.find((block) => block.layoutId === activeID),
   )
 
-  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+  ) {
     const value = isNaN(Number(e.target.value))
       ? e.target.value
       : Number(e.target.value)
@@ -31,17 +34,88 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
       ...currentBlock!,
       [e.target.name]: value,
     }
-    console.log(newBlock)
-    setCurrentBlock({ ...newBlock })
+    setBlocks(newBlock)
+  }
 
+  function handleCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const newBlock = {
+      ...currentBlock!,
+      [e.target.name]: e.target.checked,
+    }
+    setBlocks(newBlock)
+  }
+  // if type is house - ask could you grow plants there?
+  // otherwise hide the rest of the form.
+
+  function setBlocks(newBlock: BlockDatum) {
     const otherBlocks = blockData.filter((block) => block.layoutId !== activeID)
+    setCurrentBlock({ ...newBlock })
     setBlockData([...otherBlocks, newBlock])
+  }
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    console.log(blockData)
+  }
+
+  if (currentBlock?.blockType === 'house' && currentBlock?.growable === false) {
+    return (
+      <div className="garden-form">
+        <form onSubmit={handleSubmit}>
+          {/* Name */}
+          <input
+            type="text"
+            name="name"
+            id="nameInput"
+            className="text-xl font-semibold"
+            value={currentBlock?.name}
+            onChange={handleChange}
+          />
+          <br />
+          {/* Type */}
+          <label htmlFor="blockType">Type: </label> <br />
+          <select
+            value={currentBlock?.blockType}
+            name="blockType"
+            id="blockType"
+            onChange={handleChange}
+            className="dropmenu"
+          >
+            <option value="">No type</option>
+            <option value="garden">Garden patch</option>
+            <option value="house">House</option>
+            <option value="Path">Path</option>
+            <option value="Grass">Grass</option>
+          </select>
+          <br />
+          <label htmlFor="growable">Could you grow food inside?</label>
+          <input
+            type="checkbox"
+            name="growable"
+            id="growable"
+            checked={currentBlock.growable}
+            onChange={handleCheckboxChange}
+          />
+          <br />
+          <button className="save-garden">Save garden & exit</button>
+        </form>
+      </div>
+    )
   }
 
   return (
     <div className="garden-form">
-      <h2 className="text-xl font-semibold">Patch details</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
+        {/* Name */}
+        <input
+          type="text"
+          name="name"
+          id="nameInput"
+          className="text-xl font-semibold"
+          value={currentBlock?.name}
+          onChange={handleChange}
+        />
+        <br />
         {/* Type */}
         <label htmlFor="blockType">Type: </label> <br />
         <select
@@ -58,6 +132,19 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
           <option value="Grass">Grass</option>
         </select>
         <br />
+        {currentBlock?.blockType === 'house' && (
+          <>
+            <label htmlFor="growable">Could you grow food inside?</label>
+            <input
+              type="checkbox"
+              name="growable"
+              id="growable"
+              checked={currentBlock.growable}
+              onChange={handleCheckboxChange}
+            />
+            <br />
+          </>
+        )}
         {/* Size */}
         <label htmlFor="size">Size: </label> <br />
         <select
@@ -100,12 +187,12 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
           onChange={handleChange}
           className="dropmenu"
         >
-          <option value="">How much sun does it get?</option>
-          <option value="1">Always sunny</option>
-          <option value="2">It gets a lot of sun</option>
-          <option value="3">Half a days sun</option>
-          <option value="4">Pretty shady</option>
-          <option value="5">Fully shaded</option>
+          <option value="">How much wind does it get?</option>
+          <option value="1">Never blows</option>
+          <option value="2">A little breezy</option>
+          <option value="3">Off & on</option>
+          <option value="4">Pretty windy</option>
+          <option value="5">Always windy</option>
         </select>{' '}
         <br />
         {/* Occupation */}
@@ -130,6 +217,11 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
           <option value="100">100%</option>
         </select>{' '}
         <br />
+        <button className="add-plant" type="button">
+          Add plant
+        </button>
+        <br />
+        <button className="save-garden">Save garden & exit</button>
       </form>
     </div>
   )

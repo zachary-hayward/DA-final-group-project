@@ -3,19 +3,28 @@ import { Responsive, WidthProvider } from 'react-grid-layout'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
-type BlockDatum = {
+interface BlockDatum {
   layoutId: string
   name: string
   sunLight: number
   occupation: number
+  blockType: string
+  size: string
+  shade: number
+  wind: number
 }
 
 interface GardenGridProps {
   blockData: BlockDatum[]
+  setBlockData: React.Dispatch<React.SetStateAction<BlockDatum[]>>
   setActiveID: React.Dispatch<React.SetStateAction<string>>
 }
 
-export function GardenGrid({ blockData, setActiveID }: GardenGridProps) {
+export function GardenGrid({
+  blockData,
+  setBlockData,
+  setActiveID,
+}: GardenGridProps) {
   // DONE *** Create a garden View page
 
   // DONE *** Get the blockData to link to layout -
@@ -24,7 +33,7 @@ export function GardenGrid({ blockData, setActiveID }: GardenGridProps) {
 
   // DONE *** When a new block is added it changes the activeID -
 
-  // if a new block is added then a new blockData object needs to be pushed into blockData state
+  // DONE *** if a new block is added then a new blockData object needs to be pushed into blockData state
 
   // send BlockData to the DB
 
@@ -59,13 +68,25 @@ export function GardenGrid({ blockData, setActiveID }: GardenGridProps) {
     const newIdx = String(existingHighestIndex + 1)
     newLayout.push({
       i: newIdx,
-      x: 4,
+      x: 0,
       y: 0,
-      w: 4,
-      h: 4,
+      w: 1,
+      h: 1,
     })
     setLayout(newLayout)
     setActiveID(newIdx)
+    const newBlockData = [...blockData]
+    newBlockData.push({
+      layoutId: newIdx,
+      name: `Block ${newIdx}`,
+      sunLight: 0,
+      occupation: 0,
+      blockType: '',
+      size: '',
+      shade: 0,
+      wind: 0,
+    })
+    setBlockData(newBlockData)
   }
 
   // useEffect(() => {

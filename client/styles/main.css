@@ -25,7 +25,10 @@
 
 .garden-form {
   margin-left: 0.5em;
+  padding: 1em 1em;
   flex: 1;
+  background-color: #fbfbfb;
+  height: 100vh;
 }
 
 .dropmenu {
@@ -34,4 +37,22 @@
   text-align: center;
   margin: 0.25em;
   padding: 0.1em;
+}
+
+.save-garden {
+  background-color: #609936;
+  color: white;
+  padding: 0.25em 0.7em;
+  border-radius: 0.35em;
+  margin-top: 1em;
+}
+
+.add-plant {
+  background-color: #e4ffd0;
+  padding: 0.25em 0.7em;
+  border-radius: 0.35em;
+}
+
+#nameInput {
+  background-color: #fbfbfb;
 }

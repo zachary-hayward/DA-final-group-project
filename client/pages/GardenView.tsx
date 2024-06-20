@@ -13,6 +13,8 @@ export function GardenView() {
       blockType: 'house',
       size: '3x3',
       shade: 3,
+      wind: 2,
+      growable: true,
     },
     {
       layoutId: '2',
@@ -22,6 +24,8 @@ export function GardenView() {
       blockType: 'garden',
       size: '3x3',
       shade: 3,
+      wind: 2,
+      growable: true,
     },
     {
       layoutId: '3',
@@ -31,6 +35,8 @@ export function GardenView() {
       blockType: 'garden',
       size: '3x3',
       shade: 3,
+      wind: 2,
+      growable: true,
     },
   ])
 
@@ -44,7 +50,11 @@ export function GardenView() {
     <>
       <div className="gardenview">
         <p>{activeID}</p>
-        <GardenGrid blockData={blockData} setActiveID={setActiveID} />
+        <GardenGrid
+          blockData={blockData}
+          setBlockData={setBlockData}
+          setActiveID={setActiveID}
+        />
         <GardenForm
           key={activeID}
           blockData={blockData}

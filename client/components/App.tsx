@@ -38,7 +38,7 @@ function App() {
         {!isAuthenticated || redirecting ? (
           <>
             <LandingPage />
-            <GardenView />
+            {/* <GardenView /> */}
           </>
         ) : (
           <>
