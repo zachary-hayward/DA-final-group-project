@@ -53,5 +53,5 @@ export function getUserGarden(auth0Id: string, id: number): Promise<GardenDB[]> 
 
 interface addUserProps extends UserData {auth0_id: string}
 export async function addUser(userData: addUserProps) {
-  return db('users').insert(userData).returning('id')
+  return db('users').insert(userData)
 }
