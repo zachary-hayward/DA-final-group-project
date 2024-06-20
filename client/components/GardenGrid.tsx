@@ -24,7 +24,13 @@ export function GardenGrid({ blockData, setActiveID }: GardenGridProps) {
 
   // DONE *** When a new block is added it changes the activeID -
 
+  // if a new block is added then a new blockData object needs to be pushed into blockData state
+
   // send BlockData to the DB
+
+  // need to solve - if the screen size changes the grid can move slightly
+
+  // style blocks depending on type
 
   //  send to DB
   //  <App>
@@ -62,12 +68,12 @@ export function GardenGrid({ blockData, setActiveID }: GardenGridProps) {
     setActiveID(newIdx)
   }
 
-  useEffect(() => {
-    console.log(layout)
-  }, [layout])
+  // useEffect(() => {
+  //   console.log(layout)
+  // }, [layout])
 
   const handleClick = (e) => {
-    console.log(e.target.id.slice(5))
+    // console.log(e.target.id.slice(5))
     setActiveID(e.target.id.slice(5))
   }
 
@@ -76,7 +82,7 @@ export function GardenGrid({ blockData, setActiveID }: GardenGridProps) {
   }
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }
   return (
-    <>
+    <div className="garden-grid">
       <button onClick={handleAdd}>Add Block</button>
       <ResponsiveGridLayout
         className="layout"
@@ -104,7 +110,7 @@ export function GardenGrid({ blockData, setActiveID }: GardenGridProps) {
           </button>
         ))}
       </ResponsiveGridLayout>
-    </>
+    </div>
   )
 }
 

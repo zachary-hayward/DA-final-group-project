@@ -13,3 +13,25 @@
 .red {
   background-color: red;
 }
+
+.gardenview {
+  display: flex;
+  flex-direction: row;
+}
+
+.garden-grid {
+  flex: 3;
+}
+
+.garden-form {
+  margin-left: 0.5em;
+  flex: 1;
+}
+
+.dropmenu {
+  border-width: 1px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0.25em;
+  padding: 0.1em;
+}
