@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient, MutationFunction } from "@tanstack/react-query"
-import { User } from "../../models/growGrub.ts"
+import { UserData } from "../../models/growGrub.ts"
 import * as API from '../apis/growGrub.ts'
 
 export function useHooks() {
@@ -22,7 +22,7 @@ function useMutationTemplate<TData = unknown, TVariables = unknown>(
   return mutation
 }
 
-interface UseAddUser { userData: User; token: string}
+interface UseAddUser { userData: UserData; token: string}
 function useAddUser() {
   return useMutationTemplate(({userData, token}: UseAddUser) => API.addUser(userData, token), ['recipes'])
 }

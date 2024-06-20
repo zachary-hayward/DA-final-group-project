@@ -23,7 +23,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Header() {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
 
   const handleLog = () => {
