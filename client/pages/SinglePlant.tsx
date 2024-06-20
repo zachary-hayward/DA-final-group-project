@@ -7,15 +7,18 @@ export default function SinglePlant() {
     // const { data, isError, isLoading, error } = 
 
     const plantData = {
-        name: "Tomato 1",
-        imgURL: "http://THIS IS A TOMATO",
-        plot: 1,
-        datePlanted: "20/06/2024",
-        careInstructions: "give as much direct sunlight as possible, cover with mesh to protect from birds",
-        todo: "Water using 500mls of water per plant"
-
+        plantName: "Tomato",
+        scientificName: "Solanum lycopersicum",
+        description: "Tomatoes are popular garden plants grown for their delicious fruits, which come in a variety of shapes, sizes, and colors.",
+        careInstructions: {
+            sunlight: "Full sun, at least 6-8 hours of direct sunlight per day.",
+            watering: "Regular watering, keeping the soil consistently moist but not waterlogged.",
+            fertilization: "Feed with balanced fertilizer at planting and during the growing season.",
+            pruning: "Remove suckers to encourage strong growth and fruit production.",
+            pests: "Watch for pests like aphids, hornworms, and tomato fruitworms. Use organic pest control methods if needed.",
+            diseases: "Prevent diseases like blight and wilt by ensuring good air circulation and avoiding overhead watering."  
+        }
     }
-
 
     if (!id) {
         throw new Error()
@@ -23,7 +26,11 @@ export default function SinglePlant() {
 
     return (
         <>
-            <h2>This is the plant name</h2>
+        <div className = " ">
+        </div> 
+            <h2>{plantData.plantName}</h2>
+            <h3>{plantData.scientificName}</h3>
+            <p>{plantData.description}</p>
             <img src="image-url" alt="your plant"></img>
             <h3>Care instructions</h3>
             <p>here are some instructions</p>
