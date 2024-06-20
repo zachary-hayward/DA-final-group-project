@@ -1,18 +1,38 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
-function GardenGrid() {
-  // Figure out how to save a layout  -  send to DB
+type BlockDatum = {
+  layoutId: string
+  name: string
+  sunLight: number
+  occupation: number
+}
 
-  // Create a garden View page
+interface GardenGridProps {
+  blockData: BlockDatum[]
+  setActiveID: React.Dispatch<React.SetStateAction<string>>
+}
 
-  // Get the blockData to link to layout
+export function GardenGrid({ blockData, setActiveID }: GardenGridProps) {
+  // DONE *** Create a garden View page
+
+  // DONE *** Get the blockData to link to layout -
 
   // create a form component to edit the blockData
 
+  // DONE *** When a new block is added it changes the activeID -
+
   // send BlockData to the DB
+
+  //  send to DB
+  //  <App>
+  //    <GardenView>
+  //      [State of blockData would live here]
+  //      <GridElements {blockData}>
+  //      <Form component {setBlockData}>
+  //    </GardenView>
 
   const [layout, setLayout] = useState([
     { w: 1, h: 16, x: 0, y: 0, i: '1' },
@@ -20,17 +40,11 @@ function GardenGrid() {
     { w: 5, h: 1, x: 1, y: 9, i: '3' },
   ])
 
-  const oldTestData = [
-    { w: 1, h: 5, x: 0, y: 0, i: '1' },
-    { w: 2, h: 3, x: 2, y: 0, i: '2' },
-    { w: 1, h: 2, x: 2, y: 3, i: '3' },
-  ]
-
-  const [blockData, setBlockData] = useState([
-    { layoutId: '1', name: 'window garden', sunLight: 5 },
-    { layoutId: '2', name: 'glasshouse', sunLight: 5 },
-    { layoutId: '3', name: 'kitchen garden', sunLight: 5 },
-  ])
+  // const oldTestData = [
+  //   { w: 1, h: 5, x: 0, y: 0, i: '1' },
+  //   { w: 2, h: 3, x: 2, y: 0, i: '2' },
+  //   { w: 1, h: 2, x: 2, y: 3, i: '3' },
+  // ]
 
   const handleAdd = () => {
     console.log('handleAdd was triggered')
@@ -45,6 +59,7 @@ function GardenGrid() {
       h: 4,
     })
     setLayout(newLayout)
+    setActiveID(newIdx)
   }
 
   useEffect(() => {
@@ -52,20 +67,14 @@ function GardenGrid() {
   }, [layout])
 
   const handleClick = (e) => {
-    console.log('handleClick was triggered')
     console.log(e.target.id.slice(5))
+    setActiveID(e.target.id.slice(5))
   }
 
   const handleLayoutChange = (newLay) => {
-    if (newLay !== layout) {
-      console.log('handleLayoutChange was triggered')
-      // console.log('The new layout is: ')
-      // console.log(newLay)
-      setLayout(newLay)
-    }
+    setLayout(newLay)
   }
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }
-  // console.log(layout)
   return (
     <>
       <button onClick={handleAdd}>Add Block</button>
@@ -87,7 +96,11 @@ function GardenGrid() {
             className="red"
             data-grid={{ x: block.x, y: block.y, h: block.h, w: block.w }}
           >
-            {block.i}
+            {
+              [...blockData].find(
+                (blockEntry) => blockEntry.layoutId == block.i,
+              )?.name
+            }
           </button>
         ))}
       </ResponsiveGridLayout>

@@ -7,7 +7,7 @@ import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
 import { User } from '../../models/growGrub.ts'
-import GardenGrid from './GardenGrid.tsx'
+import { GardenView } from '../pages/GardenView.tsx'
 
 const UserContext = createContext<User | undefined>(undefined)
 export const useUser = () => useContext(UserContext)
@@ -38,7 +38,7 @@ function App() {
         {!isAuthenticated || redirecting ? (
           <>
             <LandingPage />
-            <GardenGrid />
+            <GardenView />
           </>
         ) : (
           <>
