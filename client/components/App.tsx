@@ -12,7 +12,7 @@ function App() {
   
   return (
     <>
-      <div className='app min-w-screen min-h-screen'>
+      <div className="app min-w-screen min-h-screen">
         <NavBar />
           {(!isAuthenticated) ?
             <LandingPage />
