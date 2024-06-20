@@ -9,12 +9,14 @@ import {
   Transition,
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useAuth0 } from '@auth0/auth0-react'
+import { Link } from 'react-router-dom'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'My Garden', href: '#', current: false },
-  { name: 'My Tasks', href: '#', current: false },
-  { name: 'My Plants', href: '#', current: false },
+  { name: 'Dashboard', path: '/', current: true },
+  { name: 'My Garden', path: '/my-garden', current: false },
+  { name: 'My Tasks', path: '/my-tasks', current: false },
+  { name: 'My Plants', path: '/my-plants', current: false },
 ]
 
 function classNames(...classes) {
@@ -22,6 +24,12 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
+
+  const handleLog = () => {
+    if (isAuthenticated) logout()
+    else loginWithRedirect()
+  }
   return (
     <Disclosure as="nav" className="bg-white-800">
       {({ open }) => (
@@ -51,17 +59,19 @@ export default function Example() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.path}
                         className={classNames(
-                          item.current ? 'border-b border-gray-500 text-green' : 'text-black-300 hover:bg-green-700 hover:text-white',
+                          item.current
+                            ? 'border-b-4 border-green-600 text-gray-700'
+                            : 'text-gray-500 hover:border-b-4 hover:border-green-600 hover:text-gray-700',
                           'py-2 text-sm font-medium',
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -100,32 +110,15 @@ export default function Example() {
                     <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <MenuItem>
                         {({ focus }) => (
-                          <a
-                            href="#"
-                            className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          <button
+                            className={classNames(
+                              focus ? 'bg-gray-100' : 'w-full text-left',
+                              'block w-full px-4 py-2 text-left text-sm text-gray-700',
+                            )}
+                            onClick={handleLog}
                           >
-                            Your Profile
-                          </a>
-                        )}
-                      </MenuItem>
-                      <MenuItem>
-                        {({ focus }) => (
-                          <a
-                            href="#"
-                            className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </MenuItem>
-                      <MenuItem>
-                        {({ focus }) => (
-                          <a
-                            href="#"
-                            className={classNames(focus ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Sign out
-                          </a>
+                            {isAuthenticated ? 'Sign out' : 'Sign in'}
+                          </button>
                         )}
                       </MenuItem>
                     </MenuItems>
@@ -135,7 +128,7 @@ export default function Example() {
             </div>
           </div>
 
-          <DisclosurePanel className="sm:hidden">
+          {/* <DisclosurePanel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
                 <DisclosureButton
@@ -143,7 +136,9 @@ export default function Example() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    item.current
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block rounded-md px-3 py-2 text-base font-medium',
                   )}
                   aria-current={item.current ? 'page' : undefined}
@@ -152,7 +147,7 @@ export default function Example() {
                 </DisclosureButton>
               ))}
             </div>
-          </DisclosurePanel>
+          </DisclosurePanel> */}
         </>
       )}
     </Disclosure>

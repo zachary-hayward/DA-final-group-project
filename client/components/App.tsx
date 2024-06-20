@@ -15,8 +15,8 @@ export const useUser = () => useContext(UserContext)
 function App() {
   const [user, setUser] = useState<User>()
   const [redirecting, setRedirecting] = useState(true)
-  const {isAuthenticated, getAccessTokenSilently} = useAuth0()
-  
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0()
+
   useEffect(() => {
     const getUserByToken = async () => {
       try {
@@ -25,28 +25,30 @@ function App() {
         // console.log(token) use this to grab your token for thunderclient testing
         setUser(user)
         setRedirecting(false)
-      } catch(error) {
+      } catch (error) {
         console.error(error)
       }
     }
     getUserByToken()
-  },[isAuthenticated, getAccessTokenSilently])
-  
+  }, [isAuthenticated, getAccessTokenSilently])
+
   return (
     <>
-      <Header / >
-      <div className='app min-w-screen min-h-screen'>
-        <NavBar />
-          {(!isAuthenticated || redirecting) ?
-            <LandingPage />
-          : <>{!user ? 
-                <Register />
-              :
-                <UserContext.Provider value={user}>
-                  <Outlet />
-                </UserContext.Provider>
-            }</>
-          }
+      <div className="app min-w-screen min-h-screen">
+        <Header />
+        {!isAuthenticated || redirecting ? (
+          <LandingPage />
+        ) : (
+          <>
+            {!user ? (
+              <Register />
+            ) : (
+              <UserContext.Provider value={user}>
+                <Outlet />
+              </UserContext.Provider>
+            )}
+          </>
+        )}
         <Footer />
       </div>
     </>
