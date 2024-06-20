@@ -58,22 +58,22 @@ export const seed = async function(knex) {
     {id: 8, plant_id: 2, plot_id: 8, date_planted: '2024-04-01', last_watered: '2024-04-10' },
     {id: 9, plant_id: 3, plot_id: 9, date_planted: '2024-02-15', last_watered: '2024-02-20' },
   ]);
-  await knex('plant_notes').del()
-  await knex('plant_notes').insert([
-    {id: 1, plot_plant_id: 1, date: '2024-03-16', note: 'Plant is growing well.' },
-    {id: 2, plot_plant_id: 2, date: '2024-04-12', note: 'Leaves are green and healthy.' },
-    {id: 3, plot_plant_id: 3, date: '2024-02-22', note: 'Showing signs of growth.' },
-    {id: 4, plot_plant_id: 4, date: '2024-03-16', note: 'Plant is growing well.' },
-    {id: 5, plot_plant_id: 5, date: '2024-04-12', note: 'Leaves are green and healthy.' },
-    {id: 6, plot_plant_id: 6, date: '2024-02-22', note: 'Showing signs of growth.' },
-    {id: 7, plot_plant_id: 7, date: '2024-03-16', note: 'Plant is growing well.' },
-    {id: 8, plot_plant_id: 8, date: '2024-04-12', note: 'Leaves are green and healthy.' },
-    {id: 9, plot_plant_id: 9, date: '2024-02-22', note: 'Showing signs of growth.' },
-  ]);
-  await knex('images').del()
-  await knex('images').insert([
-    {id: 1, plot_notes_id: 1, image: 'image1.jpg' },
-    {id: 2, plot_notes_id: 2, image: 'image2.jpg' },
-    {id: 3, plot_notes_id: 3, image: 'image3.jpg' }
-  ]);
+  // await knex('plant_notes').del()
+  // await knex('plant_notes').insert([
+  //   {id: 1, plot_plant_id: 1, date: '2024-03-16', note: 'Plant is growing well.' },
+  //   {id: 2, plot_plant_id: 2, date: '2024-04-12', note: 'Leaves are green and healthy.' },
+  //   {id: 3, plot_plant_id: 3, date: '2024-02-22', note: 'Showing signs of growth.' },
+  //   {id: 4, plot_plant_id: 4, date: '2024-03-16', note: 'Plant is growing well.' },
+  //   {id: 5, plot_plant_id: 5, date: '2024-04-12', note: 'Leaves are green and healthy.' },
+  //   {id: 6, plot_plant_id: 6, date: '2024-02-22', note: 'Showing signs of growth.' },
+  //   {id: 7, plot_plant_id: 7, date: '2024-03-16', note: 'Plant is growing well.' },
+  //   {id: 8, plot_plant_id: 8, date: '2024-04-12', note: 'Leaves are green and healthy.' },
+  //   {id: 9, plot_plant_id: 9, date: '2024-02-22', note: 'Showing signs of growth.' },
+  // ]);
+  // await knex('images').del()
+  // await knex('images').insert([
+  //   {id: 1, plot_notes_id: 1, image: 'image1.jpg' },
+  //   {id: 2, plot_notes_id: 2, image: 'image2.jpg' },
+  //   {id: 3, plot_notes_id: 3, image: 'image3.jpg' }
+  // ]);
 };
