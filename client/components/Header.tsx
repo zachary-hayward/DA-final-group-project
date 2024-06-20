@@ -43,7 +43,7 @@ export default function Example() {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="h-20 w-auto"
+                    className="h-9 w-auto"
                     src="/images/growgrub_logo.png"
                     alt="Grow-grub Ltd. logo"
                   />
