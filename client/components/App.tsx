@@ -6,7 +6,6 @@ import NavBar from './NavBar.tsx'
 import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
-import { GardenView } from '../pages/GardenView.tsx'
 
 function App() {
   const [processing, setProcessing] = useState(false)
@@ -34,10 +33,7 @@ function App() {
       <div className="app min-w-screen min-h-screen">
         <NavBar />
         {!isAuthenticated || processing ? (
-          <>
-            <LandingPage />
-            <GardenView />
-          </>
+          <LandingPage />
         ) : (
           <>
             {registered ? (
