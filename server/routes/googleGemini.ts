@@ -7,7 +7,6 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 const router = express.Router()
 const geminiApiKey = process.env.API_KEY
 
-//should this be a post???
 router.get('/', async (req, res) => {
   console.log(111)
   // const authoId = req.auth?.sub
@@ -20,7 +19,7 @@ router.get('/', async (req, res) => {
   // }
 
   try {
-    const prompt = `give me a json data about a radish that contains sunlight, watering in the form of {"data": [
+    const prompt = `give me a json data about a potato that contains sunlight, watering in the form of {"data": [
     {
       "common_name": "potato",
       "life_cycle": "Herbaceous Perennial",
@@ -49,7 +48,7 @@ router.get('/', async (req, res) => {
 
     res.json(JSON.parse(newStr))
     // res.send(newStr)
-    console.log(JSON.stringify(response))
+    // console.log(JSON.stringify(response))
   } catch (err) {
     if (err instanceof Error) {
       console.log(err.message)
