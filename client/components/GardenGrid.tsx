@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
@@ -12,6 +12,15 @@ interface BlockDatum {
   size: string
   shade: number
   wind: number
+  growable: boolean
+}
+
+interface GridDatum {
+  w: number
+  h: number
+  x: number
+  y: number
+  i: string
 }
 
 interface GardenGridProps {
@@ -25,41 +34,19 @@ export function GardenGrid({
   setBlockData,
   setActiveID,
 }: GardenGridProps) {
-  // DONE *** Create a garden View page
-
-  // DONE *** Get the blockData to link to layout -
-
-  // create a form component to edit the blockData
-
-  // DONE *** When a new block is added it changes the activeID -
-
-  // DONE *** if a new block is added then a new blockData object needs to be pushed into blockData state
-
-  // send BlockData to the DB
+  // send data to the DB
 
   // need to solve - if the screen size changes the grid can move slightly
 
-  // style blocks depending on type
+  // responsiveness settle?
 
-  //  send to DB
-  //  <App>
-  //    <GardenView>
-  //      [State of blockData would live here]
-  //      <GridElements {blockData}>
-  //      <Form component {setBlockData}>
-  //    </GardenView>
+  // style blocks depending on type
 
   const [layout, setLayout] = useState([
     { w: 1, h: 16, x: 0, y: 0, i: '1' },
     { w: 2, h: 9, x: 2, y: 0, i: '2' },
     { w: 5, h: 1, x: 1, y: 9, i: '3' },
   ])
-
-  // const oldTestData = [
-  //   { w: 1, h: 5, x: 0, y: 0, i: '1' },
-  //   { w: 2, h: 3, x: 2, y: 0, i: '2' },
-  //   { w: 1, h: 2, x: 2, y: 3, i: '3' },
-  // ]
 
   const handleAdd = () => {
     console.log('handleAdd was triggered')
@@ -85,20 +72,16 @@ export function GardenGrid({
       size: '',
       shade: 0,
       wind: 0,
+      growable: true,
     })
     setBlockData(newBlockData)
   }
 
-  // useEffect(() => {
-  //   console.log(layout)
-  // }, [layout])
-
-  const handleClick = (e) => {
-    // console.log(e.target.id.slice(5))
+  const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
     setActiveID(e.target.id.slice(5))
   }
 
-  const handleLayoutChange = (newLay) => {
+  const handleLayoutChange = (newLay: GridDatum[]) => {
     setLayout(newLay)
   }
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }
@@ -107,7 +90,7 @@ export function GardenGrid({
       <button onClick={handleAdd}>Add Block</button>
       <ResponsiveGridLayout
         className="layout"
-        layout={layout}
+        // layout={layout}
         onLayoutChange={handleLayoutChange}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={cols}

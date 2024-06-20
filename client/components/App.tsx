@@ -22,7 +22,7 @@ function App() {
       try {
         const token = await getAccessTokenSilently()
         const user = await getUserByAuth(token)
-        // console.log(token) use this to grab your token for thunderclient testing
+        console.log(token) //use this to grab your token for thunderclient testing
         setUser(user)
         setRedirecting(false)
       } catch (error) {
@@ -38,8 +38,8 @@ function App() {
         <NavBar />
         {!isAuthenticated || redirecting ? (
           <>
+            <GardenView />
             <LandingPage />
-            {/* <GardenView /> */}
           </>
         ) : (
           <>

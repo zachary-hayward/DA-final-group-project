@@ -1,7 +1,7 @@
 import GardenGrid from '../components/GardenGrid.tsx'
 import GardenForm from '../components/GardenForm.tsx'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export function GardenView() {
   const [blockData, setBlockData] = useState([
