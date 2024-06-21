@@ -6,6 +6,9 @@ import {
 } from '@tanstack/react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import request from 'superagent'
+import type { Layout } from 'react-grid-layout'
+import Layout from '../components/Layout'
+import { GardenToSave, PlotDatum } from '../../models/growGrub'
 
 const rootURL = new URL(`/api/v1`, document.baseURI).toString()
 
@@ -83,22 +86,22 @@ const useGetPlants = () => {
 //   })
 // }
 
-// export function useSaveGarden() {
-//   const queryClient = useQueryClient()
+export function useSaveGarden() {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  const queryClient = useQueryClient()
 
-//   return useMutation({
-//     mutationFn: async (layoutObj: LayoutObject) => {
-//       {
-//         const newGarden = { garden: layout, id: userID }
+  return useMutation({
+    mutationFn: async ({ layout, plot }: GardenToSave) => {
+      const token = await getAccessTokenSilently()
+      const gardenObj = { layout, plot, token }
+      await request.post(`api/v1/gardens`).send(gardenObj)
+    },
 
-//         await request.post(`api/v1/gardens`).send(layoutObj)
-//       }
-//     },
-//     onSuccess: async () => {
-//       queryClient.invalidateQueries({ queryKey: ['datatable'] })
-//     },
-//   })
-// }
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['datatable'] })
+    },
+  })
+}
 
 // interface LayoutObject {}
 

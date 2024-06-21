@@ -1,50 +1,30 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
+import type { Layout } from 'react-grid-layout'
+import type { PlotDatum } from '../../models/growGrub'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
-interface BlockDatum {
-  layoutId: string
-  name: string
-  sunLight: number
-  occupation: number
-  blockType: string
-  size: string
-  shade: number
-  wind: number
-  growable: boolean
-}
-
-interface GridDatum {
-  w: number
-  h: number
-  x: number
-  y: number
-  i: string
-}
-
 interface GardenGridProps {
-  blockData: BlockDatum[]
-  setBlockData: React.Dispatch<React.SetStateAction<BlockDatum[]>>
+  plotData: PlotDatum[]
+  setPlotData: React.Dispatch<React.SetStateAction<PlotDatum[]>>
   setActiveID: React.Dispatch<React.SetStateAction<string>>
+  layout: Layout[]
+  setLayout: React.Dispatch<React.SetStateAction<Layout[]>>
 }
 
 export function GardenGrid({
-  blockData,
-  setBlockData,
+  plotData,
+  setPlotData,
   setActiveID,
+  layout,
+  setLayout,
 }: GardenGridProps) {
   // send data to the DB
 
   // responsiveness settle?
 
   // style blocks depending on type
-
-  const [layout, setLayout] = useState([
-    { w: 1, h: 16, x: 0, y: 0, i: '1' },
-    { w: 2, h: 9, x: 2, y: 0, i: '2' },
-    { w: 5, h: 1, x: 1, y: 9, i: '3' },
-  ])
 
   const handleAdd = () => {
     const newLayout = [...layout]
@@ -59,8 +39,8 @@ export function GardenGrid({
     })
     setLayout(newLayout)
     setActiveID(newIdx)
-    const newBlockData = [...blockData]
-    newBlockData.push({
+    const newPlotData = [...plotData]
+    newPlotData.push({
       layoutId: newIdx,
       name: `Block ${newIdx}`,
       sunLight: 0,
@@ -71,14 +51,14 @@ export function GardenGrid({
       wind: 0,
       growable: true,
     })
-    setBlockData(newBlockData)
+    setPlotData(newPlotData)
   }
 
   const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
     e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(5)) : null
   }
 
-  const handleLayoutChange = (newLay: GridDatum[]) => {
+  const handleLayoutChange = (newLay: Layout[]) => {
     setLayout(newLay)
   }
 
@@ -104,9 +84,8 @@ export function GardenGrid({
             data-grid={{ x: block.x, y: block.y, h: block.h, w: block.w }}
           >
             {
-              [...blockData].find(
-                (blockEntry) => blockEntry.layoutId == block.i,
-              )?.name
+              [...plotData].find((blockEntry) => blockEntry.layoutId == block.i)
+                ?.name
             }
           </button>
         ))}

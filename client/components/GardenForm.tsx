@@ -1,26 +1,16 @@
 import { useState } from 'react'
-
-type BlockDatum = {
-  layoutId: string
-  name: string
-  sunLight: number
-  occupation: number
-  blockType: string
-  size: string
-  shade: number
-  wind: number
-  growable: boolean
-}
+import type { PlotDatum } from '../../models/growGrub'
 
 interface Props {
-  blockData: BlockDatum[]
-  setBlockData: React.Dispatch<React.SetStateAction<BlockDatum[]>>
+  plotData: PlotDatum[]
+  setPlotData: React.Dispatch<React.SetStateAction<PlotDatum[]>>
   activeID: string
+  onSaveGarden: () => void
 }
 
-function GardenForm({ blockData, setBlockData, activeID }: Props) {
-  const [currentBlock, setCurrentBlock] = useState(
-    blockData.find((block) => block.layoutId === activeID),
+function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
+  const [currentPlot, setCurrentPlot] = useState(
+    plotData.find((plot) => plot.layoutId === activeID),
   )
 
   function handleChange(
@@ -30,35 +20,36 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
       ? e.target.value
       : Number(e.target.value)
 
-    const newBlock = {
-      ...currentBlock!,
+    const newPlot = {
+      ...currentPlot!,
       [e.target.name]: value,
     }
-    setBlocks(newBlock)
+    setPlots(newPlot)
   }
 
   function handleCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const newBlock = {
-      ...currentBlock!,
+    const newPlot = {
+      ...currentPlot!,
       [e.target.name]: e.target.checked,
     }
-    setBlocks(newBlock)
+    setPlots(newPlot)
   }
   // if type is house - ask could you grow plants there?
   // otherwise hide the rest of the form.
 
-  function setBlocks(newBlock: BlockDatum) {
-    const otherBlocks = blockData.filter((block) => block.layoutId !== activeID)
-    setCurrentBlock({ ...newBlock })
-    setBlockData([...otherBlocks, newBlock])
+  function setPlots(newPlot: PlotDatum) {
+    const otherPlots = plotData.filter((plot) => plot.layoutId !== activeID)
+    setCurrentPlot({ ...newPlot })
+    setPlotData([...otherPlots, newPlot])
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    console.log(blockData)
+    onSaveGarden()
+    console.log(plotData)
   }
 
-  if (currentBlock?.blockType === 'house' && currentBlock?.growable === false) {
+  if (currentPlot?.blockType === 'house' && currentPlot?.growable === false) {
     return (
       <div className="garden-form">
         <form onSubmit={handleSubmit}>
@@ -68,14 +59,14 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
             name="name"
             id="nameInput"
             className="text-xl font-semibold"
-            value={currentBlock?.name}
+            value={currentPlot?.name}
             onChange={handleChange}
           />
           <br />
           {/* Type */}
           <label htmlFor="blockType">Type: </label> <br />
           <select
-            value={currentBlock?.blockType}
+            value={currentPlot?.blockType}
             name="blockType"
             id="blockType"
             onChange={handleChange}
@@ -93,7 +84,7 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
             type="checkbox"
             name="growable"
             id="growable"
-            checked={currentBlock.growable}
+            checked={currentPlot.growable}
             onChange={handleCheckboxChange}
           />
           <br />
@@ -112,14 +103,14 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
           name="name"
           id="nameInput"
           className="text-xl font-semibold"
-          value={currentBlock?.name}
+          value={currentPlot?.name}
           onChange={handleChange}
         />
         <br />
         {/* Type */}
         <label htmlFor="blockType">Type: </label> <br />
         <select
-          value={currentBlock?.blockType}
+          value={currentPlot?.blockType}
           name="blockType"
           id="blockType"
           onChange={handleChange}
@@ -132,14 +123,14 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
           <option value="Grass">Grass</option>
         </select>
         <br />
-        {currentBlock?.blockType === 'house' && (
+        {currentPlot?.blockType === 'house' && (
           <>
             <label htmlFor="growable">Could you grow food inside?</label>
             <input
               type="checkbox"
               name="growable"
               id="growable"
-              checked={currentBlock.growable}
+              checked={currentPlot.growable}
               onChange={handleCheckboxChange}
             />
             <br />
@@ -148,7 +139,7 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
         {/* Size */}
         <label htmlFor="size">Size: </label> <br />
         <select
-          value={currentBlock?.size}
+          value={currentPlot?.size}
           name="size"
           id="size"
           onChange={handleChange}
@@ -164,7 +155,7 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
         {/* Shade */}
         <label htmlFor="shade">Sun: </label> <br />
         <select
-          value={currentBlock?.shade}
+          value={currentPlot?.shade}
           name="shade"
           id="shade"
           onChange={handleChange}
@@ -181,7 +172,7 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
         {/* Wind */}
         <label htmlFor="wind">Wind: </label> <br />
         <select
-          value={currentBlock?.wind}
+          value={currentPlot?.wind}
           name="wind"
           id="wind"
           onChange={handleChange}
@@ -198,7 +189,7 @@ function GardenForm({ blockData, setBlockData, activeID }: Props) {
         {/* Occupation */}
         <label htmlFor="occupation">Occupation: </label> <br />
         <select
-          value={currentBlock?.occupation}
+          value={currentPlot?.occupation}
           name="occupation"
           id="occupation"
           onChange={handleChange}

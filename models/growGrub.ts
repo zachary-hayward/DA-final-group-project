@@ -1,3 +1,5 @@
+import { Layout } from 'react-grid-layout'
+
 export interface User extends UserData {
   id: number
 }
@@ -39,4 +41,29 @@ export interface GardenDB {
   watering_frequency: string
   sunlight: number
   cycle: string
+}
+
+// export interface Layout {
+//   w: number
+//   h: number
+//   x: number
+//   y: number
+//   i: string
+// }
+
+export interface PlotDatum {
+  layoutId: string
+  name: string
+  sunLight: number
+  occupation: number
+  blockType: string
+  size: string
+  shade: number
+  wind: number
+  growable: boolean
+}
+
+export interface GardenToSave {
+  layout: Layout
+  plot: PlotDatum[]
 }
