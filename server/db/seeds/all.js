@@ -18,9 +18,9 @@ export const seed = async function(knex) {
   ]);
   await knex('plants').del()
   await knex('plants').insert([
-    {id: 1, name: 'Tomato', difficulty: 'Medium', planting_starts: 'March', planting_ends: 'April', watering_frequency: 'Daily', sunlight: 8, cycle: 'Annual' },
-    {id: 2, name: 'Basil', difficulty: 'Easy', planting_starts: 'April', planting_ends: 'May', watering_frequency: 'Twice a week', sunlight: 6, cycle: 'Annual' },
-    {id: 3, name: 'Carrot', difficulty: 'Hard', planting_starts: 'February', planting_ends: 'March', watering_frequency: 'Every other day', sunlight: 7, cycle: 'Biennial' }
+    {id: 1, name: 'Tomato', difficulty: 'Medium', planting_starts: 'March', planting_ends: 'April', watering_frequency: 'Daily', sun_level: 8, cycle: 'Annual' },
+    {id: 2, name: 'Basil', difficulty: 'Easy', planting_starts: 'April', planting_ends: 'May', watering_frequency: 'Twice a week', sun_level: 6, cycle: 'Annual' },
+    {id: 3, name: 'Carrot', difficulty: 'Hard', planting_starts: 'February', planting_ends: 'March', watering_frequency: 'Every other day', sun_level: 7, cycle: 'Biennial' }
   ]);
   await knex('user_desired_plants').del()
   await knex('user_desired_plants').insert([
@@ -36,15 +36,15 @@ export const seed = async function(knex) {
   ]);
   await knex('plots').del()
   await knex('plots').insert([
-    {id: 1, garden_id: 1, plot_number: 1, shade_level: 2, plot_type: 'Raised', size: '5x5', average_wind: 'Low' },
-    {id: 2, garden_id: 1, plot_number: 2, shade_level: 3, plot_type: 'In-ground', size: '4x4', average_wind: 'Medium' },
-    {id: 3, garden_id: 1, plot_number: 3, shade_level: 1, plot_type: 'Container', size: '2x2', average_wind: 'High' },
-    {id: 4, garden_id: 2, plot_number: 1, shade_level: 2, plot_type: 'Raised', size: '5x5', average_wind: 'Low' },
-    {id: 5, garden_id: 2, plot_number: 2, shade_level: 3, plot_type: 'In-ground', size: '4x4', average_wind: 'Medium' },
-    {id: 6, garden_id: 2, plot_number: 3, shade_level: 1, plot_type: 'Container', size: '2x2', average_wind: 'High' },
-    {id: 7, garden_id: 3, plot_number: 1, shade_level: 2, plot_type: 'Raised', size: '5x5', average_wind: 'Low' },
-    {id: 8, garden_id: 3, plot_number: 2, shade_level: 3, plot_type: 'In-ground', size: '4x4', average_wind: 'Medium' },
-    {id: 9, garden_id: 3, plot_number: 3, shade_level: 1, plot_type: 'Container', size: '2x2', average_wind: 'High' }
+    {id: 1, garden_id: 1, plot_number: 1, sun_level: 2, plot_type: 'Raised', size: '5x5' },
+    {id: 2, garden_id: 1, plot_number: 2, sun_level: 3, plot_type: 'In-ground', size: '4x4'},
+    {id: 3, garden_id: 1, plot_number: 3, sun_level: 1, plot_type: 'Container', size: '2x2'},
+    {id: 4, garden_id: 2, plot_number: 1, sun_level: 2, plot_type: 'Raised', size: '5x5'},
+    {id: 5, garden_id: 2, plot_number: 2, sun_level: 3, plot_type: 'In-ground', size: '4x4' },
+    {id: 6, garden_id: 2, plot_number: 3, sun_level: 1, plot_type: 'Container', size: '2x2' },
+    {id: 7, garden_id: 3, plot_number: 1, sun_level: 2, plot_type: 'Raised', size: '5x5' },
+    {id: 8, garden_id: 3, plot_number: 2, sun_level: 3, plot_type: 'In-ground', size: '4x4' },
+    {id: 9, garden_id: 3, plot_number: 3, sun_level: 1, plot_type: 'Container', size: '2x2' }
   ]);
   await knex('plots_plants').del()
   await knex('plots_plants').insert([

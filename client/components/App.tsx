@@ -9,7 +9,7 @@ import { getUserByAuth } from '../apis/growGrub.ts'
 import SinglePlant from '../pages/SinglePlant.tsx'
 
 function App() {
-  const [processing, setProcessing] = useState(false)
+  const [processing, setProcessing] = useState(true)
   const [registered, setRegistered] = useState(false)
   const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 
