@@ -22,13 +22,17 @@ export default function SinglePlant() {
                 <h3 className="py-3 text-xl italic text-gray-800">
                   {plantData.scientificName}
                 </h3>
-                <p className="text-lg text-gray-800">{plantData.description}</p>
+                <div className="mt-4 w-full resize-y md:max-w-xl">
+                  <p className="text-lg text-gray-800">
+                    {plantData.description}
+                  </p>
+                </div>
               </div>
               <div className="ml-8 flex-shrink-0">
                 <img
                   src="/images/photos/tomato-plant.png"
                   alt={plantData.plantName}
-                  className="h-48 w-auto"
+                  className="h-50 w-auto"
                 />
               </div>
             </div>
