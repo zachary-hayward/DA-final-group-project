@@ -10,12 +10,13 @@ import { getUserByAuth } from '../apis/growGrub.ts'
 function App() {
   const [processing, setProcessing] = useState(false)
   const [registered, setRegistered] = useState(false)
-  const {isAuthenticated, getAccessTokenSilently} = useAuth0()
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 
   useEffect(() => {
     const getUser = async () => {
       setProcessing(true)
       const token = await getAccessTokenSilently()
+      console.log(token)
       try {
         const result = await getUserByAuth(token)
         if (result.id) setRegistered(true)
@@ -26,20 +27,23 @@ function App() {
       }
     }
     if (isAuthenticated) getUser()
-  },[isAuthenticated, getAccessTokenSilently])
+  }, [isAuthenticated, getAccessTokenSilently])
 
   return (
     <>
       <div className="app min-w-screen min-h-screen">
         <NavBar />
-          {(!isAuthenticated || processing) ?
-            <LandingPage />
-          : <>{registered ? 
-                <Outlet />
-              :
-                <Register registered={registered} setRegistered={setRegistered}/>
-            }</>
-          }
+        {!isAuthenticated || processing ? (
+          <LandingPage />
+        ) : (
+          <>
+            {registered ? (
+              <Outlet />
+            ) : (
+              <Register registered={registered} setRegistered={setRegistered} />
+            )}
+          </>
+        )}
         <Footer />
       </div>
     </>
@@ -52,7 +56,7 @@ export default App
 
 // {(!isAuthenticated) ?
 //   <LandingPage />
-// : <>{!registered ? 
+// : <>{!registered ?
 //       <Register registered={registered} setRegistered={setRegistered}/>
 //     :
 //       <Outlet />

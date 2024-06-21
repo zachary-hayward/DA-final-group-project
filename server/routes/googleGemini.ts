@@ -2,53 +2,90 @@ import express from 'express'
 import request from 'superagent'
 import 'dotenv/config'
 import { GoogleGenerativeAI } from '@google/generative-ai'
-// import checkJwt, { JwtRequest } from '../auth0'
+import checkJwt, { JwtRequest } from '../auth0'
 
 const router = express.Router()
 const geminiApiKey = process.env.API_KEY
 
-router.get('/', async (req, res) => {
+router.get('/', checkJwt, async (req: JwtRequest, res) => {
   console.log(111)
-  // const authoId = req.auth?.sub
+  const authoId = req.auth?.sub
   if (geminiApiKey === undefined) {
     throw new Error('Missing google gemini key environment variable')
   }
-  // if (!authoId) {
-  //   console.log('No authoId')
-  //   return res.status(401).send('Unauthorized')
-  // }
+  if (!authoId) {
+    console.log('No authoId')
+    return res.status(401).send('Unauthorized')
+  }
 
   try {
-    const prompt = `give me a json data about a potato that contains sunlight, watering in the form of {"data": [
-    {
-      "common_name": "potato",
-      "life_cycle": "Herbaceous Perennial",
-      "watering": "Minimum",
-      "sunlight": [
-        "full sun",
-        "filtered shade"
-      ],}]} and can you help me remove markdown`
+    // const prompt = `give me a json data about a potato that contains sunlight, watering in the form of {"data": [
+    // {
+    //   "common_name": "potato",
+    //   "life_cycle": "Herbaceous Perennial",
+    //   "watering": "Minimum",
+    //   "sunlight": [
+    //     "full sun",
+    //     "filtered shade"
+    //   ],
+    //   }
+    //   ]} `
+
+    const prompt2 = `give me json data with whitespacing between each word about plant care information about a cucumber that contains plant care information, watering with one of three properties: low, medium or high, in the form of {
+"plantCareData": [
+  {
+    "plantName": str,
+    "scientificName": str,
+    "description": " ",
+    "careInstructions": {
+        "soil": str,
+        "sunlight": str
+        "watering": str,
+        "fertilization": str,
+        "pruning": str,
+        "pests": str,
+        "diseases": str
+    },
+    "plantingTime": {
+        "indoors": str,
+        "outdoors": str,
+        "spacing": str,
+        "time": str
+    },
+    "harvesting": {
+        "time": str,
+        "tips": str
+    }
+}
+  ]
+} and for each property, keep the strings short please and with spacing between words`
     // Access your API key as an environment variable (see "Set up your API key" above)
     const genAI = new GoogleGenerativeAI(geminiApiKey)
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
-    const result = await model.generateContent(prompt)
+    const result = await model.generateContent(prompt2)
     const response = await result.response
+
+    //
+    // const result2 = await model.generateContent(prompt2)
+    // const response2 = await result2.response2
     // console.log(JSON.stringify(response.candidates[0].content.parts[0].text))
 
     const reg = new RegExp(`\\n`, `g`)
     const text1 = response.candidates[0].content.parts[0].text
 
+    // const text2 = response2.candidates[0].content.parts[0].text
+
     const newStr = text1
       .replace(reg, '')
-      .replace(new RegExp('```json', 'g'), '')
-      .replace(new RegExp('```', 'g'), '')
-      .replace(new RegExp(`\\s`, 'g'), '')
+      .replace(new RegExp('```json', 'g'), ' ')
+      .replace(new RegExp('```', 'g'), ' ')
+      .replace(new RegExp(`\\s`, 'g'), ' ')
     // .replace(new RegExp(`\\`, 'g'), '')
     // console.log(newStr)
 
     res.json(JSON.parse(newStr))
     // res.send(newStr)
-    // console.log(JSON.stringify(response))
+    // console.log(JSON.stringify(response.candidates))
   } catch (err) {
     if (err instanceof Error) {
       console.log(err.message)
