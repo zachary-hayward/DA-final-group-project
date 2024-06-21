@@ -1,5 +1,6 @@
 import { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
+import type { PlotDatum } from '../../models/growGrub.ts'
 
 export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
   return db('users')
@@ -65,7 +66,7 @@ export function saveNewGarden(layout: string, userID: string): Promise<number> {
 
 // Friday 21/06 pm - NOTE - need to reconcile this with the changed shape of the data
 export function saveNewPlots(
-  blockData: BlockDatum[],
+  blockData: PlotDatum[],
   gardenID: number,
 ): Promise<number[]> {
   const plotsToInsert = blockData.map((block) => ({
@@ -86,17 +87,4 @@ interface addUserProps extends UserData {
 }
 export async function addUser(userData: addUserProps) {
   return db('users').insert(userData)
-}
-
-// Note this interface isn't finished yet - need to check against the fields that are in the migration
-interface BlockDatum {
-  layoutId: string
-  name: string
-  sunLight: number
-  occupation: number
-  blockType: number
-  size: number
-  shade: number
-  wind: number
-  growable: boolean
 }

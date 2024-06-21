@@ -43,27 +43,17 @@ export interface GardenDB {
   cycle: string
 }
 
-// export interface Layout {
-//   w: number
-//   h: number
-//   x: number
-//   y: number
-//   i: string
-// }
-
 export interface PlotDatum {
   layoutId: string
   name: string
-  sunLight: number
-  occupation: number
+  sunLight: string
   blockType: string
   size: string
-  shade: number
-  wind: number
+  rainExposure: string
   growable: boolean
 }
 
 export interface GardenToSave {
-  layout: Layout
-  plot: PlotDatum[]
+  layout: Layout[]
+  plotData: PlotDatum[]
 }

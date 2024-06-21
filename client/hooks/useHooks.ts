@@ -1,15 +1,13 @@
 import {
   useMutation,
   useQueryClient,
-  MutationFunction,
+  // MutationFunction,
   useQuery,
 } from '@tanstack/react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import request from 'superagent'
 import { Plant } from '../../models/growGrub'
-import type { Layout } from 'react-grid-layout'
-import Layout from '../components/Layout'
-import { GardenToSave, PlotDatum } from '../../models/growGrub'
+import { GardenToSave } from '../../models/growGrub'
 
 const rootURL = new URL(`/api/v1`, document.baseURI).toString()
 
@@ -20,35 +18,35 @@ export function useHooks() {
   }
 }
 
-function useAuthQueryTemplate(path: string, keys: string[], bodyData?: object) {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
-  return useQuery({
-    enabled: isAuthenticated,
-    queryKey: keys,
-    queryFn: async () => {
-      const token = await getAccessTokenSilently()
-      const res = await request
-        .get(`${rootURL}/${path}`)
-        .send(bodyData)
-        .set('Authorization', `Bearer ${token}`)
-      return res.body
-    },
-  })
-}
+// function useAuthQueryTemplate(path: string, keys: string[], bodyData?: object) {
+//   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+//   return useQuery({
+//     enabled: isAuthenticated,
+//     queryKey: keys,
+//     queryFn: async () => {
+//       const token = await getAccessTokenSilently()
+//       const res = await request
+//         .get(`${rootURL}/${path}`)
+//         .send(bodyData)
+//         .set('Authorization', `Bearer ${token}`)
+//       return res.body
+//     },
+//   })
+// }
 
-export function useMutationTemplate<TData = unknown, TVariables = unknown>(
-  mutationFn: MutationFunction<TData, TVariables>,
-  queryKeyArry: Array<string | number>,
-) {
-  const queryClient = useQueryClient()
-  const mutation = useMutation({
-    mutationFn,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeyArry })
-    },
-  })
-  return mutation
-}
+// export function useMutationTemplate<TData = unknown, TVariables = unknown>(
+//   mutationFn: MutationFunction<TData, TVariables>,
+//   queryKeyArry: Array<string | number>,
+// ) {
+//   const queryClient = useQueryClient()
+//   const mutation = useMutation({
+//     mutationFn,
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: queryKeyArry })
+//     },
+//   })
+//   return mutation
+// }
 
 const useGetUsernames = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
@@ -99,14 +97,14 @@ const useGetPlants = () => {
 // }
 
 export function useSaveGarden() {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ layout, plot }: GardenToSave) => {
+    mutationFn: async ({ layout, plotData }: GardenToSave) => {
       const token = await getAccessTokenSilently()
-      const gardenObj = { layout, plot, token }
-      await request.post(`api/v1/gardens`).send(gardenObj)
+      const newGarden = { layout, plotData}
+      await request.post(`api/v1/gardens`).send(newGarden).set('Authorization', `Bearer ${token}`)
     },
 
     onSuccess: async () => {

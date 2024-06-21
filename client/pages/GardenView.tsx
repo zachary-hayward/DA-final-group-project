@@ -11,34 +11,28 @@ export function GardenView() {
     {
       layoutId: '1',
       name: 'window garden',
-      sunLight: 5,
-      occupation: 10,
+      sunLight: 'full-sun',
       blockType: 'house',
       size: '3x3',
-      shade: 3,
-      wind: 2,
+      rainExposure: 'undercover',
       growable: true,
     },
     {
       layoutId: '2',
       name: 'glasshouse',
-      sunLight: 5,
-      occupation: 10,
+      sunLight: 'part-sun',
       blockType: 'garden',
       size: '3x3',
-      shade: 3,
-      wind: 2,
+      rainExposure: 'fully',
       growable: true,
     },
     {
       layoutId: '3',
       name: 'kitchen garden',
-      sunLight: 5,
-      occupation: 10,
+      sunLight: 'full-shade',
       blockType: 'garden',
       size: '3x3',
-      shade: 3,
-      wind: 2,
+      rainExposure: 'partially',
       growable: true,
     },
   ])
@@ -49,44 +43,8 @@ export function GardenView() {
     { w: 5, h: 1, x: 1, y: 9, i: '3' },
   ])
 
-  // const oldInitialStateData = [
-  //   {
-  //     layoutId: '1',
-  //     name: 'window garden',
-  //     sunLight: 5,
-  //     occupation: 10,
-  //     blockType: 'house',
-  //     size: '3x3',
-  //     shade: 3,
-  //     wind: 2,
-  //     growable: true,
-  //   },
-  //   {
-  //     layoutId: '2',
-  //     name: 'glasshouse',
-  //     sunLight: 5,
-  //     occupation: 10,
-  //     blockType: 'garden',
-  //     size: '3x3',
-  //     shade: 3,
-  //     wind: 2,
-  //     growable: true,
-  //   },
-  //   {
-  //     layoutId: '3',
-  //     name: 'kitchen garden',
-  //     sunLight: 5,
-  //     occupation: 10,
-  //     blockType: 'garden',
-  //     size: '3x3',
-  //     shade: 3,
-  //     wind: 2,
-  //     growable: true,
-  //   },
-  // ]
-
   const onSaveGarden = async () => {
-    saveGarden.mutateAsync(layout, plotData)
+    saveGarden.mutateAsync({ layout, plotData })
   }
 
   return (

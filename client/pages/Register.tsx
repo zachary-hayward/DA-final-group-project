@@ -1,14 +1,25 @@
-import { useAuth0 } from "@auth0/auth0-react"
-import { useState, ChangeEvent } from "react"
-import { addUser } from "../apis/growGrub"
-import { useHooks } from "../hooks/useHooks"
-import DropDownAutoFilter from "../components/DropDownAutoFilter"
+import { useAuth0 } from '@auth0/auth0-react'
+import { useState, ChangeEvent } from 'react'
+import { addUser } from '../apis/growGrub'
+import { useHooks } from '../hooks/useHooks'
+import DropDownAutoFilter from '../components/DropDownAutoFilter'
 
-interface UserData {username: string; location: string; plants: string[]}
-interface Props {registered:boolean; setRegistered: (boolean: boolean) => void}
-export default function Register({registered, setRegistered}: Props) {
-  const {getAccessTokenSilently} = useAuth0()
-  const [formData, setFormData] = useState<UserData>({username: '', location: '', plants: []})
+interface UserData {
+  username: string
+  location: string
+  plants: string[]
+}
+interface Props {
+  registered: boolean
+  setRegistered: (boolean: boolean) => void
+}
+export default function Register({ registered, setRegistered }: Props) {
+  const { getAccessTokenSilently } = useAuth0()
+  const [formData, setFormData] = useState<UserData>({
+    username: '',
+    location: '',
+    plants: [],
+  })
   const [displayMessage, setDisplayMessage] = useState('')
   const hooks = useHooks()
 
@@ -17,12 +28,12 @@ export default function Register({registered, setRegistered}: Props) {
   const plantsQuery = hooks.getPlants()
   const plantList: string[] = []
   if (plantsQuery.data) {
-    plantsQuery.data.forEach(item => plantList.push(item.name))
+    plantsQuery.data.forEach((item) => plantList.push(item.name))
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target
-    setFormData((prev) => ({...prev, [name]:value}))
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleOnRegister = async () => {
@@ -48,49 +59,65 @@ export default function Register({registered, setRegistered}: Props) {
   }
 
   const handlePlantSelect = (option: string) => {
-    if (!formData.plants.includes(option)) setFormData((prev) => ({...prev, plants: [...prev.plants, option]}))
+    if (!formData.plants.includes(option))
+      setFormData((prev) => ({ ...prev, plants: [...prev.plants, option] }))
   }
-  
-  return (<>
-    <div className='bg-slate-300 container mx-auto rounded'>
-      <div className='flex gap-2 m-2'>
-        <div className='flex flex-col gap-2 mt-2'>
-          <p className='font-bold'>UserName:</p>
-          <p className='font-bold'>Location:</p>
-          <p className='font-bold'>Plants:</p>
-        </div>
-        <div className='flex flex-col gap-2 mt-2'>
-          <input type='text' placeholder='Username' autoComplete='off'
-            className='rounded pl-1'
-            name='username' value={formData.username}
-            onChange={handleChange}
-          />
-          <input type='text' placeholder='Location' autoComplete='off'
-            className='rounded pl-1'
-            name='location' value={formData.location}
-            onChange={handleChange}
-          />
-          <DropDownAutoFilter options={plantList} onSelect={handlePlantSelect} containerClass={``}/>
 
+  return (
+    <>
+      <div className="container mx-auto rounded bg-slate-300">
+        <div className="m-2 flex gap-2">
+          <div className="mt-2 flex flex-col gap-2">
+            <p className="font-bold">UserName:</p>
+            <p className="font-bold">Location:</p>
+            <p className="font-bold">Plants:</p>
+          </div>
+          <div className="mt-2 flex flex-col gap-2">
+            <input
+              type="text"
+              placeholder="Username"
+              autoComplete="off"
+              className="rounded pl-1"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              placeholder="Location"
+              autoComplete="off"
+              className="rounded pl-1"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+            />
+            <DropDownAutoFilter
+              options={plantList}
+              onSelect={handlePlantSelect}
+              containerClass={``}
+            />
+          </div>
+          <div className="ml-5 mt-1">
+            <p className="font-bold">Plants your interested in:</p>
+            <ul>
+              {formData.plants[0] &&
+                formData.plants.map((plant, i) => (
+                  <li key={`plant${i}`}>{plant}</li>
+                ))}
+            </ul>
+          </div>
         </div>
-        <div className='ml-5 mt-1'>
-          <p className='font-bold'>Plants your interested in:</p>
-          <ul>
-            {formData.plants[0] && formData.plants.map((plant,i) => (
-              <li key={`plant${i}`}>
-                {plant}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {displayMessage && <div>{displayMessage}</div>}
+        {!registered && usernameList && (
+          <button
+            type="button"
+            className="w-full rounded-bl rounded-br bg-blue-300 hover:bg-blue-600"
+            onClick={() => handleOnRegister()}
+          >
+            Register
+          </button>
+        )}
       </div>
-      {displayMessage && <div>{displayMessage}</div>}
-      {!registered && usernameList &&
-        <button type='button'
-          className='w-full bg-blue-300 hover:bg-blue-600 rounded-bl rounded-br'
-          onClick={() => handleOnRegister()}
-        >Register</button>
-      }
-    </div>
-  </>)
+    </>
+  )
 }

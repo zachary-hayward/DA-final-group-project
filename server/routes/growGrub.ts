@@ -127,12 +127,17 @@ router.get('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
 })
 
 // Router for adding new gardens - NOT IN USE, ONLY FOR TESTING
-router.post('/gardens', async (req, res) => {
+router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) return res.sendStatus(401)
+  const userID = await db.getUserByAuth0Id(auth0Id)
   try {
-    const newGarden = req.body.garden
-    const userID = req.body.id
-    const newGardenID = await db.saveNewGarden(newGarden, userID)
-    res.json(newGardenID)
+    const newGarden = req.body
+    console.log(newGarden)
+    console.log(userID)
+    // const userID = req.body.id
+    // const newGardenID = await db.saveNewGarden(newGarden, userID)
+    // res.json(newGardenID)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)

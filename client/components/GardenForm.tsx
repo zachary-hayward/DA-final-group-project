@@ -170,24 +170,22 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
         </select>{' '}
         <br />
         {/* Wind */}
-        <label htmlFor="wind">Wind: </label> <br />
+        <label htmlFor="rainExposure">Rain exposure: </label> <br />
         <select
-          value={currentPlot?.wind}
-          name="wind"
-          id="wind"
+          value={currentPlot?.rainExposure}
+          name="rainExposure"
+          id="rainExposure"
           onChange={handleChange}
           className="dropmenu"
         >
-          <option value="">How much wind does it get?</option>
-          <option value="1">Never blows</option>
-          <option value="2">A little breezy</option>
-          <option value="3">Off & on</option>
-          <option value="4">Pretty windy</option>
-          <option value="5">Always windy</option>
+          <option value="">How exposed is it?</option>
+          <option value="undercover">Under cover</option>
+          <option value="partially">Partially</option>
+          <option value="fully">Fully exposed</option>
         </select>{' '}
         <br />
         {/* Occupation */}
-        <label htmlFor="occupation">Occupation: </label> <br />
+        {/* <label htmlFor="occupation">Occupation: </label> <br />
         <select
           value={currentPlot?.occupation}
           name="occupation"
@@ -207,7 +205,7 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
           <option value="90">90%</option>
           <option value="100">100%</option>
         </select>{' '}
-        <br />
+        <br /> */}
         <button className="add-plant" type="button">
           Add plant
         </button>
