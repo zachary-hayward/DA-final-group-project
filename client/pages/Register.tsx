@@ -23,7 +23,11 @@ export default function Register({registered, setRegistered}: Props) {
 
   const handleOnClick = async () => {
     if (usernameList && usernameList.includes(formData.username)) {
-      setDisplayMessage('Try a different username')
+      setDisplayMessage('Try a different username.')
+    } else if (formData.username.length < 3) {
+      setDisplayMessage('Please use a longer username.')
+    } else if (formData.location.length < 3) {
+      setDisplayMessage('Please use your areas full name.')
     } else {
       const token = await getAccessTokenSilently()
       try {
@@ -40,31 +44,33 @@ export default function Register({registered, setRegistered}: Props) {
   }
   
   return (<>
-    <div className='bg-slate-300'>
-      <form>
-        <div className='flex'>
-          <div>UserName:&nbsp;</div>
-          <input type='text' placeholder='Username' autoComplete='off'
-            className='rounded'
-            name='username' value={formData.username}
-            onChange={handleChange}
-          />
+    <div className='bg-slate-300 container mx-auto rounded'>
+      <form className='flex gap-2 m-2'>
+        <div className='flex flex-col gap-2 mb-2'>
+          <div className='flex mt-2'>
+            <div>UserName:&nbsp;</div>
+            <input type='text' placeholder='Username' autoComplete='off'
+              className='rounded'
+              name='username' value={formData.username}
+              onChange={handleChange}
+            />
+          </div>
+          <div className='flex'>
+            <div>Location:&nbsp;&nbsp;&nbsp;&nbsp;</div> {/*How else do i get them to line up nicely...*/}
+            <input type='text' placeholder='Location' autoComplete='off'
+              className='rounded'
+              name='location' value={formData.location}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-        <div className='flex'>
-          <div>Location:&nbsp;&nbsp;&nbsp;&nbsp;</div> {/*How else do i get them to line up nicely...*/}
-          <input type='text' placeholder='Location' autoComplete='off'
-            className='rounded'
-            name='location' value={formData.location}
-            onChange={handleChange}
-          />
-        </div>
-        {!registered && usernameList &&
-          <button type='button'
-            onClick={() => handleOnClick()}
-          >Register</button>
-        }
       </form>
       {displayMessage && <div>{displayMessage}</div>}
+      {!registered && usernameList &&
+        <button type='button'
+          onClick={() => handleOnClick()}
+        >Register</button>
+      }
     </div>
   </>)
 }

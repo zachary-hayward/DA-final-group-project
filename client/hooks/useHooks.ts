@@ -11,7 +11,7 @@ export function useHooks() {
   }
 }
 
-function useAuthQueryTemplate(path:string, keys: string[]) {
+function useAuthQueryTemplate(path:string, keys: string[], bodyData?: object) {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   return useQuery({
     enabled: isAuthenticated,
@@ -20,6 +20,7 @@ function useAuthQueryTemplate(path:string, keys: string[]) {
       const token = await getAccessTokenSilently()
       const res = await request
         .get(`${rootURL}/${path}`)
+        .send(bodyData)
         .set('Authorization', `Bearer ${token}`)
       return res.body
     },
