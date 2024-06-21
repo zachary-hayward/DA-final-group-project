@@ -16,7 +16,7 @@ export default function SinglePlant() {
           <div className="mx-auto max-w-7xl">
             <div className="flex items-center justify-center">
               <div className="flex-1">
-                <h2 className="gray-800 text-4xl font-bold">
+                <h2 className="text-4xl font-bold text-gray-800">
                   {plantData.plantName}
                 </h2>
                 <h3 className="py-3 text-xl italic text-gray-800">
@@ -39,37 +39,185 @@ export default function SinglePlant() {
           </div>
         </div>
         <div>
-          <h3>Care instructions</h3>
-          <h4>Soil </h4>
-          <p>{plantData.careInstructions.soil}</p>
-          <h4>Sunlight </h4>
-          <p>{plantData.careInstructions.sunlight}</p>
-          <h4>Watering </h4>
-          <p>{plantData.careInstructions.watering}</p>
-          <h4>Fertilisation </h4>
-          <p>{plantData.careInstructions.fertilization}</p>
-          <h4>Pruning </h4>
-          <p>{plantData.careInstructions.pruning}</p>
-          <h4>Pests </h4>
-          <p>{plantData.careInstructions.pests}</p>
-          <h4>Disease prevention </h4>
-          <p>{plantData.careInstructions.diseases}</p>
+          <div className="list-container">
+            <h3 className="pb-5 pt-10 text-xl font-bold">Care instructions</h3>
+            <div className="grid grid-cols-12 items-center gap-4 rounded-lg bg-slate-50 px-6 py-4">
+              <div className="col-span-1">
+                <img
+                  className="h-12 w-12"
+                  src="/images/flat-icons/soil.png"
+                  alt="Soil"
+                />
+              </div>
+              <div className="col-span-11">
+                <h4 className="list-title">Soil </h4>
+                <p className="list-description">
+                  {plantData.careInstructions.soil}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="grid grid-cols-12 items-center gap-4 rounded-lg bg-slate-50 px-6 py-4">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/sun.png"
+                    alt="Sunlight"
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Sunlight</h4>
+                  <p className="list-description">
+                    {plantData.careInstructions.sunlight}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/drop.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Watering</h4>
+                  <p className="list-description">
+                    {plantData.careInstructions.watering}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/fertilizer.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Fertilisation</h4>
+                  <p className="list-description">
+                    {plantData.careInstructions.fertilization}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/pruning-shears.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Pruning </h4>
+                  <p className="list-description">
+                    {plantData.careInstructions.pruning}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/bug-spray.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Pests </h4>
+                  <p className="list-description">
+                    {plantData.careInstructions.pests}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/pests.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Disease prevention </h4>
+                  <p className="list-description">
+                    {plantData.careInstructions.diseases}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <h3>Planting</h3>
+          <img
+            className="h-12 w-12"
+            src="/images/flat-icons/damage.png"
+            alt={plantData.plantName}
+          />
           <h4>Outdoors </h4>
           <p>{plantData.plantingTime.outdoors}</p>
+          <img
+            className="h-12 w-12"
+            src="/images/flat-icons/indoor-plants.png"
+            alt={plantData.plantName}
+          />
           <h4>Indoors </h4>
           <p>{plantData.plantingTime.indoors}</p>
+          <img
+            className="h-12 w-12"
+            src="/images/flat-icons/measure.png"
+            alt={plantData.plantName}
+          />
           <h4>Spacing </h4>
           <p>{plantData.plantingTime.spacing}</p>
+          <img
+            className="h-12 w-12"
+            src="/images/flat-icons/calendar.png"
+            alt={plantData.plantName}
+          />
           <h4>Season </h4>
           <p>{plantData.plantingTime.time}</p>
         </div>
         <div>
           <h3>Harvesting</h3>
+          <img
+            className="h-12 w-12"
+            src="/images/flat-icons/harvest.png"
+            alt={plantData.plantName}
+          />
           <h4>Season</h4>
           <p>{plantData.harvesting.time}</p>
+          <img
+            className="h-12 w-12"
+            src="/images/flat-icons/idea.png"
+            alt={plantData.plantName}
+          />
           <h4>Tips</h4>
           <p>{plantData.harvesting.tips}</p>
         </div>
