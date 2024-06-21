@@ -19,19 +19,7 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
   }
 
   try {
-    // const prompt = `give me a json data about a potato that contains sunlight, watering in the form of {"data": [
-    // {
-    //   "common_name": "potato",
-    //   "life_cycle": "Herbaceous Perennial",
-    //   "watering": "Minimum",
-    //   "sunlight": [
-    //     "full sun",
-    //     "filtered shade"
-    //   ],
-    //   }
-    //   ]} `
-
-    const prompt2 = `give me json data with whitespacing between each word about plant care information about a cucumber that contains plant care information, watering with one of three properties: low, medium or high, in the form of {
+    const prompt = `give me json data with whitespacing between each word about plant care information about a cucumber that contains plant care information, watering with one of three properties: low, medium or high, in the form of {
 "plantCareData": [
   {
     "plantName": str,
@@ -59,32 +47,22 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
 }
   ]
 } and for each property, keep the strings short please and with spacing between words`
-    // Access your API key as an environment variable (see "Set up your API key" above)
     const genAI = new GoogleGenerativeAI(geminiApiKey)
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
-    const result = await model.generateContent(prompt2)
+    const result = await model.generateContent(prompt)
     const response = await result.response
-
-    //
-    // const result2 = await model.generateContent(prompt2)
-    // const response2 = await result2.response2
     // console.log(JSON.stringify(response.candidates[0].content.parts[0].text))
 
     const reg = new RegExp(`\\n`, `g`)
     const text1 = response.candidates[0].content.parts[0].text
-
-    // const text2 = response2.candidates[0].content.parts[0].text
 
     const newStr = text1
       .replace(reg, '')
       .replace(new RegExp('```json', 'g'), ' ')
       .replace(new RegExp('```', 'g'), ' ')
       .replace(new RegExp(`\\s`, 'g'), ' ')
-    // .replace(new RegExp(`\\`, 'g'), '')
-    // console.log(newStr)
 
     res.json(JSON.parse(newStr))
-    // res.send(newStr)
     // console.log(JSON.stringify(response.candidates))
   } catch (err) {
     if (err instanceof Error) {
