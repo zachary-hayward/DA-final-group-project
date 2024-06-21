@@ -4,6 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Page Banner */
+.banner-container {
+  @apply bg-lime-200 p-8 px-4;
+}
+
+.banner-flex {
+  @apply flex items-center justify-center;
+}
+
+.banner-title {
+  @apply text-4xl font-bold text-gray-800;
+}
+
 /* Instruction List */
 
 .list-container {
@@ -15,11 +28,15 @@
 }
 
 .list-title {
-  @apply text-lg font-bold text-green-800;
+  @apply text-lg font-semibold text-green-800;
 }
 
 .list-description {
   @apply text-base text-green-800;
+}
+
+.container-title {
+  @apply pb-5 pt-10 text-2xl font-medium;
 }
 
 /* Grid */

@@ -11,14 +11,13 @@ export default function SinglePlant() {
   // console.log("tell me what u see")
   return (
     <>
+      {/* Page Banner */}
       <div>
-        <div className="bg-lime-200 p-8 px-4">
+        <div className="banner-container">
           <div className="mx-auto max-w-7xl">
-            <div className="flex items-center justify-center">
+            <div className="banner-flex">
               <div className="flex-1">
-                <h2 className="text-4xl font-bold text-gray-800">
-                  {plantData.plantName}
-                </h2>
+                <h2 className="banner-title">{plantData.plantName}</h2>
                 <h3 className="py-3 text-xl italic text-gray-800">
                   {plantData.scientificName}
                 </h3>
@@ -38,10 +37,11 @@ export default function SinglePlant() {
             </div>
           </div>
         </div>
+        {/* Care Instructions - the list items should be componentised */}
         <div>
           <div className="list-container">
-            <h3 className="pb-5 pt-10 text-xl font-bold">Care instructions</h3>
-            <div className="grid grid-cols-12 items-center gap-4 rounded-lg bg-slate-50 px-6 py-4">
+            <h3 className="container-title">Care instructions</h3>
+            <div className="list-grid">
               <div className="col-span-1">
                 <img
                   className="h-12 w-12"
@@ -59,7 +59,7 @@ export default function SinglePlant() {
           </div>
           <div>
             <div className="list-container">
-              <div className="grid grid-cols-12 items-center gap-4 rounded-lg bg-slate-50 px-6 py-4">
+              <div className="list-grid">
                 <div className="col-span-1">
                   <img
                     className="h-12 w-12"
@@ -174,61 +174,133 @@ export default function SinglePlant() {
           </div>
         </div>
         <div>
-          <h3>Planting</h3>
-          <img
-            className="h-12 w-12"
-            src="/images/flat-icons/damage.png"
-            alt={plantData.plantName}
-          />
-          <h4>Outdoors </h4>
-          <p>{plantData.plantingTime.outdoors}</p>
-          <img
-            className="h-12 w-12"
-            src="/images/flat-icons/indoor-plants.png"
-            alt={plantData.plantName}
-          />
-          <h4>Indoors </h4>
-          <p>{plantData.plantingTime.indoors}</p>
-          <img
-            className="h-12 w-12"
-            src="/images/flat-icons/measure.png"
-            alt={plantData.plantName}
-          />
-          <h4>Spacing </h4>
-          <p>{plantData.plantingTime.spacing}</p>
-          <img
-            className="h-12 w-12"
-            src="/images/flat-icons/calendar.png"
-            alt={plantData.plantName}
-          />
-          <h4>Season </h4>
-          <p>{plantData.plantingTime.time}</p>
+          <div>
+            <div className="list-container">
+              <h3 className="container-title">Planting</h3>
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/damage.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Outdoors </h4>
+                  <p className="list-description">
+                    {plantData.plantingTime.outdoors}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/indoor-plants.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Indoors </h4>
+                  <p className="list-description">
+                    {plantData.plantingTime.indoors}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/measure.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Spacing </h4>
+                  <p className="list-description">
+                    {plantData.plantingTime.spacing}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/calendar.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Season </h4>
+                  <p className="list-description">
+                    {plantData.plantingTime.time}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
-          <h3>Harvesting</h3>
-          <img
-            className="h-12 w-12"
-            src="/images/flat-icons/harvest.png"
-            alt={plantData.plantName}
-          />
-          <h4>Season</h4>
-          <p>{plantData.harvesting.time}</p>
-          <img
-            className="h-12 w-12"
-            src="/images/flat-icons/idea.png"
-            alt={plantData.plantName}
-          />
-          <h4>Tips</h4>
-          <p>{plantData.harvesting.tips}</p>
+          <div>
+            <div className="list-container">
+              <h3 className="container-title">Harvesting</h3>
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/harvest.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Season</h4>
+                  <p className="list-description">
+                    {plantData.harvesting.time}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="list-container">
+              <div className="list-grid">
+                <div className="col-span-1">
+                  <img
+                    className="h-12 w-12"
+                    src="/images/flat-icons/idea.png"
+                    alt={plantData.plantName}
+                  />
+                </div>
+                <div className="col-span-11">
+                  <h4 className="list-title">Tips</h4>
+                  <p className="list-description">
+                    {plantData.harvesting.tips}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
-          <h3>Notes</h3>
-          <p>here are some notes</p>
+          <div className="list-container">
+            <h3 className="container-title">My Notes</h3>
+          </div>
         </div>
       </div>
     </>
   )
-  //components: plant info (care instructions)
 }
 
 const plantData = {
