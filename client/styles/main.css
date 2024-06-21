@@ -4,10 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.btn-nav {
-  @apply m-1 rounded bg-white pl-1 pr-1 hover:bg-slate-300;
-}
-
 /* Grid */
 
 .red {
