@@ -1,14 +1,10 @@
 import { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
 
-
 export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
-  return db('users').where({auth0_id: auth0Id})
-    .first(
-      'id',
-      'username',
-      'location'
-    )
+  return db('users')
+    .where({ auth0_id: auth0Id })
+    .first('id', 'username', 'location')
 }
 
 export function getUsernames(): Promise<string[]> {
@@ -20,22 +16,27 @@ export function getPlants(): Promise<Plant[]> {
 }
 
 export function getUsersPlantsDesired(auth0Id: string): Promise<Plant[]> {
-  return db('users').where('users.auth0_id', auth0Id)
+  return db('users')
+    .where('users.auth0_id', auth0Id)
     .join('user_desired_plants', 'user_desired_plants.user_id', 'users.id')
     .join('plants', 'plants.id', 'user_desired_plants.plant_id')
     .select('plants.*')
 }
 
 export function getUsersGardens(auth0Id: string) {
-  return db('users').where('users.auth0_id', auth0Id)
+  return db('users')
+    .where('users.auth0_id', auth0Id)
     .join('gardens', 'gardens.user_id', 'users.id')
-    .select(
-      'gardens.*'
-    )
+    .select('gardens.*')
 }
 
-export function getUserGarden(auth0Id: string, id: number): Promise<GardenDB[]> {
-  return db('users').where('users.auth0_id', auth0Id).andWhere('gardens.id', id)
+export function getUserGarden(
+  auth0Id: string,
+  id: number,
+): Promise<GardenDB[]> {
+  return db('users')
+    .where('users.auth0_id', auth0Id)
+    .andWhere('gardens.id', id)
     .join('gardens', 'gardens.user_id', 'users.id')
     .join('plots', 'plots.garden_id', 'gardens.id')
     .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
@@ -47,11 +48,21 @@ export function getUserGarden(auth0Id: string, id: number): Promise<GardenDB[]> 
       'plots_plants.*',
       'plots_plants.id as plot_plant_id',
       'plants.*',
-      'plants.name as plant_name'
+      'plants.name as plant_name',
     )
 }
 
-interface addUserProps extends UserData {auth0_id: string}
+export function saveNewGarden(userID: string, layout: string): Promise<number> {
+  const newGarden = {
+    user_id: userID,
+    layout: layout,
+  }
+  return db('gardens').insert(newGarden).returning('id')
+}
+
+interface addUserProps extends UserData {
+  auth0_id: string
+}
 export async function addUser(userData: addUserProps) {
   return db('users').insert(userData)
 }
