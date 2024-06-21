@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient, MutationFunction, useQuery } from "@tanstack/react-query"
 import { useAuth0 } from "@auth0/auth0-react"
 import request from "superagent"
+import { Plant } from "../../models/growGrub"
 
 const rootURL = new URL(`/api/v1`, document.baseURI).toString()
 
@@ -9,22 +10,6 @@ export function useHooks() {
     getUsernames: useGetUsernames,
     getPlants: useGetPlants,
   }
-}
-
-function useAuthQueryTemplate(path:string, keys: string[], bodyData?: object) {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
-  return useQuery({
-    enabled: isAuthenticated,
-    queryKey: keys,
-    queryFn: async () => {
-      const token = await getAccessTokenSilently()
-      const res = await request
-        .get(`${rootURL}/${path}`)
-        .send(bodyData)
-        .set('Authorization', `Bearer ${token}`)
-      return res.body
-    },
-  })
 }
 
 export function useMutationTemplate<TData = unknown, TVariables = unknown>(
@@ -57,5 +42,17 @@ const useGetUsernames = () => {
 }
 
 const useGetPlants = () => {
-  return useAuthQueryTemplate('/plants', ['plants'])
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: ['plants'],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .get(`${rootURL}/plants`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body as Plant[]
+    },
+  })
 }
+
