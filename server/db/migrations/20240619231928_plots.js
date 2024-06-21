@@ -8,11 +8,11 @@ export const up = function(knex) {
     table.integer('garden_id').notNullable()
       .references('id').inTable('gardens').onDelete('CASCADE')
     table.integer('plot_number')
-    table.integer('shade_level')
+    table.string('sun_level')
     table.integer('plot_type')
     table.integer('size')
-    table.integer('average_wind')
     table.string('name')
+    table.string('rain_exposure')
   })
 };
 

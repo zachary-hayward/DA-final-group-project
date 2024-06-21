@@ -11,5 +11,5 @@ export async function getUserByAuth(token: string): Promise<User> {
 
 export async function addUser(userData: UserData, token:string) {
   const result = await request.post(rootURL + '/users').send(userData).set('Authorization', `Bearer ${token}`)
-  return result.body || result
+  return result.body
 }
