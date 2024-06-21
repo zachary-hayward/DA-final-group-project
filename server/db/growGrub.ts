@@ -60,9 +60,38 @@ export function saveNewGarden(userID: string, layout: string): Promise<number> {
   return db('gardens').insert(newGarden).returning('id')
 }
 
+export function saveNewPlots(
+  blockData: BlockDatum[],
+  gardenID: number,
+): Promise<number[]> {
+  const plotsToInsert = blockData.map((block) => ({
+    garden_id: gardenID,
+    plot_number: block.layoutId,
+    name: block.name,
+    shade_level: block.shade,
+    plot_type: block.blockType,
+    size: block.size,
+    average_wind: block.wind,
+  }))
+
+  return db('plots').insert(plotsToInsert).returning(['id'])
+}
+
 interface addUserProps extends UserData {
   auth0_id: string
 }
 export async function addUser(userData: addUserProps) {
   return db('users').insert(userData)
+}
+
+interface BlockDatum {
+  layoutId: string
+  name: string
+  sunLight: number
+  occupation: number
+  blockType: string
+  size: string
+  shade: number
+  wind: number
+  growable: boolean
 }
