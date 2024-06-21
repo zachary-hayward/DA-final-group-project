@@ -11,7 +11,8 @@ export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
     )
 }
 
-export function getUsernames(): Promise<string[]> {
+interface getUsernameProps {username: string}
+export function getUsernames(): Promise<getUsernameProps[]> {
   return db('users').select('username')
 }
 
