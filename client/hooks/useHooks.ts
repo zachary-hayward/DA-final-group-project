@@ -1,6 +1,11 @@
-import { useMutation, useQueryClient, MutationFunction, useQuery } from "@tanstack/react-query"
-import { useAuth0 } from "@auth0/auth0-react"
-import request from "superagent"
+import {
+  useMutation,
+  useQueryClient,
+  MutationFunction,
+  useQuery,
+} from '@tanstack/react-query'
+import { useAuth0 } from '@auth0/auth0-react'
+import request from 'superagent'
 
 const rootURL = new URL(`/api/v1`, document.baseURI).toString()
 
@@ -11,7 +16,7 @@ export function useHooks() {
   }
 }
 
-function useAuthQueryTemplate(path:string, keys: string[], bodyData?: object) {
+function useAuthQueryTemplate(path: string, keys: string[], bodyData?: object) {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   return useQuery({
     enabled: isAuthenticated,
@@ -29,7 +34,7 @@ function useAuthQueryTemplate(path:string, keys: string[], bodyData?: object) {
 
 export function useMutationTemplate<TData = unknown, TVariables = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,
-  queryKeyArry: Array<string | number>
+  queryKeyArry: Array<string | number>,
 ) {
   const queryClient = useQueryClient()
   const mutation = useMutation({
@@ -59,3 +64,59 @@ const useGetUsernames = () => {
 const useGetPlants = () => {
   return useAuthQueryTemplate('/plants', ['plants'])
 }
+
+// Rough works-in-progress below - nothing finished yet - not sure if we need useQuery or useMutation
+
+// export function useSaveGarden(blockData, layout, userID) {
+//   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+//   return useQuery({
+//     enabled: isAuthenticated,
+//     queryKey: keys,
+//     queryFn: async () => {
+//       const token = await getAccessTokenSilently()
+//       const res = await request
+//         .get(`${rootURL}/${path}`)
+//         .send(bodyData)
+//         .set('Authorization', `Bearer ${token}`)
+//       return res.body
+//     },
+//   })
+// }
+
+// export function useSaveGarden() {
+//   const queryClient = useQueryClient()
+
+//   return useMutation({
+//     mutationFn: async (layoutObj: LayoutObject) => {
+//       {
+//         const newGarden = { garden: layout, id: userID }
+
+//         await request.post(`api/v1/gardens`).send(layoutObj)
+//       }
+//     },
+//     onSuccess: async () => {
+//       queryClient.invalidateQueries({ queryKey: ['datatable'] })
+//     },
+//   })
+// }
+
+// interface LayoutObject {}
+
+// Template from my personal project, just for reference
+
+// export function useUpdatePlaceholderdata() {
+//   const queryClient = useQueryClient()
+
+//   return useMutation({
+//     mutationFn: async (entry: TableEntry) => {
+//       {
+//         await request
+//           .patch(`api/v1/placeholder/${entry[Object.keys(entry)[0]]}`)
+//           .send(entry)
+//       }
+//     },
+//     onSuccess: async () => {
+//       queryClient.invalidateQueries({ queryKey: ['datatable'] })
+//     },
+//   })
+// }

@@ -40,6 +40,42 @@ export function GardenView() {
     },
   ])
 
+  // const oldInitialStateData = [
+  //   {
+  //     layoutId: '1',
+  //     name: 'window garden',
+  //     sunLight: 5,
+  //     occupation: 10,
+  //     blockType: 'house',
+  //     size: '3x3',
+  //     shade: 3,
+  //     wind: 2,
+  //     growable: true,
+  //   },
+  //   {
+  //     layoutId: '2',
+  //     name: 'glasshouse',
+  //     sunLight: 5,
+  //     occupation: 10,
+  //     blockType: 'garden',
+  //     size: '3x3',
+  //     shade: 3,
+  //     wind: 2,
+  //     growable: true,
+  //   },
+  //   {
+  //     layoutId: '3',
+  //     name: 'kitchen garden',
+  //     sunLight: 5,
+  //     occupation: 10,
+  //     blockType: 'garden',
+  //     size: '3x3',
+  //     shade: 3,
+  //     wind: 2,
+  //     growable: true,
+  //   },
+  // ]
+
   const [activeID, setActiveID] = useState<string>('1')
 
   return (

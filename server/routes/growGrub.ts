@@ -126,6 +126,20 @@ router.get('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
   }
 })
 
+// Router for adding new gardens - NOT IN USE, ONLY FOR TESTING
+router.post('/gardens', async (req, res) => {
+  try {
+    const newGarden = req.body.garden
+    const userID = req.body.id
+    const newGardenID = await db.saveNewGarden(newGarden, userID)
+    res.json(newGardenID)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
+
+// Router for adding new plots - NOT IN USE, ONLY FOR TESTING
 router.post('/plots', async (req, res) => {
   try {
     const newPlots = req.body

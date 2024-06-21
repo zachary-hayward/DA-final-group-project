@@ -7,7 +7,9 @@ export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
     .first('id', 'username', 'location')
 }
 
-interface getUsernameProps {username: string}
+interface getUsernameProps {
+  username: string
+}
 export function getUsernames(): Promise<getUsernameProps[]> {
   return db('users').select('username')
 }
@@ -53,7 +55,7 @@ export function getUserGarden(
     )
 }
 
-export function saveNewGarden(userID: string, layout: string): Promise<number> {
+export function saveNewGarden(layout: string, userID: string): Promise<number> {
   const newGarden = {
     user_id: userID,
     layout: layout,
@@ -61,6 +63,7 @@ export function saveNewGarden(userID: string, layout: string): Promise<number> {
   return db('gardens').insert(newGarden).returning('id')
 }
 
+// Friday 21/06 pm - NOTE - need to reconcile this with the changed shape of the data
 export function saveNewPlots(
   blockData: BlockDatum[],
   gardenID: number,
@@ -68,11 +71,11 @@ export function saveNewPlots(
   const plotsToInsert = blockData.map((block) => ({
     garden_id: gardenID,
     plot_number: block.layoutId,
-    name: block.name,
-    shade_level: block.shade,
+    sun_level: block.sunLight,
     plot_type: block.blockType,
     size: block.size,
-    average_wind: block.wind,
+    name: block.name,
+    rain_exposure: block.rainExposure,
   }))
 
   return db('plots').insert(plotsToInsert).returning(['id'])
@@ -85,13 +88,14 @@ export async function addUser(userData: addUserProps) {
   return db('users').insert(userData)
 }
 
+// Note this interface isn't finished yet - need to check against the fields that are in the migration
 interface BlockDatum {
   layoutId: string
   name: string
   sunLight: number
   occupation: number
-  blockType: string
-  size: string
+  blockType: number
+  size: number
   shade: number
   wind: number
   growable: boolean
