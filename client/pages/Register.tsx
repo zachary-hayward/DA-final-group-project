@@ -22,7 +22,7 @@ export default function Register({registered, setRegistered}: Props) {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
-    if (!formData.plants.includes(value)) setFormData((prev) => ({...prev, [name]:value}))
+    setFormData((prev) => ({...prev, [name]:value}))
   }
 
   const handleOnRegister = async () => {
@@ -48,7 +48,7 @@ export default function Register({registered, setRegistered}: Props) {
   }
 
   const handlePlantSelect = (option: string) => {
-    setFormData((prev) => ({...prev, plants: [...prev.plants, option]}))
+    if (!formData.plants.includes(option)) setFormData((prev) => ({...prev, plants: [...prev.plants, option]}))
   }
   
   return (<>
