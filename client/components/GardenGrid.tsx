@@ -36,8 +36,6 @@ export function GardenGrid({
 }: GardenGridProps) {
   // send data to the DB
 
-  // need to solve - if the screen size changes the grid can move slightly
-
   // responsiveness settle?
 
   // style blocks depending on type
@@ -49,7 +47,6 @@ export function GardenGrid({
   ])
 
   const handleAdd = () => {
-    console.log('handleAdd was triggered')
     const newLayout = [...layout]
     const existingHighestIndex = Number(newLayout[newLayout.length - 1].i)
     const newIdx = String(existingHighestIndex + 1)
@@ -78,19 +75,19 @@ export function GardenGrid({
   }
 
   const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
-    setActiveID(e.target.id.slice(5))
+    e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(5)) : null
   }
 
   const handleLayoutChange = (newLay: GridDatum[]) => {
     setLayout(newLay)
   }
+
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }
   return (
     <div className="garden-grid">
       <button onClick={handleAdd}>Add Block</button>
       <ResponsiveGridLayout
         className="layout"
-        // layout={layout}
         onLayoutChange={handleLayoutChange}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={cols}

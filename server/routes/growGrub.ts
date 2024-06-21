@@ -34,19 +34,19 @@ router.post('/users', checkJwt, async (req:JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
-//Gets all usernames to help the registering user avoid double ups on usernames (unique in DB)
-router.get('/usernames', checkJwt, async (req:JwtRequest, res) => {
-  const auth0Id = req.auth?.sub
-  if (!auth0Id) return res.sendStatus(401)
+//Gets all usernames to help the registering user avoid double ups on usernames (unique in DB) NOT IN USE
+router.get('/usernames', async (req , res) => {
   try {
     const usernames = await db.getUsernames()
-    res.json(usernames)
+    const list: string[] = []
+    usernames.forEach(row => list.push(row.username))
+    res.json(list)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
   }
 })
-//Gets all plants
+//Gets all plants NOT IN USE
 router.get('/plants', checkJwt, async (req:JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
@@ -58,7 +58,7 @@ router.get('/plants', checkJwt, async (req:JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
-//Gets all plants the user desires for their garden(s)
+//Gets all plants the user desires for their garden(s) NOT IN USE
 router.get('/plants/desired', checkJwt, async (req:JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
@@ -70,7 +70,7 @@ router.get('/plants/desired', checkJwt, async (req:JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
-//Get the users gardens
+//Get the users gardens NOT IN USE
 router.get('/gardens', checkJwt, async (req:JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
@@ -82,7 +82,7 @@ router.get('/gardens', checkJwt, async (req:JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
-//Gets plots + plants for the garden
+//Gets plots + plants for the garden NOT IN USE
 router.get('/gardens/:id', checkJwt, async (req:JwtRequest, res) => {
   const id = Number(req.params.id)
   const auth0Id = req.auth?.sub

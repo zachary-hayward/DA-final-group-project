@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Outlet } from 'react-router-dom'
 import Footer from './Footer.tsx'
-import NavBar from './NavBar.tsx'
+import Header from './Header.tsx'
 import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
 
 function App() {
-  const [processing, setProcessing] = useState(false)
+  const [processing, setProcessing] = useState(true)
   const [registered, setRegistered] = useState(false)
   const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 
@@ -32,7 +32,7 @@ function App() {
   return (
     <>
       <div className="app min-w-screen min-h-screen">
-        <NavBar />
+        <Header />
         {!isAuthenticated || processing ? (
           <LandingPage />
         ) : (
