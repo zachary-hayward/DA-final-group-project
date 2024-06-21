@@ -1,14 +1,32 @@
-import { useMutation, useQueryClient, MutationFunction } from "@tanstack/react-query"
-import { UserData } from "../../models/growGrub.ts"
-import * as API from '../apis/growGrub.ts'
+import { useMutation, useQueryClient, MutationFunction, useQuery } from "@tanstack/react-query"
+import { useAuth0 } from "@auth0/auth0-react"
+import request from "superagent"
+
+const rootURL = new URL(`/api/v1`, document.baseURI).toString()
 
 export function useHooks() {
   return {
-    addUser: useAddUser()
+    getUsernames: useGetUsernames,
+    getPlants: useGetPlants,
   }
 }
 
-function useMutationTemplate<TData = unknown, TVariables = unknown>(
+function useAuthQueryTemplate(path:string, keys: string[]) {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: keys,
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .get(`${rootURL}/${path}`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+  })
+}
+
+export function useMutationTemplate<TData = unknown, TVariables = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,
   queryKeyArry: Array<string | number>
 ) {
@@ -22,7 +40,21 @@ function useMutationTemplate<TData = unknown, TVariables = unknown>(
   return mutation
 }
 
-interface UseAddUser { userData: UserData; token: string}
-function useAddUser() {
-  return useMutationTemplate(({userData, token}: UseAddUser) => API.addUser(userData, token), ['users'])
+const useGetUsernames = () => {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: ['users'],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .get(`${rootURL}/usernames`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+  })
+}
+
+const useGetPlants = () => {
+  return useAuthQueryTemplate('/plants', ['plants'])
 }

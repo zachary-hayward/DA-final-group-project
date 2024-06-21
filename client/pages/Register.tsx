@@ -1,12 +1,20 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useState, ChangeEvent } from "react"
 import { addUser } from "../apis/growGrub"
+import { useHooks } from "../hooks/useHooks";
 
 interface Props {registered:boolean; setRegistered: (boolean: boolean) => void}
 export default function Register({registered, setRegistered}: Props) {
   const {getAccessTokenSilently} = useAuth0()
   const [formData, setFormData] = useState({username: '', location: ''})
   const [displayMessage, setDisplayMessage] = useState('')
+  const hooks = useHooks()
+
+  const usernameQuery = hooks.getUsernames()
+  const usernameList = usernameQuery.data
+  const plantsQuery = hooks.getPlants()
+  const plantData = plantsQuery.data
+  console.log(plantData) //Use these for plant selection
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target
@@ -14,19 +22,23 @@ export default function Register({registered, setRegistered}: Props) {
   }
 
   const handleOnClick = async () => {
-    const token = await getAccessTokenSilently()
-    try {
-      await addUser(formData, token)
-      setDisplayMessage('Registered successfully! Redirecting you...')
-      setTimeout(() => {
-        setRegistered(true)
-      }, 1500)
-    } catch (error) {
-      setRegistered(false)
-      setDisplayMessage('Something went wrong, try a different username.')
+    if (usernameList && usernameList.includes(formData.username)) {
+      setDisplayMessage('Try a different username')
+    } else {
+      const token = await getAccessTokenSilently()
+      try {
+        await addUser(formData, token)
+        setDisplayMessage('Registered successfully! Redirecting you...')
+        setTimeout(() => {
+          setRegistered(true)
+        }, 1500)
+      } catch (error) {
+        setRegistered(false)
+        setDisplayMessage('Something went wrong, try a different username.')
+      }
     }
   }
-
+  
   return (<>
     <div className='bg-slate-300'>
       <form>
@@ -46,7 +58,7 @@ export default function Register({registered, setRegistered}: Props) {
             onChange={handleChange}
           />
         </div>
-        {!registered &&
+        {!registered && usernameList &&
           <button type='button'
             onClick={() => handleOnClick()}
           >Register</button>

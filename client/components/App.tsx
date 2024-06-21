@@ -8,7 +8,7 @@ import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
 
 function App() {
-  const [processing, setProcessing] = useState(false)
+  const [processing, setProcessing] = useState(true)
   const [registered, setRegistered] = useState(false)
   const { isAuthenticated, getAccessTokenSilently } = useAuth0()
 

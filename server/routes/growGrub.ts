@@ -35,12 +35,12 @@ router.post('/users', checkJwt, async (req:JwtRequest, res) => {
   }
 })
 //Gets all usernames to help the registering user avoid double ups on usernames (unique in DB) NOT IN USE
-router.get('/usernames', checkJwt, async (req:JwtRequest, res) => {
-  const auth0Id = req.auth?.sub
-  if (!auth0Id) return res.sendStatus(401)
+router.get('/usernames', async (req , res) => {
   try {
     const usernames = await db.getUsernames()
-    res.json(usernames)
+    const list: string[] = []
+    usernames.forEach(row => list.push(row.username))
+    res.json(list)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
