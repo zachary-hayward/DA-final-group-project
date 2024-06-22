@@ -10,7 +10,7 @@ interface Props {
 
 function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
   const [currentPlot, setCurrentPlot] = useState(
-    plotData.find((plot) => plot.layoutId === activeID),
+    plotData.find((plot) => plot.plotNumber === activeID),
   )
 
   function handleChange(
@@ -38,7 +38,7 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
   // otherwise hide the rest of the form.
 
   function setPlots(newPlot: PlotDatum) {
-    const otherPlots = plotData.filter((plot) => plot.layoutId !== activeID)
+    const otherPlots = plotData.filter((plot) => plot.plotNumber !== activeID)
     setCurrentPlot({ ...newPlot })
     setPlotData([...otherPlots, newPlot])
   }
@@ -76,7 +76,7 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
             <option value="garden">Garden patch</option>
             <option value="house">House</option>
             <option value="Path">Path</option>
-            <option value="Grass">Grass</option>
+            <option value="grass">Grass</option>
           </select>
           <br />
           <label htmlFor="growable">Could you grow food inside?</label>
@@ -153,20 +153,18 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
         </select>{' '}
         <br />
         {/* Shade */}
-        <label htmlFor="shade">Sun: </label> <br />
+        <label htmlFor="sunLight">Sun: </label> <br />
         <select
-          value={currentPlot?.shade}
-          name="shade"
-          id="shade"
+          value={currentPlot?.sunLight}
+          name="sunLight"
+          id="sunLight"
           onChange={handleChange}
           className="dropmenu"
         >
           <option value="">How much sun does it get?</option>
-          <option value="1">Always sunny</option>
-          <option value="2">It gets a lot of sun</option>
-          <option value="3">Half a days sun</option>
-          <option value="4">Pretty shady</option>
-          <option value="5">Fully shaded</option>
+          <option value="full-shade">Mostly shade</option>
+          <option value="part-sun">Half a days sun</option>
+          <option value="full-sun">Always sunny</option>
         </select>{' '}
         <br />
         {/* Wind */}

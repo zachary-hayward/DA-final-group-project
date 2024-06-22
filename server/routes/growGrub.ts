@@ -130,14 +130,13 @@ router.get('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
 router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
-  const userID = await db.getUserByAuth0Id(auth0Id)
+  const user = await db.getUserByAuth0Id(auth0Id)
   try {
     const newGarden = req.body
-    console.log(newGarden)
-    console.log(userID)
-    // const userID = req.body.id
-    // const newGardenID = await db.saveNewGarden(newGarden, userID)
-    // res.json(newGardenID)
+    const layoutString = JSON.stringify(newGarden.layout)
+    const newGardenID = await db.saveNewGarden(layoutString, user.id)
+    const newPlotIDs = await db.saveNewPlots(newGarden.plotData, newGardenID[0])
+    res.json({ newGardenID, newPlotIDs })
   } catch (error) {
     console.log(error)
     res.sendStatus(500)

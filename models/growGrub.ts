@@ -44,7 +44,7 @@ export interface GardenDB {
 }
 
 export interface PlotDatum {
-  layoutId: string
+  plotNumber: string
   name: string
   sunLight: string
   blockType: string

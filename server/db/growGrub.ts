@@ -56,12 +56,15 @@ export function getUserGarden(
     )
 }
 
-export function saveNewGarden(layout: string, userID: string): Promise<number> {
+export function saveNewGarden(
+  layout: string,
+  userID: number,
+): Promise<number[]> {
   const newGarden = {
     user_id: userID,
     layout: layout,
   }
-  return db('gardens').insert(newGarden).returning('id')
+  return db('gardens').insert(newGarden)
 }
 
 // Friday 21/06 pm - NOTE - need to reconcile this with the changed shape of the data
@@ -71,13 +74,15 @@ export function saveNewPlots(
 ): Promise<number[]> {
   const plotsToInsert = blockData.map((block) => ({
     garden_id: gardenID,
-    plot_number: block.layoutId,
+    plot_number: block.plotNumber,
     sun_level: block.sunLight,
     plot_type: block.blockType,
     size: block.size,
     name: block.name,
     rain_exposure: block.rainExposure,
   }))
+
+  // may be good to add growable to table
 
   return db('plots').insert(plotsToInsert).returning(['id'])
 }

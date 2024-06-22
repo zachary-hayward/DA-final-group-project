@@ -41,14 +41,12 @@ export function GardenGrid({
     setActiveID(newIdx)
     const newPlotData = [...plotData]
     newPlotData.push({
-      layoutId: newIdx,
+      plotNumber: newIdx,
       name: `Block ${newIdx}`,
-      sunLight: 0,
-      occupation: 0,
-      blockType: '',
+      sunLight: 'full-sun',
+      blockType: 'garden',
       size: '',
-      shade: 0,
-      wind: 0,
+      rainExposure: 'fully',
       growable: true,
     })
     setPlotData(newPlotData)
@@ -84,8 +82,9 @@ export function GardenGrid({
             data-grid={{ x: block.x, y: block.y, h: block.h, w: block.w }}
           >
             {
-              [...plotData].find((blockEntry) => blockEntry.layoutId == block.i)
-                ?.name
+              [...plotData].find(
+                (blockEntry) => blockEntry.plotNumber == block.i,
+              )?.name
             }
           </button>
         ))}

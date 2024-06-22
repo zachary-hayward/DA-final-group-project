@@ -9,7 +9,7 @@ export function GardenView() {
 
   const [plotData, setPlotData] = useState([
     {
-      layoutId: '1',
+      plotNumber: '1',
       name: 'window garden',
       sunLight: 'full-sun',
       blockType: 'house',
@@ -18,7 +18,7 @@ export function GardenView() {
       growable: true,
     },
     {
-      layoutId: '2',
+      plotNumber: '2',
       name: 'glasshouse',
       sunLight: 'part-sun',
       blockType: 'garden',
@@ -27,7 +27,7 @@ export function GardenView() {
       growable: true,
     },
     {
-      layoutId: '3',
+      plotNumber: '3',
       name: 'kitchen garden',
       sunLight: 'full-shade',
       blockType: 'garden',
@@ -45,6 +45,10 @@ export function GardenView() {
 
   const onSaveGarden = async () => {
     saveGarden.mutateAsync({ layout, plotData })
+  }
+
+  if (saveGarden.data) {
+    console.log(saveGarden.data)
   }
 
   return (

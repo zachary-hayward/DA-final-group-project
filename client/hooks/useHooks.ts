@@ -103,8 +103,12 @@ export function useSaveGarden() {
   return useMutation({
     mutationFn: async ({ layout, plotData }: GardenToSave) => {
       const token = await getAccessTokenSilently()
-      const newGarden = { layout, plotData}
-      await request.post(`api/v1/gardens`).send(newGarden).set('Authorization', `Bearer ${token}`)
+      const newGarden = { layout, plotData }
+      const res = await request
+        .post(`api/v1/gardens`)
+        .send(newGarden)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
     },
 
     onSuccess: async () => {
