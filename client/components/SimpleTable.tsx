@@ -1,4 +1,9 @@
-export default function NotesTable() {
+interface TableProps {
+  title: string
+  content: string
+}
+
+const SimpleTable: React.FC<ListItemProps> = ({ title, content }) => {
   // Example data (replace with your actual data)
   const notes = [
     { id: 1, title: 'Note 1', content: 'Content of Note 1' },
@@ -10,7 +15,7 @@ export default function NotesTable() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-4 flex items-center justify-between">
         <div className="text-2xl font-bold">Notes</div>
-        <button className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600">
+        <button className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600">
           Add Note
         </button>
       </div>
@@ -23,7 +28,6 @@ export default function NotesTable() {
             <tr>
               <th className="border border-gray-300 px-4 py-2">Title</th>
               <th className="border border-gray-300 px-4 py-2">Content</th>
-              <th className="border border-gray-300 px-4 py-2">Edit</th>
             </tr>
           </thead>
 
@@ -41,7 +45,7 @@ export default function NotesTable() {
                   {note.content}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  <button className="rounded bg-blue-500 px-2 py-1 font-bold text-white hover:bg-blue-600">
+                  <button className="rounded bg-green-500 px-2 py-1 font-bold text-white hover:bg-green-600">
                     Edit
                   </button>
                 </td>
@@ -53,3 +57,5 @@ export default function NotesTable() {
     </div>
   )
 }
+
+export default SimpleTable
