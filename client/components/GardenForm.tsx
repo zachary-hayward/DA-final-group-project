@@ -1,14 +1,29 @@
 import { useState } from 'react'
 import type { PlotDatum } from '../../models/growGrub'
+import PrimaryButton from './PrimaryButton'
+import TertiaryButton from './TertiaryButton'
+import DeleteButton from './DeleteButton'
+import { Layout } from 'react-grid-layout'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 interface Props {
   plotData: PlotDatum[]
   setPlotData: React.Dispatch<React.SetStateAction<PlotDatum[]>>
   activeID: string
   onSaveGarden: () => void
+  layout: Layout[]
+  setLayout: React.Dispatch<React.SetStateAction<Layout[]>>
 }
 
-function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
+function GardenForm({
+  plotData,
+  setPlotData,
+  activeID,
+  onSaveGarden,
+  layout,
+  setLayout,
+}: Props) {
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
   )
@@ -16,14 +31,15 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
   function handleChange(
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
   ) {
-    const value = isNaN(Number(e.target.value))
-      ? e.target.value
-      : Number(e.target.value)
+    const value =
+      isNaN(Number(e.target.value)) || e.target.value === ''
+        ? e.target.value
+        : Number(e.target.value)
 
     const newPlot = {
-      ...currentPlot!,
-      [e.target.name]: value,
-    }
+          ...currentPlot!,
+          [e.target.name]: value,
+        }
     setPlots(newPlot)
   }
 
@@ -43,16 +59,40 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
     setPlotData([...otherPlots, newPlot])
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleDeleteButtonPush() {
+    confirmAlert({
+      title: `Delete ${currentPlot?.name ? `${currentPlot?.name} plot` : `plot ${activeID}`}?`,
+      message: 'Are you sure, you will lose all of your plants data?',
+      buttons: [
+        {
+          label: 'Delete',
+          onClick: handleDelete,
+        },
+        { label: 'No, save me!' },
+      ],
+    })
+  }
+
+  function handleDelete() {
+    const plotsWithoutDeleted = plotData.filter(
+      (plot) => plot.plotNumber !== String(activeID),
+    )
+    const layoutWithoutDeleted = layout.filter(
+      (obj) => obj.i !== String(activeID),
+    )
+    setPlotData([...plotsWithoutDeleted])
+    setLayout([...layoutWithoutDeleted])
+  }
+
+  function handleSubmit(e: React.MouseEvent) {
     e.preventDefault()
     onSaveGarden()
-    console.log(plotData)
   }
 
   if (currentPlot?.blockType === 'house' && currentPlot?.growable === false) {
     return (
       <div className="garden-form">
-        <form onSubmit={handleSubmit}>
+        <form>
           {/* Name */}
           <input
             type="text"
@@ -73,9 +113,9 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
             className="dropmenu"
           >
             <option value="">No type</option>
-            <option value="garden">Garden patch</option>
+            <option value="garden">Garden</option>
             <option value="house">House</option>
-            <option value="Path">Path</option>
+            <option value="path">Path</option>
             <option value="grass">Grass</option>
           </select>
           <br />
@@ -96,7 +136,7 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
 
   return (
     <div className="garden-form">
-      <form onSubmit={handleSubmit}>
+      <form>
         {/* Name */}
         <input
           type="text"
@@ -119,8 +159,8 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
           <option value="">No type</option>
           <option value="garden">Garden patch</option>
           <option value="house">House</option>
-          <option value="Path">Path</option>
-          <option value="Grass">Grass</option>
+          <option value="path">Path</option>
+          <option value="grass">Grass</option>
         </select>
         <br />
         {currentPlot?.blockType === 'house' && (
@@ -146,10 +186,11 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
           className="dropmenu"
         >
           <option value="">How big is it?</option>
-          <option value="1x1">1x1</option>
-          <option value="2x2">2x2</option>
-          <option value="3x3">3x3</option>
-          <option value="4x4">4x4</option>
+          <option value="1">1x1</option>
+          <option value="2">2x2</option>
+          <option value="3">3x3</option>
+          <option value="4">4x4</option>
+          <option value="5">5x5</option>
         </select>{' '}
         <br />
         {/* Shade */}
@@ -204,11 +245,17 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
           <option value="100">100%</option>
         </select>{' '}
         <br /> */}
-        <button className="add-plant" type="button">
+        <TertiaryButton onClick={() => console.log('clicked')}>
           Add plant
-        </button>
+        </TertiaryButton>
+        {/* <button className="add-plant" type="button">
+          Add plant
+        </button> */}
         <br />
-        <button className="save-garden">Save garden & exit</button>
+        <PrimaryButton onClick={handleSubmit}>Save garden & exit</PrimaryButton>
+        <DeleteButton onClick={handleDeleteButtonPush}>
+          Delete plot
+        </DeleteButton>
       </form>
     </div>
   )

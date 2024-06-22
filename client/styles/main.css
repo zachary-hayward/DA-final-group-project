@@ -20,7 +20,7 @@
 /* Instruction List */
 
 .list-container {
-  @apply mx-auto max-w-4xl px-10 py-2;
+  @apply mx-auto max-w-4xl py-2;
 }
 
 .list-grid {
@@ -40,10 +40,6 @@
 }
 
 /* Grid */
-
-.red {
-  background-color: red;
-}
 
 .gardenview {
   display: flex;
@@ -84,6 +80,45 @@
   border-radius: 0.35em;
 }
 
+.del-plot {
+  background-color: crimson;
+  color: #fbfbfb;
+  padding: 0.35em 0.7em;
+  border-radius: 0.35em;
+  font-weight: 400;
+}
+
+.del-plot:hover {
+  background-color: red;
+}
+
 #nameInput {
   background-color: #fbfbfb;
+}
+
+.house {
+  background-color: lightseagreen;
+  border: solid black;
+}
+
+.grass {
+  background-color: #609936;
+}
+
+.garden {
+  background-color: rgb(125, 45, 45);
+}
+
+.path {
+  background-color: grey;
+}
+
+.mt0 {
+  margin-top: 0;
+}
+
+.react-confirm-alert-body > h1 {
+  font-size: xx-large;
+  font-weight: 700;
+  margin-bottom: 1em;
 }

@@ -48,7 +48,7 @@ export interface PlotDatum {
   name: string
   sunLight: string
   blockType: string
-  size: string
+  size: number
   rainExposure: string
   growable: boolean
 }
