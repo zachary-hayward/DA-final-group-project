@@ -8,7 +8,8 @@ interface UserData {username: string; location: string; plants: string[]}
 interface Props {registered:boolean; setRegistered: (boolean: boolean) => void}
 export default function Register({registered, setRegistered}: Props) {
   const {getAccessTokenSilently} = useAuth0()
-  const [formData, setFormData] = useState<UserData>({username: '', location: '', plants: []})
+  const [formData, setFormData] = useState<UserData>({username: '', location: ''})
+  const [plantsData, setPlantsData] = useState<string[]>([])
   const [displayMessage, setDisplayMessage] = useState('')
   const hooks = useHooks()
 
@@ -48,7 +49,7 @@ export default function Register({registered, setRegistered}: Props) {
   }
 
   const handlePlantSelect = (option: string) => {
-    if (!formData.plants.includes(option)) setFormData((prev) => ({...prev, plants: [...prev.plants, option]}))
+    setPlantsData((prev) => [...prev, option])
   }
   
   return (<>
@@ -76,7 +77,7 @@ export default function Register({registered, setRegistered}: Props) {
         <div className='ml-5 mt-1'>
           <p className='font-bold'>Plants your interested in:</p>
           <ul>
-            {formData.plants[0] && formData.plants.map((plant,i) => (
+            {plantsData[0] && plantsData.map((plant,i) => (
               <li key={`plant${i}`}>
                 {plant}
               </li>
