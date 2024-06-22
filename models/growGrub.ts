@@ -40,3 +40,23 @@ export interface GardenDB {
   sunlight: number
   cycle: string
 }
+
+export interface plantCareData {
+  id: number
+  plantName: string
+  scientificName: string
+  description: string
+  soil: string
+  sunlight: string
+  watering: string
+  fertilization: string
+  pruning: string
+  pests: string
+  diseases: string
+  indoorsPlantingTime: string
+  outdoorsPlantingTime: string
+  spacing: string
+  plantingTime: string
+  havestingTime: string
+  harvestingTips: string
+}

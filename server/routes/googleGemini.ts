@@ -65,10 +65,10 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
       .replace(new RegExp(`\\s`, 'g'), ' ')
 
     // add db function to add what we get from Gemini to db
-    await addVege(JSON.stringify(newStr))
-    console.log(newStr)
-    res.json(JSON.parse(newStr))
-    // console.log(JSON.stringify(response.candidates))
+    await addVege(JSON.parse(newStr))
+    // console.log(newStr)
+    // res.json(JSON.parse(newStr))
+    res.send(newStr)
   } catch (err) {
     if (err instanceof Error) {
       console.log(err.message)

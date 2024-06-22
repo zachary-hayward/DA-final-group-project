@@ -62,54 +62,27 @@ export async function addUser(userData: addUserProps) {
   return db('users').insert(userData)
 }
 
-export async function addVege(promptResult) {
-  try {
-    const promptData = {
-      plantName: 'Watermelon',
-      scientificName: promptResult[0].scientificName,
-      description: promptResult[0].description,
-      soil: promptResult[0].soil,
-      sunlight: promptResult[0].sunlight,
-      watering: promptResult[0].watering,
-      fertilization: promptResult[0].fertilization,
-      pruning: promptResult[0].pruning,
-      pests: promptResult[0].pests,
-      diseases: promptResult[0].diseases,
-      indoorsPlantingTime: promptResult[1].indoorsPlantingTime,
-      outdoorsPlantingTime: promptResult[1].outdoorsPlantingTime,
-      spacing: promptResult[1].spacing,
-      plantingTime: promptResult[1].plantingTime,
-      havestingTime: promptResult[2].harvestingTime,
-      harvestingTips: promptResult[2].harvestingTips,
-    }
-    const [insertedData] = await db('plant_care_data')
-      .insert(promptData)
-      .returning('*')
-    console.log(promptData)
-    return insertedData
-  } catch (error) {
-    console.error(`Error adding plant: ${error}`)
-    throw error
+export async function addVege(prompResult) {
+  const promptData = {
+    plantName: prompResult.plantCareData[0].plantName,
+    scientificName: prompResult.plantCareData[0].scientificName,
+    description: prompResult.plantCareData[0].description,
+    soil: prompResult.plantCareData[0].careInstructions.soil,
+    sunlight: prompResult.plantCareData[0].careInstructions.sunlight,
+    watering: prompResult.plantCareData[0].careInstructions.watering,
+    fertilization: prompResult.plantCareData[0].careInstructions.fertilization,
+    pruning: prompResult.plantCareData[0].careInstructions.pruning,
+    pests: prompResult.plantCareData[0].careInstructions.pests,
+    diseases: prompResult.plantCareData[0].careInstructions.diseases,
+    indoorsPlantingTime:
+      prompResult.plantCareData[0].plantingTime.indoorsPlantingTime,
+    outdoorsPlantingTime:
+      prompResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
+    spacing: prompResult.plantCareData[0].plantingTime.spacing,
+    plantingTime: prompResult.plantCareData[0].plantingTime.plantingTime,
+    havestingTime: prompResult.plantCareData[0].harvesting.harvestingTime,
+    harvestingTips: prompResult.plantCareData[0].harvesting.harvestingTips,
   }
-
-  // const promptData = {
-  //   plantName: 'Watermelon',
-  //   scientificName: prompResult[0].scientificName,
-  //   description: prompResult[0].description,
-  //   soil: prompResult[0].soil,
-  //   sunlight: prompResult[0].sunlight,
-  //   watering: prompResult[0].watering,
-  //   fertilization: prompResult[0].fertilization,
-  //   pruning: prompResult[0].pruning,
-  //   pests: prompResult[0].pests,
-  //   diseases: prompResult[0].diseases,
-  //   indoorsPlantingTime: prompResult[1].indoorsPlantingTime,
-  //   outdoorsPlantingTime: prompResult[1].outdoorsPlantingTime,
-  //   spacing: prompResult[1].spacing,
-  //   plantingTime: prompResult[1].plantingTime,
-  //   havestingTime: prompResult[2].harvestingTime,
-  //   harvestingTips: prompResult[2].harvestingTips,
-  // }
-  // console.log(promptData)
-  // return db('plant_care_data').insert(promptData)
+  console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
+  return db('plant_care_data').insert(promptData)
 }
