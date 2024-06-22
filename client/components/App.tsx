@@ -6,6 +6,7 @@ import Header from './Header.tsx'
 import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
+import SinglePlant from '../pages/SinglePlant.tsx'
 import NotesTable from './Table.tsx'
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             )}
           </>
         )}
+        <SinglePlant />
         <NotesTable />
         <Footer />
       </div>
