@@ -32,10 +32,10 @@ export function GardenGrid({
     const newIdx = String(existingHighestIndex + 1)
     newLayout.push({
       i: newIdx,
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 1,
+      x: 20,
+      y: 20,
+      w: 8,
+      h: 3,
     })
     setLayout(newLayout)
     setActiveID(newIdx)
@@ -70,7 +70,7 @@ export function GardenGrid({
         onLayoutChange={handleLayoutChange}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={cols}
-        rowHeight={30}
+        rowHeight={15}
         // width={1200}
         margin={[0, 0]}
       >
