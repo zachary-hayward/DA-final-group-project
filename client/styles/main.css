@@ -20,7 +20,7 @@
 /* Instruction List */
 
 .list-container {
-  @apply mx-auto max-w-4xl px-10 py-2;
+  @apply mx-auto max-w-4xl py-2;
 }
 
 .list-grid {

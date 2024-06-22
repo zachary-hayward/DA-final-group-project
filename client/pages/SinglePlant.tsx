@@ -3,6 +3,7 @@
 
 import InstructionListItem from '../components/InstructionListItem'
 
+// mockData
 const plantData: {
   plantName: string
   scientificName: string
@@ -62,7 +63,7 @@ const plantData: {
 export default function SinglePlant() {
   return (
     <>
-      {/* Page Banner */}
+      {/* Page Banner - hard coded - currently WIP of componentising it */}
       <div>
         <div className="banner-container">
           <div className="mx-auto max-w-7xl">
@@ -88,271 +89,96 @@ export default function SinglePlant() {
             </div>
           </div>
         </div>
-        {/* Care Instructions - the list items should be componentised */}
-
-        <InstructionListItem
-          iconSrc={'/images/flat-icons/soil.png'}
-          title={}
-          description={plantData.careInstructions.soil}
-        />
+        {/* Care Instructions*/}
         <div>
           <div className="list-container">
             <h3 className="container-title">Care instructions</h3>
-            <div className="list-grid">
-              <div className="col-span-1">
-                <img
-                  className="h-12 w-12"
-                  src="/images/flat-icons/soil.png"
-                  alt="Soil"
-                />
-              </div>
-              <div className="col-span-11">
-                <h4 className="list-title">Soil </h4>
-                <p className="list-description">
-                  {plantData.careInstructions.soil}
-                </p>
-              </div>
-            </div>
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/soil.png'}
+              title={'Soil'} // Hard coded for now because of mockdata!
+              description={plantData.careInstructions.soil}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/sun.png'}
+              title={'Sun'} // Hard coded for now because of mockdata!
+              description={plantData.careInstructions.sunlight}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/drop.png'}
+              title={'Watering'} // Hard coded for now because of mockdata!
+              description={plantData.careInstructions.watering}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/fertilizer.png'}
+              title={'Fertiliser'} // Hard coded for now because of mockdata!
+              description={plantData.careInstructions.fertilization}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/pruning-shears.png'}
+              title={'Pruning'} // Hard coded for now because of mockdata!
+              description={plantData.careInstructions.pruning}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/bug-spray.png'}
+              title={'Pests'} // Hard coded for now because of mockdata!
+              description={plantData.careInstructions.pests}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/pests.png'}
+              title={'Disease Prevention'} // Hard coded for now because of mockdata!
+              description={plantData.careInstructions.diseases}
+            />
           </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/sun.png"
-                    alt="Sunlight"
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Sunlight</h4>
-                  <p className="list-description">
-                    {plantData.careInstructions.sunlight}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/drop.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Watering</h4>
-                  <p className="list-description">
-                    {plantData.careInstructions.watering}
-                  </p>
-                </div>
-              </div>
-            </div>
+        </div>
+
+        {/* Planting Instructions*/}
+        <div>
+          <div className="list-container">
+            <h3 className="container-title">Planting</h3>
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/damage.png'}
+              title={'Outdoors'} // Hard coded for now because of mockdata!
+              description={plantData.plantingTime.outdoors}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/indoor-plants.png'}
+              title={'Indoors'} // Hard coded for now because of mockdata!
+              description={plantData.plantingTime.indoors}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/measure.png'}
+              title={'Spacing'} // Hard coded for now because of mockdata!
+              description={plantData.plantingTime.spacing}
+            />
+            <InstructionListItem
+              iconSrc={'/images/flat-icons/calendar.png'}
+              title={'Season'} // Hard coded for now because of mockdata!
+              description={plantData.plantingTime.time}
+            />
           </div>
 
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/fertilizer.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Fertilisation</h4>
-                  <p className="list-description">
-                    {plantData.careInstructions.fertilization}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/pruning-shears.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Pruning </h4>
-                  <p className="list-description">
-                    {plantData.careInstructions.pruning}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/bug-spray.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Pests </h4>
-                  <p className="list-description">
-                    {plantData.careInstructions.pests}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/pests.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Disease prevention </h4>
-                  <p className="list-description">
-                    {plantData.careInstructions.diseases}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div>
-            <div className="list-container">
-              <h3 className="container-title">Planting</h3>
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/damage.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Outdoors </h4>
-                  <p className="list-description">
-                    {plantData.plantingTime.outdoors}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/indoor-plants.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Indoors </h4>
-                  <p className="list-description">
-                    {plantData.plantingTime.indoors}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/measure.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Spacing </h4>
-                  <p className="list-description">
-                    {plantData.plantingTime.spacing}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/calendar.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Season </h4>
-                  <p className="list-description">
-                    {plantData.plantingTime.time}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
+          {/* Harvesting Instructions*/}
           <div>
             <div className="list-container">
               <h3 className="container-title">Harvesting</h3>
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/harvest.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Season</h4>
-                  <p className="list-description">
-                    {plantData.harvesting.time}
-                  </p>
-                </div>
+              <InstructionListItem
+                iconSrc={'/images/flat-icons/harvest.png'}
+                title={'Season'} // Hard coded for now because of mockdata!
+                description={plantData.harvesting.time}
+              />
+              <InstructionListItem
+                iconSrc={'/images/flat-icons/idea.png'}
+                title={'Tips'} // Hard coded for now because of mockdata!
+                description={plantData.harvesting.tips}
+              />
+            </div>
+
+            {/* Notes Tables*/}
+            <div>
+              <div className="list-container">
+                <h3 className="container-title">My Notes</h3>
               </div>
             </div>
-          </div>
-          <div>
-            <div className="list-container">
-              <div className="list-grid">
-                <div className="col-span-1">
-                  <img
-                    className="h-12 w-12"
-                    src="/images/flat-icons/idea.png"
-                    alt={plantData.plantName}
-                  />
-                </div>
-                <div className="col-span-11">
-                  <h4 className="list-title">Tips</h4>
-                  <p className="list-description">
-                    {plantData.harvesting.tips}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className="list-container">
-            <h3 className="container-title">My Notes</h3>
           </div>
         </div>
       </div>
