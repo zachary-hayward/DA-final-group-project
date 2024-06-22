@@ -37,9 +37,9 @@ function GardenForm({
         : Number(e.target.value)
 
     const newPlot = {
-      ...currentPlot!,
-      [e.target.name]: value,
-    }
+          ...currentPlot!,
+          [e.target.name]: value,
+        }
     setPlots(newPlot)
   }
 
@@ -74,7 +74,6 @@ function GardenForm({
   }
 
   function handleDelete() {
-    // are you sure????????
     const plotsWithoutDeleted = plotData.filter(
       (plot) => plot.plotNumber !== String(activeID),
     )
@@ -114,7 +113,7 @@ function GardenForm({
             className="dropmenu"
           >
             <option value="">No type</option>
-            <option value="garden">Garden patch</option>
+            <option value="garden">Garden</option>
             <option value="house">House</option>
             <option value="path">Path</option>
             <option value="grass">Grass</option>
