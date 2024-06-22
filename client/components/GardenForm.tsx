@@ -4,6 +4,8 @@ import PrimaryButton from './PrimaryButton'
 import TertiaryButton from './TertiaryButton'
 import DeleteButton from './DeleteButton'
 import { Layout } from 'react-grid-layout'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 interface Props {
   plotData: PlotDatum[]
@@ -55,6 +57,20 @@ function GardenForm({
     const otherPlots = plotData.filter((plot) => plot.plotNumber !== activeID)
     setCurrentPlot({ ...newPlot })
     setPlotData([...otherPlots, newPlot])
+  }
+
+  function handleDeleteButtonPush() {
+    confirmAlert({
+      title: `Delete ${currentPlot?.name ? `${currentPlot?.name} plot` : `plot ${activeID}`}?`,
+      message: 'Are you sure, you will lose all of your plants data?',
+      buttons: [
+        {
+          label: 'Delete',
+          onClick: handleDelete,
+        },
+        { label: 'No, save me!' },
+      ],
+    })
   }
 
   function handleDelete() {
@@ -238,7 +254,9 @@ function GardenForm({
         </button> */}
         <br />
         <PrimaryButton onClick={handleSubmit}>Save garden & exit</PrimaryButton>
-        <DeleteButton onClick={handleDelete}>Delete plot</DeleteButton>
+        <DeleteButton onClick={handleDeleteButtonPush}>
+          Delete plot
+        </DeleteButton>
       </form>
     </div>
   )

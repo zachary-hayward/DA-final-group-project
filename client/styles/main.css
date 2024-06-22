@@ -116,3 +116,9 @@
 .mt0 {
   margin-top: 0;
 }
+
+.react-confirm-alert-body > h1 {
+  font-size: xx-large;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
