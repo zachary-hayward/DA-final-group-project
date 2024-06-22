@@ -1,14 +1,65 @@
 // import { useParams } from 'react-router-dom'
 // import React from "react"
 
-export default function SinglePlant() {
-  // const { id } = useParams()
-  // const { data, isError, isLoading, error } =
+import InstructionListItem from '../components/InstructionListItem'
 
-  // if (!id) {
-  //     throw new Error()
-  // }
-  // console.log("tell me what u see")
+const plantData: {
+  plantName: string
+  scientificName: string
+  description: string
+  careInstructions: {
+    soil: string
+    sunlight: string
+    watering: string
+    fertilization: string
+    pruning: string
+    pests: string
+    diseases: string
+  }
+  plantingTime: {
+    indoors: string
+    outdoors: string
+    spacing: string
+    time: string
+  }
+  harvesting: {
+    time: string
+    tips: string
+  }
+} = {
+  plantName: 'Tomato',
+  scientificName: 'Solanum lycopersicum',
+  description:
+    'Tomatoes are popular garden plants grown for their delicious fruits, which come in a variety of shapes, sizes, and colors.',
+  careInstructions: {
+    soil: 'Well-drained, fertile soil rich in organic matter.',
+    sunlight: 'Full sun, at least 6-8 hours of direct sunlight per day.',
+    watering:
+      'Regular watering, keeping the soil consistently moist but not waterlogged.',
+    fertilization:
+      'Feed with balanced fertilizer at planting and during the growing season.',
+    pruning: 'Remove suckers to encourage strong growth and fruit production.',
+    pests:
+      'Watch for pests like aphids, hornworms, and tomato fruitworms. Use organic pest control methods if needed.',
+    diseases:
+      'Prevent diseases like blight and wilt by ensuring good air circulation and avoiding overhead watering.',
+  },
+  plantingTime: {
+    indoors:
+      'Start seeds indoors 6-8 weeks before the last frost date in your area.',
+    outdoors:
+      'Transplant seedlings outdoors after all danger of frost has passed and soil temperatures are consistently above 55°F (13°C).',
+    spacing:
+      'Plant seedlings 18-24 inches apart in rows spaced 24-36 inches apart.',
+    time: 'Spring: September to November. Summer: December to February',
+  },
+  harvesting: {
+    time: 'Harvest tomatoes when they are firm, fully colored, and have reached their mature size. This is typically 60-85 days after transplanting.',
+    tips: 'Pick tomatoes regularly to encourage continued fruit production.',
+  },
+}
+
+export default function SinglePlant() {
   return (
     <>
       {/* Page Banner */}
@@ -38,6 +89,12 @@ export default function SinglePlant() {
           </div>
         </div>
         {/* Care Instructions - the list items should be componentised */}
+
+        <InstructionListItem
+          iconSrc={'/images/flat-icons/soil.png'}
+          title={}
+          description={plantData.careInstructions.soil}
+        />
         <div>
           <div className="list-container">
             <h3 className="container-title">Care instructions</h3>
@@ -301,37 +358,4 @@ export default function SinglePlant() {
       </div>
     </>
   )
-}
-
-const plantData = {
-  plantName: 'Tomato',
-  scientificName: 'Solanum lycopersicum',
-  description:
-    'Tomatoes are popular garden plants grown for their delicious fruits, which come in a variety of shapes, sizes, and colors.',
-  careInstructions: {
-    soil: 'Well-drained, fertile soil rich in organic matter.',
-    sunlight: 'Full sun, at least 6-8 hours of direct sunlight per day.',
-    watering:
-      'Regular watering, keeping the soil consistently moist but not waterlogged.',
-    fertilization:
-      'Feed with balanced fertilizer at planting and during the growing season.',
-    pruning: 'Remove suckers to encourage strong growth and fruit production.',
-    pests:
-      'Watch for pests like aphids, hornworms, and tomato fruitworms. Use organic pest control methods if needed.',
-    diseases:
-      'Prevent diseases like blight and wilt by ensuring good air circulation and avoiding overhead watering.',
-  },
-  plantingTime: {
-    indoors:
-      'Start seeds indoors 6-8 weeks before the last frost date in your area.',
-    outdoors:
-      'Transplant seedlings outdoors after all danger of frost has passed and soil temperatures are consistently above 55°F (13°C).',
-    spacing:
-      'Plant seedlings 18-24 inches apart in rows spaced 24-36 inches apart.',
-    time: 'Spring: September to November. Summer: December to February',
-  },
-  harvesting: {
-    time: 'Harvest tomatoes when they are firm, fully colored, and have reached their mature size. This is typically 60-85 days after transplanting.',
-    tips: 'Pick tomatoes regularly to encourage continued fruit production.',
-  },
 }
