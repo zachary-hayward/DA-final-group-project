@@ -69,27 +69,23 @@ export function saveNewGarden(
 
 // Size mismatch + add growable
 export function saveNewPlots(
-  blockData: PlotDatum[],
+  plotData: PlotDatum[],
   gardenID: number,
 ): Promise<number[]> {
-  const plotsToInsert = blockData.map((block) => ({
+  const plotsToInsert = plotData.map((plot) => ({
     garden_id: gardenID,
-    plot_number: block.plotNumber,
-    sun_level: block.sunLight,
-    plot_type: block.blockType,
-    size: block.size,
-    name: block.name,
-    rain_exposure: block.rainExposure,
+    plot_number: plot.plotNumber,
+    sun_level: plot.sunLight,
+    plot_type: plot.blockType,
+    size: plot.size,
+    name: plot.name,
+    rain_exposure: plot.rainExposure,
   }))
   return db('plots').insert(plotsToInsert).returning(['id'])
 }
 
 export function getPlotsByGardenID(garden_id: number) {
   return db('plots').where({ garden_id }).select().first()
-}
-
-export function getGardenIDByUserID(user_id: number) {
-  return db('gardens').where({ user_id }).select().first()
 }
 
 export function updateGardenLayout(
@@ -99,6 +95,33 @@ export function updateGardenLayout(
   return db('gardens')
     .where({ garden_id })
     .update('layout', updatedLayoutString)
+}
+
+export async function updatePlots(
+  plotData: PlotDatum[],
+  garden_id: number,
+): Promise<void> {
+  try {
+    const resultArray = await plotData.map(
+      async (plot) =>
+        await db('plots')
+          .where({ garden_id, plot_number: plot.plotNumber })
+          .update({
+            sun_level: plot.sunLight,
+            plot_type: plot.blockType,
+            size: plot.size,
+            name: plot.name,
+            rain_exposure: plot.rainExposure,
+          }),
+    )
+    // return resultArray
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function deletePlotsByID(plotIDs: number[]) {
+  return db('plots').whereIn('id', plotIDs).delete()
 }
 
 interface addUserProps extends UserData {
