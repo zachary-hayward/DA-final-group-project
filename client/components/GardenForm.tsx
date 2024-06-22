@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import type { PlotDatum } from '../../models/growGrub'
 import PrimaryButton from './PrimaryButton'
+import TertiaryButton from './TertiaryButton'
+import DeleteButton from './DeleteButton'
 
 interface Props {
   plotData: PlotDatum[]
@@ -45,7 +47,9 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
     setPlotData([...otherPlots, newPlot])
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleDelete() {}
+
+  function handleSubmit(e: React.MouseEvent) {
     e.preventDefault()
     onSaveGarden()
   }
@@ -53,7 +57,7 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
   if (currentPlot?.blockType === 'house' && currentPlot?.growable === false) {
     return (
       <div className="garden-form">
-        <form onSubmit={handleSubmit}>
+        <form>
           {/* Name */}
           <input
             type="text"
@@ -97,7 +101,7 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
 
   return (
     <div className="garden-form">
-      <form onSubmit={handleSubmit}>
+      <form>
         {/* Name */}
         <input
           type="text"
@@ -206,13 +210,15 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
           <option value="100">100%</option>
         </select>{' '}
         <br /> */}
-        <PrimaryButton> Add plant</PrimaryButton>
+        <TertiaryButton onClick={() => console.log('clicked')}>
+          Add plant
+        </TertiaryButton>
         {/* <button className="add-plant" type="button">
           Add plant
         </button> */}
         <br />
-        <button className="save-garden">Save garden & exit</button>
-        <button className="del-plot">Delete plot</button>
+        <PrimaryButton onClick={handleSubmit}>Save garden & exit</PrimaryButton>
+        <DeleteButton onClick={handleDelete}>Delete plot</DeleteButton>
       </form>
     </div>
   )

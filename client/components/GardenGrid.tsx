@@ -3,6 +3,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout'
 import type { Layout } from 'react-grid-layout'
 import type { PlotDatum } from '../../models/growGrub'
 import { getRandomInt } from '../functions/random'
+import SecondaryButton from './SecondaryButton'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
@@ -65,9 +66,10 @@ export function GardenGrid({
   const cols = { lg: 50, md: 50, sm: 50, xs: 50, xxs: 50 }
   return (
     <div className="garden-grid">
-      <button className="save-garden mt0" onClick={handleAdd}>
+      <SecondaryButton onClick={handleAdd}>Add Plot</SecondaryButton>
+      {/* <button className="save-garden mt0" onClick={handleAdd}>
         Add Plot
-      </button>
+      </button> */}
       <ResponsiveGridLayout
         className="layout"
         onLayoutChange={handleLayoutChange}
