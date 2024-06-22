@@ -99,7 +99,7 @@ export function useSaveGarden() {
   })
 }
 
-const useGetGardens = () => {
+export const useGetGardens = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   return useQuery({
     enabled: isAuthenticated,
