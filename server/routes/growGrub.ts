@@ -7,13 +7,17 @@ import { UserData, User } from '../../models/growGrub.ts'
 const router = Router()
 
 //Used to check user exists
-router.get('/users', checkJwt, async (req:JwtRequest, res) => {
+router.get('/users', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   try {
     const userDB = await db.getUserByAuth0Id(auth0Id)
     if (!userDB) return res.json(userDB)
-    const user: User = {id: userDB.id, username: userDB.username, location: userDB.location}
+    const user: User = {
+      id: userDB.id,
+      username: userDB.username,
+      location: userDB.location,
+    }
     res.json(user)
   } catch (error) {
     console.log(error)
@@ -21,13 +25,13 @@ router.get('/users', checkJwt, async (req:JwtRequest, res) => {
   }
 })
 //For registering a new user
-router.post('/users', checkJwt, async (req:JwtRequest, res) => {
+router.post('/users', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   const userData: UserData = req.body
   if (!auth0Id) return res.sendStatus(401)
   if (!userData) return res.sendStatus(400)
   try {
-    const userId = await db.addUser({...userData, auth0_id: auth0Id})
+    const userId = await db.addUser({ ...userData, auth0_id: auth0Id })
     res.json(userId)
   } catch (error) {
     console.log(error)
@@ -35,11 +39,11 @@ router.post('/users', checkJwt, async (req:JwtRequest, res) => {
   }
 })
 //Gets all usernames to help the registering user avoid double ups on usernames (unique in DB) NOT IN USE
-router.get('/usernames', async (req , res) => {
+router.get('/usernames', async (req, res) => {
   try {
     const usernames = await db.getUsernames()
     const list: string[] = []
-    usernames.forEach(row => list.push(row.username))
+    usernames.forEach((row) => list.push(row.username))
     res.json(list)
   } catch (error) {
     console.log(error)
@@ -47,7 +51,7 @@ router.get('/usernames', async (req , res) => {
   }
 })
 //Gets all plants NOT IN USE
-router.get('/plants', checkJwt, async (req:JwtRequest, res) => {
+router.get('/plants', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   try {
@@ -59,7 +63,7 @@ router.get('/plants', checkJwt, async (req:JwtRequest, res) => {
   }
 })
 //Gets all plants the user desires for their garden(s) NOT IN USE
-router.get('/plants/desired', checkJwt, async (req:JwtRequest, res) => {
+router.get('/plants/desired', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   try {
@@ -71,26 +75,26 @@ router.get('/plants/desired', checkJwt, async (req:JwtRequest, res) => {
   }
 })
 //Get the users gardens NOT IN USE
-router.get('/gardens', checkJwt, async (req:JwtRequest, res) => {
+router.get('/gardens', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   try {
     const gardens = await db.getUsersGardens(auth0Id)
-    res.json(gardens)  
+    res.json(gardens)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
   }
 })
 //Gets plots + plants for the garden NOT IN USE
-router.get('/gardens/:id', checkJwt, async (req:JwtRequest, res) => {
+router.get('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
   const id = Number(req.params.id)
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   try {
     const gardenInfoDB = await db.getUserGarden(auth0Id, id)
     const plotsDB: any[] = [] // eslint-disable-line
-    gardenInfoDB.forEach(row => {
+    gardenInfoDB.forEach((row) => {
       if (row.plot_plant_id) {
         plotsDB[row.plot_id] = plotsDB[row.plot_id] || {}
         plotsDB[row.plot_id].plotNumber = row.plot_number
@@ -105,19 +109,50 @@ router.get('/gardens/:id', checkJwt, async (req:JwtRequest, res) => {
           difficulty: row.difficulty,
           wateringFrequency: row.watering_frequency,
           datePlanted: row.date_planted,
-          lastWatered: row.last_watered
+          lastWatered: row.last_watered,
         })
       }
     })
-    const plots = plotsDB.filter(item => item)
+    const plots = plotsDB.filter((item) => item)
     const garden = {
       id: gardenInfoDB[0].garden_id,
       layout: gardenInfoDB[0].layout,
-      plots: plots}
+      plots: plots,
+    }
     res.json(garden)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
   }
 })
+
+// Add new garden
+router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) return res.sendStatus(401)
+  const user = await db.getUserByAuth0Id(auth0Id)
+  try {
+    const newGarden = req.body
+    const layoutString = JSON.stringify(newGarden.layout)
+    const newGardenID = await db.saveNewGarden(layoutString, user.id)
+    const newPlotIDs = await db.saveNewPlots(newGarden.plotData, newGardenID[0])
+    res.json({ newGardenID, newPlotIDs })
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
+
+// Router for adding new plots - NOT IN USE, ONLY FOR TESTING
+router.post('/plots', async (req, res) => {
+  try {
+    const newPlots = req.body
+    const newPlotIDs = await db.saveNewPlots(newPlots, 1)
+    res.json(newPlotIDs)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
+
 export default router
