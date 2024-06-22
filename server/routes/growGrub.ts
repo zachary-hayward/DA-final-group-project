@@ -3,6 +3,7 @@ import checkJwt, { JwtRequest } from '../auth0.ts'
 
 import * as db from '../db/growGrub.ts'
 import { UserData, User } from '../../models/growGrub.ts'
+import { differentiatePlots } from '../db/helperFunctions.tsx'
 
 const router = Router()
 
@@ -156,18 +157,29 @@ router.post('/plots', async (req, res) => {
 })
 
 // Router used for updating existing garden - NOT IN USE, ONLY FOR TESTING
-router.put('gardens/:id', checkJwt, async (req: JwtRequest, res) => {
-  const garden_id = Number(req.params.id)
+router.put('gardens/', checkJwt, async (req: JwtRequest, res) => {
+  // const garden_id = Number(req.params.id)
   // Body of request will include plotData, layout
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   const user = await db.getUserByAuth0Id(auth0Id)
   try {
     const updatedGarden = req.body
-    const updatedLayout = updatedGarden.layout
+    const updatedLayoutString = JSON.stringify(updatedGarden.layout)
+    const garden_id = await db.getGardenIDByUserID(user.id)
 
     // TODO - need to add this function - need to think about getting garden_id too
-    await db.updateGardenLayout(garden_id)
+    await db.updateGardenLayout(garden_id, updatedLayoutString)
+
+    const updatedPlotData = updatedGarden.plotData
+    const existingPlotData = await db.getPlotsByGardenID(garden_id)
+
+    const { plotsToCreate, plotsToUpdate, plotIDsToDelete } =
+      differentiatePlots(updatedPlotData, existingPlotData)
+
+    await db.updatePlots(plotsToUpdate)
+    await db.createPlots(plotsToCreate)
+    await db.deletePlots(plotIDsToDelete)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)

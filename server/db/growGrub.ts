@@ -84,6 +84,23 @@ export function saveNewPlots(
   return db('plots').insert(plotsToInsert).returning(['id'])
 }
 
+export function getPlotsByGardenID(garden_id: number) {
+  return db('plots').where({ garden_id }).select().first()
+}
+
+export function getGardenIDByUserID(user_id: number) {
+  return db('gardens').where({ user_id }).select().first()
+}
+
+export function updateGardenLayout(
+  garden_id: number,
+  updatedLayoutString: string,
+) {
+  return db('gardens')
+    .where({ garden_id })
+    .update('layout', updatedLayoutString)
+}
+
 interface addUserProps extends UserData {
   auth0_id: string
 }

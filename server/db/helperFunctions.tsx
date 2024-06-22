@@ -3,6 +3,7 @@ import { PlotDatum, DBPlotDatum } from '../../models/growGrub'
 export function differentiatePlots(
   FEPlots: PlotDatum[],
   BEPlots: DBPlotDatum[],
+  garden_id: number,
 ) {
   const plotsToCreate = []
   const plotsToUpdate = []
@@ -16,10 +17,43 @@ export function differentiatePlots(
       (BEPlot) => BEPlot.plot_number == Number(FEPlot.plotNumber),
     )
     if (matchingPlot) {
-      plotsToUpdate.push({ ...FEPlot, id: matchingPlot.id })
+      plotsToUpdate.push({
+        id: matchingPlot.id,
+        garden_id: garden_id,
+        plot_number: FEPlot.plotNumber,
+        sun_level: FEPlot.sunLight,
+        plot_type: FEPlot.blockType,
+        size: FEPlot.size,
+        name: FEPlot.name,
+        rain_exposure: FEPlot.rainExposure,
+      })
     } else {
       plotsToCreate.push({ ...FEPlot })
     }
+  }
+  export interface PlotDatum {
+    plotNumber: string
+    name: string
+    sunLight: string
+    blockType: string
+    size: string
+    rainExposure: string
+    growable: boolean
+  }
+
+  // export interface DBPlotDatum extends PlotDatum {
+  //   id: number
+  // }
+
+  export interface DBPlotDatum {
+    id: number
+    garden_id: number
+    plot_number: number
+    sun_level: string
+    plot_type: string
+    size: number
+    name: string
+    rain_exposure: string
   }
 
   // Filter out the back-end plots that have no corresponding plot numbers in the front end
