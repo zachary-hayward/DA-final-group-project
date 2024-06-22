@@ -2,6 +2,7 @@ import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 
 interface TableProps {
+  id: number
   title: string
   content: string
 }
@@ -13,7 +14,7 @@ const notes = [
   { id: 3, title: 'Note 3', content: 'Content of Note 3' },
 ]
 
-const SimpleTable: React.FC<ListItemProps> = ({ title, content }) => {
+const SimpleTable: React.FC<TableProps> = ({ id, title, content }) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-4 flex items-center justify-between">
