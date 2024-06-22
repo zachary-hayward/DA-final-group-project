@@ -7,6 +7,7 @@ import {
   layoutDefaultState,
   plotDataDefaultState,
 } from '../functions/defaultState.ts'
+import GardenSelect from '../components/GardenSelect.tsx'
 
 export function GardenView() {
   const saveGarden = useSaveGarden()
@@ -14,10 +15,16 @@ export function GardenView() {
   const [plotData, setPlotData] = useState(plotDataDefaultState)
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState(layoutDefaultState)
-  const [currentGardenID, setCurrentGardenID] = useState()
+  const [currentGardenID, setCurrentGardenID] = useState<number | undefined>()
 
   if (getGardens.data && currentGardenID === undefined) {
     console.log(getGardens.data)
+    return (
+      <GardenSelect
+        gardenData={getGardens.data}
+        setCurrentGardenID={setCurrentGardenID}
+      />
+    )
   }
 
   const onSaveGarden = async () => {
@@ -33,6 +40,7 @@ export function GardenView() {
           setActiveID={setActiveID}
           layout={layout}
           setLayout={setLayout}
+          setCurrentGardenID={setCurrentGardenID}
         />
         <GardenForm
           key={activeID}
