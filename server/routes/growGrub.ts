@@ -155,4 +155,22 @@ router.post('/plots', async (req, res) => {
   }
 })
 
+// Router used for updating existing garden - NOT IN USE, ONLY FOR TESTING
+router.put('gardens/:id', checkJwt, async (req: JwtRequest, res) => {
+  const garden_id = Number(req.params.id)
+  // Body of request will include plotData, layout
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) return res.sendStatus(401)
+  const user = await db.getUserByAuth0Id(auth0Id)
+  try {
+    const updatedGarden = req.body
+    const updatedLayout = updatedGarden.layout
+
+    // TODO - need to add this function - need to think about getting garden_id too
+    await db.updateGardenLayout(garden_id)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
 export default router
