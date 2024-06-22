@@ -1,8 +1,8 @@
 import express from 'express'
-import request from 'superagent'
 import 'dotenv/config'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import checkJwt, { JwtRequest } from '../auth0'
+import { addVege } from '../db/growGrub'
 
 const router = express.Router()
 const geminiApiKey = process.env.API_KEY
@@ -64,6 +64,9 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
       .replace(new RegExp('```', 'g'), ' ')
       .replace(new RegExp(`\\s`, 'g'), ' ')
 
+    // add db function to add what we get from Gemini to db
+    await addVege(JSON.stringify(newStr))
+    console.log(newStr)
     res.json(JSON.parse(newStr))
     // console.log(JSON.stringify(response.candidates))
   } catch (err) {
