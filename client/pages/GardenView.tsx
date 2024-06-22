@@ -123,6 +123,8 @@ export function GardenView() {
           setPlotData={setPlotData}
           activeID={activeID}
           onSaveGarden={onSaveGarden}
+          layout={layout}
+          setLayout={setLayout}
         />
       </div>
     </>

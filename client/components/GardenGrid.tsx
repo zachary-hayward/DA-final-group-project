@@ -55,7 +55,6 @@ export function GardenGrid({
   }
 
   const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
-    console.log(e)
     e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(4)) : null
   }
 

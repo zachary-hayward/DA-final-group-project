@@ -3,15 +3,25 @@ import type { PlotDatum } from '../../models/growGrub'
 import PrimaryButton from './PrimaryButton'
 import TertiaryButton from './TertiaryButton'
 import DeleteButton from './DeleteButton'
+import { Layout } from 'react-grid-layout'
 
 interface Props {
   plotData: PlotDatum[]
   setPlotData: React.Dispatch<React.SetStateAction<PlotDatum[]>>
   activeID: string
   onSaveGarden: () => void
+  layout: Layout[]
+  setLayout: React.Dispatch<React.SetStateAction<Layout[]>>
 }
 
-function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
+function GardenForm({
+  plotData,
+  setPlotData,
+  activeID,
+  onSaveGarden,
+  layout,
+  setLayout,
+}: Props) {
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
   )
@@ -47,7 +57,17 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
     setPlotData([...otherPlots, newPlot])
   }
 
-  function handleDelete() {}
+  function handleDelete() {
+    // are you sure????????
+    const plotsWithoutDeleted = plotData.filter(
+      (plot) => plot.plotNumber !== String(activeID),
+    )
+    const layoutWithoutDeleted = layout.filter(
+      (obj) => obj.i !== String(activeID),
+    )
+    setPlotData([...plotsWithoutDeleted])
+    setLayout([...layoutWithoutDeleted])
+  }
 
   function handleSubmit(e: React.MouseEvent) {
     e.preventDefault()
