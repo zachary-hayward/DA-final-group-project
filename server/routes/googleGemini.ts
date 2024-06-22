@@ -20,7 +20,7 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
 
   try {
     const vege1 = req.query.vege
-    const prompt = `give me json data with whitespacing between each word about plant care information about ${vege1} that contains plant care information, watering with one of three properties: low, medium or high, time should be the season and month with the seed planting months in New Zealand, spacing in metres, in the form of {
+    const prompt = `give me json data with whitespacing between each word about plant care information about ${vege1} that contains plant care information, watering with one of three properties: low, moderate or high, sunlight should be "full-shade", "part-sun" or "full-sun", difficulty should be: "easy", "medium" or "hard", cycle should be  "annual", "biennieal", "perennial" or "short-lived-perennial", plantingTime should be the season and month with the seed planting months in New Zealand, plantingSeason should be: "year-round", "summer", "winter", "autumn", "spring" or "early-spring", "late-spring" etc, planting_season_ends should be the last possible point when a seed could be planted, spacing in metres, in the form of {
 "plantCareData": [
   {
     "plantName": str,
@@ -33,19 +33,23 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
         "fertilization": str,
         "pruning": str,
         "pests": str,
-        "diseases": str
+        "diseases": str,
+        "difficulty": str,
+        "cycle": str
     },
     "plantingTime": {
         "indoorsPlantingTime": "Start seeds indoors 6-8 weeks before the last frost date in your area.",
         "outdoorsPlantingTime": "Transplant seedlings outdoors after all danger of frost has passed and soil temperatures are consistently above 55°F (13°C).",,
         "spacing": str,
         "plantingTime": str,
+        "plantingSeason": str,
+        "plantingSeasonEnd": str
     },
     "harvesting": {
         "havestingTime": str,
         "harvestingTips": str
-    }
-}
+    },
+  }
   ]
 } and for each property, keep the strings short please and with spacing between words`
 
