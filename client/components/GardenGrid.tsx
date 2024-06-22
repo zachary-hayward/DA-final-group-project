@@ -45,7 +45,7 @@ export function GardenGrid({
       name: `Block ${newIdx}`,
       sunLight: 'full-sun',
       blockType: 'garden',
-      size: '',
+      size: 2,
       rainExposure: 'fully',
       growable: true,
     })
