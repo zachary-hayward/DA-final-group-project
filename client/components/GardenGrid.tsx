@@ -80,7 +80,7 @@ export function GardenGrid({
       ],
     })
   }
-
+  console.log('grid: ', layout)
   const cols = { lg: 50, md: 50, sm: 50, xs: 50, xxs: 50 }
   return (
     <div className="garden-grid">

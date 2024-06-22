@@ -5,9 +5,13 @@ interface Props {
   setCurrentGardenID: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
-function GardenButton({ garden, setCurrentGardenID }: Props) {
+function GardenButton({
+  garden,
+  setCurrentGardenID,
+  switchSelectedGarden,
+}: Props) {
   function handleClick() {
-    setCurrentGardenID(garden.id)
+    switchSelectedGarden(garden.id)
   }
 
   return (

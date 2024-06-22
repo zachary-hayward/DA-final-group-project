@@ -30,8 +30,20 @@ export function GardenView() {
       <GardenSelect
         gardenData={getGardens.data}
         setCurrentGardenID={setCurrentGardenID}
+        switchSelectedGarden={switchSelectedGarden}
       />
     )
+  }
+
+  function switchSelectedGarden(id: number) {
+    console.log(id)
+    setCurrentGardenID(id)
+    const currentGarden = getGardens.data.find(
+      (garden: GardenSimpleDB) => garden.id === id,
+    )
+    console.log(currentGarden.layout)
+    setLayout(JSON.parse(currentGarden.layout))
+    // set blockData too
   }
 
   // need to figure out how to change the state of the layout depending on the currentGardenID - could maybe work if the GardenSelect was its own page. Otherwise the more logical solution might be to pass down a function which will set the states/handle the click rather than passing so many states down

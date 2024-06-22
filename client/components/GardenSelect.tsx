@@ -6,7 +6,11 @@ interface Props {
   setCurrentGardenID: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
-function GardenSelect({ gardenData, setCurrentGardenID }: Props) {
+function GardenSelect({
+  gardenData,
+  setCurrentGardenID,
+  switchSelectedGarden,
+}: Props) {
   return (
     <div>
       {gardenData.map((garden: GardenSimpleDB) => (
@@ -14,6 +18,7 @@ function GardenSelect({ gardenData, setCurrentGardenID }: Props) {
           key={`${garden.id}+++${garden.user_id}`}
           garden={garden}
           setCurrentGardenID={setCurrentGardenID}
+          switchSelectedGarden={switchSelectedGarden}
         />
       ))}
     </div>
