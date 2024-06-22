@@ -1,4 +1,9 @@
-export default function PrimaryButton() {
+interface Props {
+  onClick: (event: React.MouseEvent) => void
+  children: React.ReactNode
+}
+
+export default function PrimaryButton({ onClick, children }: Props) {
   // Tailwind Primary Button
   return (
     <>
@@ -6,6 +11,7 @@ export default function PrimaryButton() {
         <button
           type="button"
           className="inline-flex items-center rounded-md bg-green-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={onClick}
         >
           <svg
             className="-ml-0.5 mr-1.5 h-5 w-5"
@@ -19,7 +25,7 @@ export default function PrimaryButton() {
               clipRule="evenodd"
             />
           </svg>
-          Publish
+          {children}
         </button>
       </span>
     </>
