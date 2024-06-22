@@ -41,10 +41,6 @@
 
 /* Grid */
 
-.red {
-  background-color: red;
-}
-
 .gardenview {
   display: flex;
   flex-direction: row;

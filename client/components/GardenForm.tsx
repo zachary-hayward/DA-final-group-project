@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { PlotDatum } from '../../models/growGrub'
+import PrimaryButton from './PrimaryButton'
 
 interface Props {
   plotData: PlotDatum[]
@@ -205,11 +206,13 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
           <option value="100">100%</option>
         </select>{' '}
         <br /> */}
-        <button className="add-plant" type="button">
+        <PrimaryButton> Add plant</PrimaryButton>
+        {/* <button className="add-plant" type="button">
           Add plant
-        </button>
+        </button> */}
         <br />
         <button className="save-garden">Save garden & exit</button>
+        <button className="del-plot">Delete plot</button>
       </form>
     </div>
   )
