@@ -1,23 +1,29 @@
+import { MouseEvent } from 'react'
+import PrimaryButton from './PrimaryButton'
+
 interface TableProps {
   title: string
   content: string
 }
 
-const SimpleTable: React.FC<ListItemProps> = ({ title, content }) => {
-  // Example data (replace with your actual data)
-  const notes = [
-    { id: 1, title: 'Note 1', content: 'Content of Note 1' },
-    { id: 2, title: 'Note 2', content: 'Content of Note 2' },
-    { id: 3, title: 'Note 3', content: 'Content of Note 3' },
-  ]
+//mockData
+const notes = [
+  { id: 1, title: 'Note 1', content: 'Content of Note 1' },
+  { id: 2, title: 'Note 2', content: 'Content of Note 2' },
+  { id: 3, title: 'Note 3', content: 'Content of Note 3' },
+]
 
+const SimpleTable: React.FC<ListItemProps> = ({ title, content }) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-4 flex items-center justify-between">
         <div className="text-2xl font-bold">Notes</div>
-        <button className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600">
-          Add Note
-        </button>
+        <PrimaryButton
+          onClick={function (event: MouseEvent<Element, MouseEvent>): void {
+            throw new Error('Function not implemented.')
+          }}
+          children={'Add notes'}
+        />
       </div>
 
       {/* Table */}
