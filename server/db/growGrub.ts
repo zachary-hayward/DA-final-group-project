@@ -90,3 +90,28 @@ interface addUserProps extends UserData {
 export async function addUser(userData: addUserProps) {
   return db('users').insert(userData)
 }
+
+export async function addVege(prompResult) {
+  const promptData = {
+    plantName: prompResult.plantCareData[0].plantName,
+    scientificName: prompResult.plantCareData[0].scientificName,
+    description: prompResult.plantCareData[0].description,
+    soil: prompResult.plantCareData[0].careInstructions.soil,
+    sunlight: prompResult.plantCareData[0].careInstructions.sunlight,
+    watering: prompResult.plantCareData[0].careInstructions.watering,
+    fertilization: prompResult.plantCareData[0].careInstructions.fertilization,
+    pruning: prompResult.plantCareData[0].careInstructions.pruning,
+    pests: prompResult.plantCareData[0].careInstructions.pests,
+    diseases: prompResult.plantCareData[0].careInstructions.diseases,
+    indoorsPlantingTime:
+      prompResult.plantCareData[0].plantingTime.indoorsPlantingTime,
+    outdoorsPlantingTime:
+      prompResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
+    spacing: prompResult.plantCareData[0].plantingTime.spacing,
+    plantingTime: prompResult.plantCareData[0].plantingTime.plantingTime,
+    havestingTime: prompResult.plantCareData[0].harvesting.harvestingTime,
+    harvestingTips: prompResult.plantCareData[0].harvesting.harvestingTips,
+  }
+  console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
+  return db('plant_care_data').insert(promptData)
+}

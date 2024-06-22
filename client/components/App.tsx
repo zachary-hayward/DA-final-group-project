@@ -17,6 +17,7 @@ function App() {
     const getUser = async () => {
       setProcessing(true)
       const token = await getAccessTokenSilently()
+      console.log(token)
       try {
         const result = await getUserByAuth(token)
         if (result.id) setRegistered(true)
