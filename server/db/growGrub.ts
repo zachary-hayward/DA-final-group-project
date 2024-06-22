@@ -1,5 +1,6 @@
 import { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
+import type { PlotDatum } from '../../models/growGrub.ts'
 
 export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
   return db('users')
@@ -53,6 +54,34 @@ export function getUserGarden(
       'plants.*',
       'plants.name as plant_name',
     )
+}
+
+export function saveNewGarden(
+  layout: string,
+  userID: number,
+): Promise<number[]> {
+  const newGarden = {
+    user_id: userID,
+    layout: layout,
+  }
+  return db('gardens').insert(newGarden)
+}
+
+// Size mismatch + add growable
+export function saveNewPlots(
+  blockData: PlotDatum[],
+  gardenID: number,
+): Promise<number[]> {
+  const plotsToInsert = blockData.map((block) => ({
+    garden_id: gardenID,
+    plot_number: block.plotNumber,
+    sun_level: block.sunLight,
+    plot_type: block.blockType,
+    size: block.size,
+    name: block.name,
+    rain_exposure: block.rainExposure,
+  }))
+  return db('plots').insert(plotsToInsert).returning(['id'])
 }
 
 interface addUserProps extends UserData {

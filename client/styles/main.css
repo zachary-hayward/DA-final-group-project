@@ -4,15 +4,42 @@
 @tailwind components;
 @tailwind utilities;
 
-.btn-nav {
-  @apply m-1 rounded bg-white pl-1 pr-1 hover:bg-slate-300;
+/* Page Banner */
+.banner-container {
+  @apply bg-lime-200 p-8 px-4;
+}
+
+.banner-flex {
+  @apply flex items-center justify-center;
+}
+
+.banner-title {
+  @apply text-4xl font-bold text-gray-800;
+}
+
+/* Instruction List */
+
+.list-container {
+  @apply mx-auto max-w-4xl py-2;
+}
+
+.list-grid {
+  @apply grid grid-cols-12 items-center gap-5 rounded-lg bg-slate-50 px-6 py-4;
+}
+
+.list-title {
+  @apply text-lg font-semibold text-green-800;
+}
+
+.list-description {
+  @apply text-base text-green-800;
+}
+
+.container-title {
+  @apply pb-5 pt-10 text-2xl font-medium;
 }
 
 /* Grid */
-
-.red {
-  background-color: red;
-}
 
 .gardenview {
   display: flex;
@@ -53,6 +80,45 @@
   border-radius: 0.35em;
 }
 
+.del-plot {
+  background-color: crimson;
+  color: #fbfbfb;
+  padding: 0.35em 0.7em;
+  border-radius: 0.35em;
+  font-weight: 400;
+}
+
+.del-plot:hover {
+  background-color: red;
+}
+
 #nameInput {
   background-color: #fbfbfb;
+}
+
+.house {
+  background-color: lightseagreen;
+  border: solid black;
+}
+
+.grass {
+  background-color: #609936;
+}
+
+.garden {
+  background-color: rgb(125, 45, 45);
+}
+
+.path {
+  background-color: grey;
+}
+
+.mt0 {
+  margin-top: 0;
+}
+
+.react-confirm-alert-body > h1 {
+  font-size: xx-large;
+  font-weight: 700;
+  margin-bottom: 1em;
 }

@@ -1,38 +1,26 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Responsive, WidthProvider } from 'react-grid-layout'
+import type { Layout } from 'react-grid-layout'
+import type { PlotDatum } from '../../models/growGrub'
+import { getRandomInt } from '../functions/random'
+import SecondaryButton from './SecondaryButton'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
-interface BlockDatum {
-  layoutId: string
-  name: string
-  sunLight: number
-  occupation: number
-  blockType: string
-  size: string
-  shade: number
-  wind: number
-  growable: boolean
-}
-
-interface GridDatum {
-  w: number
-  h: number
-  x: number
-  y: number
-  i: string
-}
-
 interface GardenGridProps {
-  blockData: BlockDatum[]
-  setBlockData: React.Dispatch<React.SetStateAction<BlockDatum[]>>
+  plotData: PlotDatum[]
+  setPlotData: React.Dispatch<React.SetStateAction<PlotDatum[]>>
   setActiveID: React.Dispatch<React.SetStateAction<string>>
+  layout: Layout[]
+  setLayout: React.Dispatch<React.SetStateAction<Layout[]>>
 }
 
 export function GardenGrid({
-  blockData,
-  setBlockData,
+  plotData,
+  setPlotData,
   setActiveID,
+  layout,
+  setLayout,
 }: GardenGridProps) {
   // send data to the DB
 
@@ -40,73 +28,69 @@ export function GardenGrid({
 
   // style blocks depending on type
 
-  const [layout, setLayout] = useState([
-    { w: 1, h: 16, x: 0, y: 0, i: '1' },
-    { w: 2, h: 9, x: 2, y: 0, i: '2' },
-    { w: 5, h: 1, x: 1, y: 9, i: '3' },
-  ])
-
   const handleAdd = () => {
     const newLayout = [...layout]
     const existingHighestIndex = Number(newLayout[newLayout.length - 1].i)
     const newIdx = String(existingHighestIndex + 1)
     newLayout.push({
       i: newIdx,
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 1,
+      x: getRandomInt(0, 50),
+      y: 50,
+      w: 8,
+      h: 8,
     })
     setLayout(newLayout)
     setActiveID(newIdx)
-    const newBlockData = [...blockData]
-    newBlockData.push({
-      layoutId: newIdx,
+    const newPlotData = [...plotData]
+    newPlotData.push({
+      plotNumber: newIdx,
       name: `Block ${newIdx}`,
-      sunLight: 0,
-      occupation: 0,
-      blockType: '',
-      size: '',
-      shade: 0,
-      wind: 0,
+      sunLight: 'full-sun',
+      blockType: 'garden',
+      size: 2,
+      rainExposure: 'fully',
       growable: true,
     })
-    setBlockData(newBlockData)
+    setPlotData(newPlotData)
   }
 
   const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
-    e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(5)) : null
+    e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(4)) : null
   }
 
-  const handleLayoutChange = (newLay: GridDatum[]) => {
+  const handleLayoutChange = (newLay: Layout[]) => {
     setLayout(newLay)
   }
 
-  const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }
+  const cols = { lg: 50, md: 50, sm: 50, xs: 50, xxs: 50 }
   return (
     <div className="garden-grid">
-      <button onClick={handleAdd}>Add Block</button>
+      <SecondaryButton onClick={handleAdd}>Add Plot</SecondaryButton>
+      {/* <button className="save-garden mt0" onClick={handleAdd}>
+        Add Plot
+      </button> */}
       <ResponsiveGridLayout
         className="layout"
         onLayoutChange={handleLayoutChange}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={cols}
-        rowHeight={30}
+        rowHeight={15}
         // width={1200}
         margin={[0, 0]}
       >
-        {layout.map((block) => (
+        {layout.map((plot) => (
           <button
-            key={block.i}
-            id={`block${block.i}`}
+            key={plot.i}
+            id={`plot${plot.i}`}
             onPointerDown={handleClick}
-            className="red"
-            data-grid={{ x: block.x, y: block.y, h: block.h, w: block.w }}
+            className={
+              plotData.find((obj) => obj.plotNumber === plot.i)?.blockType
+            }
+            data-grid={{ x: plot.x, y: plot.y, h: plot.h, w: plot.w }}
           >
             {
-              [...blockData].find(
-                (blockEntry) => blockEntry.layoutId == block.i,
-              )?.name
+              [...plotData].find((plotEntry) => plotEntry.plotNumber == plot.i)
+                ?.name
             }
           </button>
         ))}
