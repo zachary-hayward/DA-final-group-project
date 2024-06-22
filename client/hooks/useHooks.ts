@@ -15,6 +15,7 @@ export function useHooks() {
   return {
     getUsernames: useGetUsernames,
     getPlants: useGetPlants,
+    getGardens: useGetGardens,
   }
 }
 
@@ -95,5 +96,20 @@ export function useSaveGarden() {
     // onSuccess: async () => {
     //   queryClient.invalidateQueries({ queryKey: ['datatable'] })
     // },
+  })
+}
+
+const useGetGardens = () => {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: ['gardens'],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .get(`${rootURL}/gardens`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
   })
 }
