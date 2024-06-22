@@ -1,24 +1,29 @@
-export default function InstructionListItem() {
+interface ListItemProps {
+  iconSrc: string
+  title: string
+  description: string
+}
+
+const InstructionListItem: React.FC<ListItemProps> = ({
+  iconSrc,
+  title,
+  description,
+}) => {
   return (
     <div>
-      <div className="mx-auto max-w-4xl px-10 py-8">
-        <h3 className="pb-2 text-xl font-bold">Care instructions</h3>
-        <div className="grid grid-cols-12 items-center gap-4 rounded-lg bg-slate-50 px-6 py-4">
+      <div className="list-container">
+        <div className="list-grid">
           <div className="col-span-1">
-            <img
-              className="h-12 w-12"
-              src="/images/flat-icons/soil.png"
-              alt={plantData.plantName}
-            />
+            <img className="h-12 w-12" src={iconSrc} alt={title} />
           </div>
           <div className="col-span-11">
-            <h4 className="text-lg font-bold text-green-800">Soil </h4>
-            <p className="text-base text-green-800">
-              {plantData.careInstructions.soil}
-            </p>
+            <h4 className="list-title">{title}</h4>
+            <p className="list-description">{description}</p>
           </div>
         </div>
       </div>
     </div>
   )
 }
+
+export default InstructionListItem
