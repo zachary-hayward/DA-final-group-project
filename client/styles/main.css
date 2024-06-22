@@ -87,3 +87,20 @@
 #nameInput {
   background-color: #fbfbfb;
 }
+
+.house {
+  background-color: lightseagreen;
+  border: solid black;
+}
+
+.grass {
+  background-color: #609936;
+}
+
+.garden {
+  background-color: rgb(125, 45, 45);
+}
+
+.path {
+  background-color: grey;
+}

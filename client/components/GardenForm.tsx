@@ -16,9 +16,10 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
   function handleChange(
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
   ) {
-    const value = isNaN(Number(e.target.value))
-      ? e.target.value
-      : Number(e.target.value)
+    const value =
+      isNaN(Number(e.target.value)) || e.target.value === ''
+        ? e.target.value
+        : Number(e.target.value)
 
     const newPlot = {
       ...currentPlot!,
@@ -46,7 +47,6 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     onSaveGarden()
-    console.log(plotData)
   }
 
   if (currentPlot?.blockType === 'house' && currentPlot?.growable === false) {
@@ -75,7 +75,7 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
             <option value="">No type</option>
             <option value="garden">Garden patch</option>
             <option value="house">House</option>
-            <option value="Path">Path</option>
+            <option value="path">Path</option>
             <option value="grass">Grass</option>
           </select>
           <br />
@@ -119,8 +119,8 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
           <option value="">No type</option>
           <option value="garden">Garden patch</option>
           <option value="house">House</option>
-          <option value="Path">Path</option>
-          <option value="Grass">Grass</option>
+          <option value="path">Path</option>
+          <option value="grass">Grass</option>
         </select>
         <br />
         {currentPlot?.blockType === 'house' && (
@@ -146,10 +146,11 @@ function GardenForm({ plotData, setPlotData, activeID, onSaveGarden }: Props) {
           className="dropmenu"
         >
           <option value="">How big is it?</option>
-          <option value="1x1">1x1</option>
-          <option value="2x2">2x2</option>
-          <option value="3x3">3x3</option>
-          <option value="4x4">4x4</option>
+          <option value="1">1x1</option>
+          <option value="2">2x2</option>
+          <option value="3">3x3</option>
+          <option value="4">4x4</option>
+          <option value="5">5x5</option>
         </select>{' '}
         <br />
         {/* Shade */}

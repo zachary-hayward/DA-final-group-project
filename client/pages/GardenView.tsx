@@ -10,46 +10,108 @@ export function GardenView() {
   const [plotData, setPlotData] = useState([
     {
       plotNumber: '1',
-      name: 'window garden',
+      name: 'House',
       sunLight: 'full-sun',
       blockType: 'house',
-      size: '3x3',
-      rainExposure: 'undercover',
+      size: 3,
+      rainExposure: 'partially',
       growable: true,
     },
     {
       plotNumber: '2',
-      name: 'glasshouse',
+      name: '',
       sunLight: 'part-sun',
+      blockType: 'path',
+      size: 3,
+      rainExposure: 'partially',
+      growable: true,
+    },
+    {
+      plotNumber: '4',
+      name: '',
+      sunLight: 'full-sun',
+      blockType: 'path',
+      size: 3,
+      rainExposure: 'partially',
+      growable: true,
+    },
+    {
+      plotNumber: '6',
+      name: '',
+      sunLight: 'full-sun',
+      blockType: 'grass',
+      size: 3,
+      rainExposure: 'partially',
+      growable: true,
+    },
+    {
+      plotNumber: '7',
+      name: 'Berries',
+      sunLight: 'full-sun',
       blockType: 'garden',
-      size: '3x3',
-      rainExposure: 'fully',
+      size: 3,
+      rainExposure: 'partially',
+      growable: true,
+    },
+    {
+      plotNumber: '8',
+      name: 'Glasshouse',
+      sunLight: 'full-sun',
+      blockType: 'garden',
+      size: 3,
+      rainExposure: 'partially',
+      growable: true,
+    },
+    {
+      plotNumber: '9',
+      name: '',
+      sunLight: 'full-sun',
+      blockType: 'grass',
+      size: 3,
+      rainExposure: 'partially',
+      growable: true,
+    },
+    {
+      plotNumber: '10',
+      name: 'Back fence',
+      sunLight: 'full-sun',
+      blockType: 'garden',
+      size: 3,
+      rainExposure: 'partially',
       growable: true,
     },
     {
       plotNumber: '3',
-      name: 'kitchen garden',
+      name: 'Kitchen garden',
       sunLight: 'full-shade',
       blockType: 'garden',
-      size: '3x3',
+      size: 3,
       rainExposure: 'partially',
       growable: true,
     },
   ])
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState([
-    { w: 1, h: 16, x: 0, y: 0, i: '1' },
-    { w: 2, h: 9, x: 2, y: 0, i: '2' },
-    { w: 5, h: 1, x: 1, y: 9, i: '3' },
+    { i: '1', x: 0, y: 0, w: 11, h: 6 },
+    { i: '2', x: 11, y: 0, w: 3, h: 8 },
+    { i: '3', x: 14, y: 0, w: 12, h: 10 },
+    { i: '4', x: 0, y: 6, w: 11, h: 2 },
+    { i: '6', x: 26, y: 3, w: 21, h: 7 },
+    { i: '7', x: 26, y: 0, w: 21, h: 3 },
+    { i: '8', x: 0, y: 8, w: 14, h: 9 },
+    { i: '9', x: 14, y: 10, w: 33, h: 3 },
+    { i: '10', x: 14, y: 13, w: 33, h: 4 },
   ])
 
   const onSaveGarden = async () => {
+    console.log(layout)
+    console.log(plotData)
     saveGarden.mutateAsync({ layout, plotData })
   }
 
-  if (saveGarden.data) {
-    console.log(saveGarden.data)
-  }
+  // if (saveGarden.data) {
+  //   console.log(saveGarden.data)
+  // }
 
   return (
     <>

@@ -53,14 +53,15 @@ export function GardenGrid({
   }
 
   const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
-    e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(5)) : null
+    console.log(e)
+    e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(4)) : null
   }
 
   const handleLayoutChange = (newLay: Layout[]) => {
     setLayout(newLay)
   }
 
-  const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 3 }
+  const cols = { lg: 50, md: 50, sm: 50, xs: 50, xxs: 50 }
   return (
     <div className="garden-grid">
       <button onClick={handleAdd}>Add Block</button>
@@ -73,18 +74,19 @@ export function GardenGrid({
         // width={1200}
         margin={[0, 0]}
       >
-        {layout.map((block) => (
+        {layout.map((plot) => (
           <button
-            key={block.i}
-            id={`block${block.i}`}
+            key={plot.i}
+            id={`plot${plot.i}`}
             onPointerDown={handleClick}
-            className="red"
-            data-grid={{ x: block.x, y: block.y, h: block.h, w: block.w }}
+            className={
+              plotData.find((obj) => obj.plotNumber === plot.i)?.blockType
+            }
+            data-grid={{ x: plot.x, y: plot.y, h: plot.h, w: plot.w }}
           >
             {
-              [...plotData].find(
-                (blockEntry) => blockEntry.plotNumber == block.i,
-              )?.name
+              [...plotData].find((plotEntry) => plotEntry.plotNumber == plot.i)
+                ?.name
             }
           </button>
         ))}
