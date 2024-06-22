@@ -67,7 +67,7 @@ export function saveNewGarden(
   return db('gardens').insert(newGarden)
 }
 
-// Friday 21/06 pm - NOTE - need to reconcile this with the changed shape of the data
+// Size mismatch + add growable
 export function saveNewPlots(
   blockData: PlotDatum[],
   gardenID: number,
@@ -81,9 +81,6 @@ export function saveNewPlots(
     name: block.name,
     rain_exposure: block.rainExposure,
   }))
-
-  // may be good to add growable to table
-
   return db('plots').insert(plotsToInsert).returning(['id'])
 }
 

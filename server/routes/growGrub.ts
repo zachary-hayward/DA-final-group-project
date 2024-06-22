@@ -126,7 +126,7 @@ router.get('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
   }
 })
 
-// Router for adding new gardens - NOT IN USE, ONLY FOR TESTING
+// Add new garden
 router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)

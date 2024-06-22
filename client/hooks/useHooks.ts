@@ -1,6 +1,6 @@
 import {
   useMutation,
-  useQueryClient,
+  // useQueryClient,
   // MutationFunction,
   useQuery,
 } from '@tanstack/react-query'
@@ -78,27 +78,9 @@ const useGetPlants = () => {
   })
 }
 
-// Rough works-in-progress below - nothing finished yet - not sure if we need useQuery or useMutation
-
-// export function useSaveGarden(blockData, layout, userID) {
-//   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
-//   return useQuery({
-//     enabled: isAuthenticated,
-//     queryKey: keys,
-//     queryFn: async () => {
-//       const token = await getAccessTokenSilently()
-//       const res = await request
-//         .get(`${rootURL}/${path}`)
-//         .send(bodyData)
-//         .set('Authorization', `Bearer ${token}`)
-//       return res.body
-//     },
-//   })
-// }
-
 export function useSaveGarden() {
   const { getAccessTokenSilently } = useAuth0()
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ layout, plotData }: GardenToSave) => {
@@ -110,30 +92,8 @@ export function useSaveGarden() {
         .set('Authorization', `Bearer ${token}`)
       return res.body
     },
-
-    onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ['datatable'] })
-    },
+    // onSuccess: async () => {
+    //   queryClient.invalidateQueries({ queryKey: ['datatable'] })
+    // },
   })
 }
-
-// interface LayoutObject {}
-
-// Template from my personal project, just for reference
-
-// export function useUpdatePlaceholderdata() {
-//   const queryClient = useQueryClient()
-
-//   return useMutation({
-//     mutationFn: async (entry: TableEntry) => {
-//       {
-//         await request
-//           .patch(`api/v1/placeholder/${entry[Object.keys(entry)[0]]}`)
-//           .send(entry)
-//       }
-//     },
-//     onSuccess: async () => {
-//       queryClient.invalidateQueries({ queryKey: ['datatable'] })
-//     },
-//   })
-// }
