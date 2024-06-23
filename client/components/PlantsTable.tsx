@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
+import { Link } from 'react-router-dom'
 
 interface PlantsProps {
   id: number
@@ -105,7 +106,11 @@ const SimpleTable: React.FC<PlantsProps> = () => {
                     />
                   </div>
                   <div className="ml-2">
-                    <div className="mb-1 font-semibold">{plant.plantName}</div>
+                    <div className="mb-1 font-semibold">
+                      <Link to={`/my-plants/${plant.id}`}>
+                        {plant.plantName}
+                      </Link>
+                    </div>
                     <div className="text-gray-600">
                       Planted: {plant.plantedDate}
                     </div>
