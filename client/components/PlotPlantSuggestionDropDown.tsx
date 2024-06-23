@@ -20,9 +20,7 @@ function PlotPlantSuggestionDropDown({
 
   const dateNow = new Date()
   const currentMonthIndex = dateNow.getMonth()
-  // console.log(dateNow.getMonth())
 
-  // ALIGN WITH SEASON
   // - ask gemeni when summer starts for the users location then do maths
   const months = [
     'january',
@@ -87,6 +85,7 @@ function PlotPlantSuggestionDropDown({
 
   // FILTER
   let plantSuggestions: string[] = []
+  let otherPlantSuggestions: string[] = []
   if (plantsQuery.data) {
     const filteredBySun = plantsQuery.data.filter(
       (plant: Plant) =>
@@ -95,18 +94,32 @@ function PlotPlantSuggestionDropDown({
     const filteredBySeason = filteredBySun.filter(
       (plant) =>
         plant.planting_starts.toLowerCase() === 'year-round' ||
-        plant.planting_starts.toLowerCase() === currentSeason ||
-        plant.planting_starts.toLowerCase() === nextSeasonPhase,
+        plant.planting_starts.toLowerCase().includes(currentSeason) ||
+        plant.planting_starts.toLowerCase().includes(nextSeasonPhase),
     )
     plantSuggestions = filteredBySeason.map((plant: Plant) => plant.name)
-    // setPlantSuggestions(strings)
+    otherPlantSuggestions = plantsQuery.data
+      .filter((plant) => !plantSuggestions.includes(plant.name))
+      .map((plant: Plant) => plant.name)
   }
+
   return (
     <>
+      <p>Recommended plants:</p>
       <DropDownAutoFilter
         options={plantSuggestions}
         onSelect={handlePlantSelect}
-        containerClass={``}
+        containerClass={
+          'container absolute w-full border-b-[1px] border-t-[1px]  border-l-[1px] border-r-[1px] border-black bg-white rounded'
+        }
+      />
+      <p>Other plants:</p>
+      <DropDownAutoFilter
+        options={otherPlantSuggestions}
+        onSelect={handlePlantSelect}
+        containerClass={
+          'container absolute w-full border-b-[1px] border-t-[1px]  border-l-[1px] border-r-[1px] border-black bg-white rounded'
+        }
       />
     </>
   )
