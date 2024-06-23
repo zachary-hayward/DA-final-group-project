@@ -13,3 +13,4 @@ export async function addUser(userData: UserData, token:string) {
   const result = await request.post(rootURL + '/users').send(userData).set('Authorization', `Bearer ${token}`)
   return result.body
 }
+

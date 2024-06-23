@@ -25,13 +25,14 @@ router.get('/users', checkJwt, async (req: JwtRequest, res) => {
   }
 })
 //For registering a new user
+interface NewUserData extends UserData {plants: string[]}
 router.post('/users', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
-  const userData: UserData = req.body
+  const userData: NewUserData = req.body
   if (!auth0Id) return res.sendStatus(401)
   if (!userData) return res.sendStatus(400)
   try {
-    const userId = await db.addUser({ ...userData, auth0_id: auth0Id })
+    const userId = await db.addUser({...userData, auth0_id: auth0Id })
     res.json(userId)
   } catch (error) {
     console.log(error)
@@ -62,6 +63,23 @@ router.get('/plants', checkJwt, async (req: JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
+//Add a new plant
+router.post('/plants', checkJwt, async (req: JwtRequest, res) => {
+  const auth0Id = req.auth?.sub
+  const {name} = req.body
+  if (!auth0Id) return res.sendStatus(401)
+  else if (!name) return res.sendStatus(400)
+  else try {
+    const exists = await db.checkPlantExists(name)
+    if (exists) return res.json(exists)
+    const plantData = {}//TODO GetplantData from gemini
+    const added = await db.addPlant(plantData)
+    res.json(added)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
 //Gets all plants the user desires for their garden(s) NOT IN USE
 router.get('/plants/desired', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
@@ -69,6 +87,20 @@ router.get('/plants/desired', checkJwt, async (req: JwtRequest, res) => {
   try {
     const plants = await db.getUsersPlantsDesired(auth0Id)
     res.json(plants)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
+//Adds plants to desired list, adds to db first if they don't exist
+router.post('/plants/desired', checkJwt, async (req: JwtRequest, res) => {
+  const auth0Id = req.auth?.sub
+  const plantList = req.body
+  if (!auth0Id) return res.sendStatus(401)
+  else if (!plantList) return res.sendStatus(400)
+  else try {
+    const addedPlants = await db.addUserPlantsDesired(plantList, auth0Id)
+    res.json(addedPlants)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
