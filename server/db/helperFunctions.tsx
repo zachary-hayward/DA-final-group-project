@@ -21,41 +21,11 @@ export function differentiatePlots(
         ...FEPlot,
         id: matchingPlot.id,
         garden_id: garden_id,
-        // plot_number: FEPlot.plotNumber,
-        // sun_level: FEPlot.sunLight,
-        // plot_type: FEPlot.blockType,
-        // size: FEPlot.size,
-        // name: FEPlot.name,
-        // rain_exposure: FEPlot.rainExposure,
       })
     } else {
       plotsToCreate.push({ ...FEPlot })
     }
   }
-  // export interface PlotDatum {
-  //   plotNumber: string
-  //   name: string
-  //   sunLight: string
-  //   blockType: string
-  //   size: string
-  //   rainExposure: string
-  //   growable: boolean
-  // }
-
-  // // export interface DBPlotDatum extends PlotDatum {
-  // //   id: number
-  // // }
-
-  // export interface DBPlotDatum {
-  //   id: number
-  //   garden_id: number
-  //   plot_number: number
-  //   sun_level: string
-  //   plot_type: string
-  //   size: number
-  //   name: string
-  //   rain_exposure: string
-  // }
 
   // Filter out the back-end plots that have no corresponding plot numbers in the front end
   const plotsToDelete = BEPlots.filter(

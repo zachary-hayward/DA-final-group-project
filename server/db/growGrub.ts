@@ -72,6 +72,7 @@ export function saveNewPlots(
   plotData: PlotDatum[],
   gardenID: number,
 ): Promise<number[]> {
+  if (plotData.length == 0) return Promise.resolve([]) // Return an empty array if there are no plots to save
   const plotsToInsert = plotData.map((plot) => ({
     garden_id: gardenID,
     plot_number: plot.plotNumber,
@@ -102,7 +103,8 @@ export async function updatePlots(
   garden_id: number,
 ): Promise<void> {
   try {
-    const resultArray = await plotData.map(
+    if (plotData.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to update
+    const updatedPlotPromises = plotData.map(
       async (plot) =>
         await db('plots')
           .where({ garden_id, plot_number: plot.plotNumber })
@@ -114,13 +116,14 @@ export async function updatePlots(
             rain_exposure: plot.rainExposure,
           }),
     )
-    // return resultArray
+    await Promise.all(updatedPlotPromises)
   } catch (error) {
     console.log(error)
   }
 }
 
 export async function deletePlotsByID(plotIDs: number[]) {
+  if (plotIDs.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to delete
   return db('plots').whereIn('id', plotIDs).delete()
 }
 
