@@ -3,6 +3,7 @@
 
 import InstructionListItem from '../components/InstructionListItem'
 import SimpleTable from '../components/SimpleTable'
+import TasksTable from '../components/TasksTable'
 
 // mockData
 const plantData: {
@@ -179,6 +180,7 @@ export default function SinglePlant() {
               <div className="list-container">
                 <SimpleTable id={0} title={''} content={''} />
               </div>
+              <TasksTable tasks={[]} />
             </div>
           </div>
         </div>
