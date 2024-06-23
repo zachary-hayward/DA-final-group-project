@@ -85,7 +85,7 @@ export function saveNewPlots(
 }
 
 export function getPlotsByGardenID(garden_id: number) {
-  return db('plots').where({ garden_id }).select().first()
+  return db('plots').where({ garden_id }).select()
 }
 
 export function updateGardenLayout(
@@ -93,7 +93,7 @@ export function updateGardenLayout(
   updatedLayoutString: string,
 ) {
   return db('gardens')
-    .where({ garden_id })
+    .where('id', garden_id)
     .update('layout', updatedLayoutString)
 }
 

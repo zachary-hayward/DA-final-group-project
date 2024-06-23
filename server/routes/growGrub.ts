@@ -187,15 +187,13 @@ router.post('/plots', async (req, res) => {
 // })
 
 // Router used for updating existing garden - NOT IN USE, ONLY FOR TESTING
-router.put('gardens/:id', async (req, res) => {
+router.put('/gardens/:id', async (req, res) => {
   // Body of request will include plotData, layout
   const garden_id = Number(req.params.id)
   try {
     const updatedGarden = req.body
     const updatedLayoutString = JSON.stringify(updatedGarden.layout)
-    // const garden_id = await db.getGardenIDByUserID(user.id)
 
-    // TODO - need to add this function - need to think about getting garden_id too
     await db.updateGardenLayout(garden_id, updatedLayoutString)
 
     const updatedPlotData = updatedGarden.plotData
@@ -207,6 +205,7 @@ router.put('gardens/:id', async (req, res) => {
     await db.updatePlots(plotsToUpdate, garden_id)
     await db.saveNewPlots(plotsToCreate, garden_id)
     await db.deletePlotsByID(plotIDsToDelete)
+    res.json({ message: 'it worked!' }).sendStatus(200)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
