@@ -110,7 +110,6 @@ export async function addUser(userData: addUserProps) {
 }
 
 export async function addVege(prompResult) {
-  // const vegeName = prompResult.plantCareData[0].plantName
   const existingVege = await db('plant_care_data').where({ plantName: prompResult.plantCareData[0].plantName }).first()
 
 if (existingVege) {
@@ -145,10 +144,12 @@ if (existingVege) {
 }
 
 export async function addPlant(promptResult) {
-  const plantName = promptResult.plantCareData[0].plantName
-  const existingPlant = await db('plants').where({ name: plantName})
+  const existingPlant = await db('plants').where({ name: promptResult.plantCareData[0].plantName }).first()
 
-  if (!plantName) {
+  if (existingPlant) {
+    console.log(`Plant with name '${promptResult.plantCareData[0].plantName}' already exists in the plants database`)
+    return existingPlant
+    } else {
   const promptData = {
     name: promptResult.plantCareData[0].plantName,
     difficulty: promptResult.plantCareData[0].careInstructions.difficulty,
@@ -161,7 +162,5 @@ export async function addPlant(promptResult) {
     days_from_seed_until_seedling: promptResult.plantCareData[0].careInstructions.days_from_seed_until_seedling,
   } 
   return db('plants').insert(promptData)
-} else {
-  console.log(`Plant with name '${plantName}' already exists in the plants database`)
 }
 }
