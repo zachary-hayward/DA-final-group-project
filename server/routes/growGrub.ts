@@ -157,7 +157,7 @@ router.post('/plots', async (req, res) => {
   }
 })
 
-// Router used for updating existing garden - NOT IN USE, ONLY FOR TESTING
+// Router used for updating existing garden
 router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
   // Body of request will include plotData, layout
   const garden_id = Number(req.params.id)
