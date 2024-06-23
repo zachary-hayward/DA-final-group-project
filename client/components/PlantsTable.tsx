@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 interface PlantsProps {
   id: number
@@ -52,7 +52,10 @@ const plants: PlantsProps[] = [
   },
 ]
 
-const SimpleTable: React.FC<PlantsProps> = () => {
+const PlantsTable: React.FC<PlantsProps> = () => {
+  // Add useParams but will need to fix header and overall routing to check if this works!
+  const { id } = useParams()
+
   return (
     <div className="mx-auto max-w-7xl py-12">
       <div className="flex items-center justify-end">

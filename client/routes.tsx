@@ -8,7 +8,8 @@ import TaskPage from './pages/TaskPage.tsx'
 import MyPlants from './pages/MyPlants.tsx'
 import { Switch } from '@headlessui/react'
 
-// Added 'Switch' to ensure only one route is matched and rendered at any given time. We may or may not need this.
+// Added 'Switch' to ensure only one route is matched and rendered at any given time.
+// It simplifies routing logic and helps prevent unintended multiple component renders for the same URL.
 
 export default createRoutesFromElements(
   <Route path="/" element={<App />}>
