@@ -63,23 +63,7 @@ router.get('/plants', checkJwt, async (req: JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
-//Add a new plant
-router.post('/plants', checkJwt, async (req: JwtRequest, res) => {
-  const auth0Id = req.auth?.sub
-  const {name} = req.body
-  if (!auth0Id) return res.sendStatus(401)
-  else if (!name) return res.sendStatus(400)
-  else try {
-    const exists = await db.checkPlantExists(name)
-    if (exists) return res.json(exists)
-    const plantData = {}//TODO GetplantData from gemini
-    const added = await db.addPlant(plantData)
-    res.json(added)
-  } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
-  }
-})
+
 //Gets all plants the user desires for their garden(s) NOT IN USE
 router.get('/plants/desired', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub

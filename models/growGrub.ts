@@ -6,6 +6,7 @@ export interface User extends UserData {
 export interface UserData {
   username: string
   location: string
+  summerStarts: string
 }
 
 export interface Plant extends PlantData {

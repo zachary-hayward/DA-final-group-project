@@ -1,7 +1,6 @@
-import type { User, UserData, Plant, PlantData, GardenDB } from '../../models/growGrub.ts'
+import type { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
 import type { PlotDatum } from '../../models/growGrub.ts'
-import knex from 'knex'
 
 export function getUserByAuth0Id(auth0Id: string): Promise<User> {
   return db('users')
@@ -18,13 +17,6 @@ export function getUsernames(): Promise<getUsernameProps[]> {
 
 export function getPlants(): Promise<Plant[]> {
   return db('plants').select()
-}
-
-export function checkPlantExists(name: string): Promise<Plant> {
-  return db('plants').where('plants.name', name).first()
-}
-export function addPlant(plantData: PlantData) {
-  return db('plants').insert(plantData).returning('*')
 }
 
 export function getUsersPlantsDesired(auth0Id: string): Promise<Plant[]> {
@@ -110,27 +102,6 @@ export function saveNewPlots(
   return db('plots').insert(plotsToInsert).returning(['id'])
 }
 
-interface NewUserData extends UserData {
-  plants: string[]
-  auth0_id: string
-}
-export async function addUser({username, location, plants, auth0_id}: NewUserData) {
-  try {
-    await db.transaction(async (trx) => {
-      const [user] = await trx('users').insert({username, location, auth0_id}, ['id'])
-      const userId = user.id
-      const knownPlants = await trx('plants').whereIn('name', plants)
-      const desiredPlantsData = knownPlants.map(plant => ({plant_id:plant.id, user_id: userId}))
-      await trx('user_desired_plants').insert(desiredPlantsData)
-
-      console.log(`added user ${userId}: ${username}`)
-    })
-  } catch (error) {
-    console.log(error)
-    throw new Error (`Couldn't add user`)
-  }
-}
-
 export async function addVege(prompResult) {
   const promptData = {
     plantName: prompResult.plantCareData[0].plantName,
@@ -154,4 +125,25 @@ export async function addVege(prompResult) {
   }
   console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
   return db('plant_care_data').insert(promptData)
+}
+
+interface NewUserData extends UserData {
+  plants: string[]
+  auth0_id: string
+}
+export async function addUser({username, location, plants, summerStarts, auth0_id}: NewUserData) {
+  try {
+    await db.transaction(async (trx) => {
+      const [user] = await trx('users').insert({username, location, auth0_id, summer_start_month: summerStarts}, ['id'])
+      const userId = user.id
+      const knownPlants = await trx('plants').whereIn('name', plants)
+      const desiredPlantsData = knownPlants.map(plant => ({plant_id:plant.id, user_id: userId}))
+      await trx('user_desired_plants').insert(desiredPlantsData)
+
+      console.log(`added user ${userId}: ${username}`)
+    })
+  } catch (error) {
+    console.log(error)
+    throw new Error (`Couldn't add user`)
+  }
 }

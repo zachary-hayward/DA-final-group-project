@@ -9,6 +9,7 @@ interface UserData {
   username: string
   location: string
   plants: string[]
+  summerStarts: string
 }
 interface Props {
   registered: boolean
@@ -20,8 +21,9 @@ export default function Register({ registered, setRegistered }: Props) {
     username: '',
     location: '',
     plants: [],
+    summerStarts: '',
   })
-  
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const [displayMessage, setDisplayMessage] = useState('')
   const hooks = useHooks()
 
@@ -43,8 +45,10 @@ export default function Register({ registered, setRegistered }: Props) {
       setDisplayMessage('Try a different username.')
     } else if (formData.username.length < 3) {
       setDisplayMessage('Please use a longer username.')
-    } else if (formData.location.length < 3) {
+    } else if (formData.location.length < 2) {
       setDisplayMessage('Please use your areas full name.')
+    } else if (!months.includes(formData.summerStarts)) {
+      setDisplayMessage('Please select the month that summer starts for you.')
     } else {
       const token = await getAccessTokenSilently()
       try {
@@ -63,6 +67,10 @@ export default function Register({ registered, setRegistered }: Props) {
   const handlePlantSelect = (option: string) => {
     const plant = titleWord(option)
     setFormData((prev) => ({...prev, plants: [...prev.plants, plant]}))
+    
+  }
+  const handleMonthSelect = (option: string) => {
+    setFormData((prev) => ({...prev, summerStarts: option}))
   }
 
   return (
@@ -72,6 +80,7 @@ export default function Register({ registered, setRegistered }: Props) {
           <div className="mt-2 flex flex-col gap-2">
             <p className="font-bold">UserName:</p>
             <p className="font-bold">Location:</p>
+            <p className="font-bold">Summer Starts In:</p>
             <p className="font-bold">Plants:</p>
           </div>
           <div className="mt-2 flex flex-col gap-2">
@@ -92,6 +101,12 @@ export default function Register({ registered, setRegistered }: Props) {
               name="location"
               value={formData.location}
               onChange={handleChange}
+            />
+            <DropDownAutoFilter
+              value={formData.summerStarts}
+              options={months}
+              onSelect={handleMonthSelect}
+              containerClass={``}
             />
             <DropDownAutoFilter
               options={plantList}
