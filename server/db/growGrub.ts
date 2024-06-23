@@ -86,10 +86,11 @@ export function saveNewGarden(
 
 // Size mismatch + add growable
 export function saveNewPlots(
-  blockData: PlotDatum[],
+  plotData: PlotDatum[],
   gardenID: number,
 ): Promise<number[]> {
-  const plotsToInsert = blockData.map((plot) => ({
+  if (plotData.length == 0) return Promise.resolve([]) // Return an empty array if there are no plots to save
+  const plotsToInsert = plotData.map((plot) => ({
     garden_id: gardenID,
     plot_number: plot.plotNumber,
     sun_level: plot.sunLight,
@@ -102,6 +103,48 @@ export function saveNewPlots(
   return db('plots').insert(plotsToInsert).returning(['id'])
 }
 
+export function getPlotsByGardenID(garden_id: number) {
+  return db('plots').where({ garden_id }).select()
+}
+
+export function updateGardenLayout(
+  garden_id: number,
+  updatedLayoutString: string,
+) {
+  return db('gardens')
+    .where('id', garden_id)
+    .update('layout', updatedLayoutString)
+}
+
+export async function updatePlots(
+  plotData: PlotDatum[],
+  garden_id: number,
+): Promise<void> {
+  try {
+    if (plotData.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to update
+    const updatedPlotPromises = plotData.map(
+      async (plot) =>
+        await db('plots')
+          .where({ garden_id, plot_number: plot.plotNumber })
+          .update({
+            sun_level: plot.sunLight,
+            plot_type: plot.blockType,
+            size: plot.size,
+            name: plot.name,
+            rain_exposure: plot.rainExposure,
+          }),
+    )
+    await Promise.all(updatedPlotPromises)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function deletePlotsByID(plotIDs: number[]) {
+  if (plotIDs.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to delete
+  return db('plots').whereIn('id', plotIDs).delete()
+}
+
 interface addUserProps extends UserData {
   auth0_id: string
 }
@@ -110,6 +153,12 @@ export async function addUser(userData: addUserProps) {
 }
 
 export async function addVege(prompResult) {
+  const existingVege = await db('plant_care_data').where({ plantName: prompResult.plantCareData[0].plantName }).first()
+
+if (existingVege) {
+  console.log(`Plant with name '${prompResult.plantCareData[0].plantName}' already exists in the plant_care_data database`)
+  return existingVege
+  } else {
   const promptData = {
     plantName: prompResult.plantCareData[0].plantName,
     scientificName: prompResult.plantCareData[0].scientificName,
@@ -130,6 +179,31 @@ export async function addVege(prompResult) {
     havestingTime: prompResult.plantCareData[0].harvesting.harvestingTime,
     harvestingTips: prompResult.plantCareData[0].harvesting.harvestingTips,
   }
-  console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
+  // console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
   return db('plant_care_data').insert(promptData)
+
+
+}
+}
+
+export async function addPlant(promptResult) {
+  const existingPlant = await db('plants').where({ name: promptResult.plantCareData[0].plantName }).first()
+
+  if (existingPlant) {
+    console.log(`Plant with name '${promptResult.plantCareData[0].plantName}' already exists in the plants database`)
+    return existingPlant
+    } else {
+  const promptData = {
+    name: promptResult.plantCareData[0].plantName,
+    difficulty: promptResult.plantCareData[0].careInstructions.difficulty,
+    planting_starts: promptResult.plantCareData[0].careInstructions.planting_starts,
+    planting_ends: promptResult.plantCareData[0].careInstructions.planting_ends,
+    watering_frequency: promptResult.plantCareData[0].careInstructions.watering,
+    sun_level: promptResult.plantCareData[0].careInstructions.sunlight,
+    cycle: promptResult.plantCareData[0].careInstructions.cycle,
+    days_from_planting_until_harvest: promptResult.plantCareData[0].careInstructions.days_from_planting_until_harvest,
+    days_from_seed_until_seedling: promptResult.plantCareData[0].careInstructions.days_from_seed_until_seedling,
+  } 
+  return db('plants').insert(promptData)
+}
 }

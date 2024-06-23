@@ -2,7 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import checkJwt, { JwtRequest } from '../auth0'
-import { addVege } from '../db/growGrub'
+import { addPlant, addVege } from '../db/growGrub'
 
 const router = express.Router()
 const geminiApiKey = process.env.API_KEY
@@ -20,7 +20,14 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
 
   try {
     const vege1 = req.query.vege
-    const prompt = `give me json data with whitespacing between each word about plant care information about ${vege1} that contains plant care information, watering with one of three properties: low, moderate or high, sunlight should be "full-shade", "part-sun" or "full-sun", difficulty should be: "easy", "medium" or "hard", cycle should be  "annual", "biennieal", "perennial" or "short-lived-perennial", plantingTime should be the season and month with the seed planting months in New Zealand, plantingSeason should be: "year-round", "summer", "winter", "autumn", "spring" or "early-spring", "late-spring" etc, planting_season_ends should be the last possible point when a seed could be planted, spacing in metres, in the form of {
+    const prompt = `give me json data with whitespacing between each word about plant care information about ${vege1} that contains plant care information, 
+    difficulty should be one of "easy", "medium" or "hard", 
+    watering should be one of three properties: low, moderate or high, 
+    sunlight should be "full-shade", "part-sun" or "full-sun",
+    cycle should be one of "annual", "biennieal", "perennial" or "short-lived-perennial", plantingTime should be the season and month with the seed planting months in New Zealand, plantingSeason should be: "year-round", "summer", "winter", "autumn", "spring" or "early-spring", "late-spring" etc, 
+    planting_starts should be one of: "year-round", "summer", "winter", "autumn",
+"spring" or "early-spring", "late-spring" etc.
+    planting_ends should be the last possible month when a seed could be planted, spacing in metres, in the form of {
 "plantCareData": [
   {
     "plantName": str,
@@ -35,7 +42,12 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
         "pests": str,
         "diseases": str,
         "difficulty": str,
-        "cycle": str
+        "planting_starts": str,
+        "planting_ends": str,
+        "days_from_planting_until_harvest": str,
+        "days_from_seed_until_seedling": str,
+        "cycle": str,
+
     },
     "plantingTime": {
         "indoorsPlantingTime": "Start seeds indoors 6-8 weeks before the last frost date in your area.",
@@ -70,6 +82,7 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
 
     // add db function to add what we get from Gemini to db
     await addVege(JSON.parse(newStr))
+    await addPlant(JSON.parse(newStr))
     // console.log(newStr)
     // res.json(JSON.parse(newStr))
     res.send(newStr)
