@@ -27,12 +27,6 @@ export function GardenGrid({
   setLayout,
   setCurrentGardenID,
 }: GardenGridProps) {
-  // send data to the DB
-
-  // responsiveness settle?
-
-  // style blocks depending on type
-
   const handleAdd = () => {
     const newLayout = [...layout]
     const existingHighestIndex = Number(newLayout[newLayout.length - 1].i)
@@ -60,7 +54,8 @@ export function GardenGrid({
   }
 
   const handleClick = (e: React.PointerEvent<HTMLButtonElement>) => {
-    e.target.tagName == 'BUTTON' ? setActiveID(e.target.id.slice(4)) : null
+    const target = e.target as HTMLElement
+    target.tagName == 'BUTTON' ? setActiveID(target.id.slice(4)) : null
   }
 
   const handleLayoutChange = (newLay: Layout[]) => {
@@ -91,7 +86,6 @@ export function GardenGrid({
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={cols}
         rowHeight={15}
-        // width={1200}
         margin={[0, 0]}
       >
         {layout.map((plot) => (
