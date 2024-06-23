@@ -29,7 +29,6 @@ function GardenForm({
   )
 
   function handlePlantSelect(option: string) {
-    console.log(currentPlot)
     const newPlantsArr = [
       ...currentPlot!.plants,
       {
