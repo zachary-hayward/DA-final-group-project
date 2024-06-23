@@ -14,7 +14,7 @@ const InstructionListItem: React.FC<ListItemProps> = ({
       <div className="list-container">
         <div className="list-grid">
           <div className="col-span-1">
-            <img className="h-10 w-12" src={iconSrc} alt={title} />
+            <img className="h-12 w-12" src={iconSrc} alt={title} />
           </div>
           <div className="col-span-11">
             <h4 className="list-title">{title}</h4>

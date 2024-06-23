@@ -2,6 +2,7 @@
 // import React from "react"
 
 import InstructionListItem from '../components/InstructionListItem'
+import SimpleTable from '../components/SimpleTable'
 
 // mockData
 const plantData: {
@@ -176,7 +177,7 @@ export default function SinglePlant() {
             {/* Notes Tables*/}
             <div>
               <div className="list-container">
-                <h3 className="container-title">My Notes</h3>
+                <SimpleTable id={0} title={''} content={''} />
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
+import SecondaryButton from './SecondaryButton'
 
 interface TableProps {
   id: number
@@ -16,45 +17,57 @@ const notes = [
 
 const SimpleTable: React.FC<TableProps> = ({ id, title, content }) => {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="list-container mx-auto rounded-lg py-8">
       <div className="mb-4 flex items-center justify-between">
-        <div className="text-2xl font-bold">Notes</div>
+        <div className="container-title">My Notes</div>
         <PrimaryButton
-          onClick={function (event: MouseEvent<Element, MouseEvent>): void {
+          onClick={(event: MouseEvent<Element, MouseEvent>): void => {
             throw new Error('Function not implemented.')
           }}
-          children={'Add notes'}
-        />
+        >
+          Add notes
+        </PrimaryButton>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full table-auto border-collapse border border-gray-300">
           {/* Table header */}
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="border border-gray-300 px-4 py-2">Title</th>
-              <th className="border border-gray-300 px-4 py-2">Content</th>
+          <thead>
+            <tr className="bg-slate-50">
+              <th className="border-b-0 bg-slate-50 px-4 py-2 text-left uppercase">
+                Title
+              </th>
+              <th className="border-b-0 bg-slate-50 px-4 py-2 text-left uppercase">
+                Content
+              </th>
+              <th className="border-b-0 bg-slate-50 px-4 py-2 text-left uppercase"></th>
             </tr>
           </thead>
 
           {/* Table body */}
           <tbody>
-            {notes.map((note) => (
+            {notes.map((note, index) => (
               <tr
                 key={note.id}
-                className={note.id % 2 === 0 ? 'bg-gray-100' : 'bg-white'}
+                className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
               >
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="w-1/4 border border-gray-300 px-4 py-2">
                   {note.title}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="w-3/4 border border-gray-300 px-4 py-2">
                   {note.content}
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  <button className="rounded bg-green-500 px-2 py-1 font-bold text-white hover:bg-green-600">
+                <td className="w-1/12 border border-gray-300 px-4 py-2 text-right">
+                  <SecondaryButton
+                    onClick={(
+                      event: MouseEvent<Element, globalThis.MouseEvent>,
+                    ): void => {
+                      throw new Error('Function not implemented.')
+                    }}
+                  >
                     Edit
-                  </button>
+                  </SecondaryButton>
                 </td>
               </tr>
             ))}
