@@ -57,6 +57,15 @@ export interface PlotDatum {
   size: number
   rainExposure: string
   growable: boolean
+  plants: PlotPlant[]
+}
+
+export interface PlotPlant {
+  plantName: string
+  name: string
+  id: null | number
+  last_watered: null | string
+  date_planted: string
 }
 
 export interface PlotDatumDB extends PlotDatum {

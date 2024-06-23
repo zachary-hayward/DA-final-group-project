@@ -7,6 +7,15 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [
+      {
+        name: 'cucumber',
+        plantName: 'cucumber',
+        id: null,
+        last_watered: null,
+        date_planted: 'today?',
+      },
+    ],
   },
   {
     plotNumber: '2',
@@ -16,6 +25,15 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [
+      {
+        name: 'cucumber',
+        plantName: 'cucumber',
+        id: null,
+        last_watered: null,
+        date_planted: 'today?',
+      },
+    ],
   },
   {
     plotNumber: '4',
@@ -25,6 +43,15 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [
+      {
+        name: 'cucumber',
+        plantName: 'cucumber',
+        id: null,
+        last_watered: null,
+        date_planted: 'today?',
+      },
+    ],
   },
   {
     plotNumber: '6',
@@ -34,6 +61,15 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [
+      {
+        name: 'cucumber',
+        plantName: 'cucumber',
+        id: null,
+        last_watered: null,
+        date_planted: 'today?',
+      },
+    ],
   },
   {
     plotNumber: '7',
@@ -43,6 +79,15 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [
+      {
+        name: 'cucumber',
+        plantName: 'cucumber',
+        id: null,
+        last_watered: null,
+        date_planted: 'today?',
+      },
+    ],
   },
   {
     plotNumber: '8',
@@ -52,6 +97,15 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [
+      {
+        name: 'cucumber',
+        plantName: 'cucumber',
+        id: null,
+        last_watered: null,
+        date_planted: 'today?',
+      },
+    ],
   },
   {
     plotNumber: '9',
@@ -61,6 +115,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [],
   },
   {
     plotNumber: '10',
@@ -70,6 +125,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [],
   },
   {
     plotNumber: '3',
@@ -79,6 +135,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
+    plants: [],
   },
 ]
 

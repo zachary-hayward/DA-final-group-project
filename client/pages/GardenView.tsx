@@ -8,13 +8,17 @@ import {
   plotDataDefaultState,
 } from '../functions/defaultState.ts'
 import GardenSelect from '../components/GardenSelect.tsx'
-import { GardenSimpleDB, PlotDatumDB } from '../../models/growGrub.ts'
+import {
+  GardenSimpleDB,
+  PlotDatum,
+  PlotDatumDB,
+} from '../../models/growGrub.ts'
 
 export function GardenView() {
   const saveGarden = useSaveGarden()
   const getGardens = useGetGardens()
   const [currentGardenID, setCurrentGardenID] = useState<number | undefined>()
-  const [plotData, setPlotData] = useState(plotDataDefaultState)
+  const [plotData, setPlotData] = useState<PlotDatum[]>(plotDataDefaultState)
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState(layoutDefaultState)
 
@@ -23,7 +27,6 @@ export function GardenView() {
     getGardens.data.gardens.length > 0 &&
     currentGardenID === undefined
   ) {
-    console.log('oops')
     return (
       <GardenSelect
         gardenData={getGardens.data.gardens}

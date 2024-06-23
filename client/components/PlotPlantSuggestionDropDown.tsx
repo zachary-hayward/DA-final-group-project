@@ -4,7 +4,7 @@ import DropDownAutoFilter from './DropDownAutoFilter'
 import { Plant } from '../../models/growGrub'
 
 interface Props {
-  handlePlantSelect: () => void
+  handlePlantSelect: (option: string) => void
   plotSunLevel: undefined | string
 }
 
@@ -12,7 +12,6 @@ function PlotPlantSuggestionDropDown({
   handlePlantSelect,
   plotSunLevel,
 }: Props) {
-  // const [plantSuggestions, setPlantSuggestions] = useState<string[]>([])
   const hooks = useHooks()
   const plantsQuery = hooks.getPlants()
 
