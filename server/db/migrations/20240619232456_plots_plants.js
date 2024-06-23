@@ -17,8 +17,15 @@ export const up = function (knex) {
       .references('id')
       .inTable('plots')
       .onDelete('CASCADE')
+    table
+      .integer('user_id')
+      .references('id')
+      .inTable('users')
+      .onDelete('CASCADE')
     table.string('date_planted')
     table.string('last_watered')
+    table.string('watering_history')
+    table.string('name')
   })
 }
 
