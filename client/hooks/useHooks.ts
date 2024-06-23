@@ -14,9 +14,9 @@ const rootURL = new URL(`/api/v1`, document.baseURI).toString()
 
 export function useHooks() {
   return {
-    getUsernames: useGetUsernames,
-    getPlants: useGetPlants,
-    getGardens: useGetGardens,
+    useGetUsernames,
+    useGetPlants,
+    useGetGardens,
   }
 }
 
