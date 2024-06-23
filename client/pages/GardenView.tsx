@@ -8,47 +8,38 @@ import {
   plotDataDefaultState,
 } from '../functions/defaultState.ts'
 import GardenSelect from '../components/GardenSelect.tsx'
-import { GardenSimpleDB } from '../../models/growGrub.ts'
+import { GardenSimpleDB, PlotDatumDB } from '../../models/growGrub.ts'
 
 export function GardenView() {
   const saveGarden = useSaveGarden()
   const getGardens = useGetGardens()
   const [currentGardenID, setCurrentGardenID] = useState<number | undefined>()
-  const [plotData, setPlotData] = useState(
-    currentGardenID
-      ? getGardens.data.find(
-          (garden: GardenSimpleDB) => garden.id === currentGardenID,
-        )
-      : plotDataDefaultState,
-  )
+  const [plotData, setPlotData] = useState(plotDataDefaultState)
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState(layoutDefaultState)
 
   if (getGardens.data && currentGardenID === undefined) {
-    console.log(getGardens.data)
     return (
       <GardenSelect
-        gardenData={getGardens.data}
-        setCurrentGardenID={setCurrentGardenID}
+        gardenData={getGardens.data.gardens}
         switchSelectedGarden={switchSelectedGarden}
       />
     )
   }
 
   function switchSelectedGarden(id: number) {
-    console.log(id)
     setCurrentGardenID(id)
-    const currentGarden = getGardens.data.find(
+    const currentGarden = getGardens.data.gardens.find(
       (garden: GardenSimpleDB) => garden.id === id,
     )
-    console.log(currentGarden.layout)
+    const currentPlotData = getGardens.data.plots
+      .filter((plot: PlotDatumDB) => plot.gardenId === id)
+      .map((plot: PlotDatumDB) => {
+        return { ...plot, plotNumber: String(plot.plotNumber) }
+      })
+    setPlotData(currentPlotData)
     setLayout(JSON.parse(currentGarden.layout))
-    // set blockData too
   }
-
-  // need to figure out how to change the state of the layout depending on the currentGardenID - could maybe work if the GardenSelect was its own page. Otherwise the more logical solution might be to pass down a function which will set the states/handle the click rather than passing so many states down
-
-  // need to get the plotData from the db to update the state
 
   const onSaveGarden = async () => {
     saveGarden.mutateAsync({ layout, plotData })

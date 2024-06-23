@@ -2,14 +2,10 @@ import { GardenSimpleDB } from '../../models/growGrub'
 
 interface Props {
   garden: GardenSimpleDB
-  setCurrentGardenID: React.Dispatch<React.SetStateAction<number | undefined>>
+  switchSelectedGarden: (id: number) => void
 }
 
-function GardenButton({
-  garden,
-  setCurrentGardenID,
-  switchSelectedGarden,
-}: Props) {
+function GardenButton({ garden, switchSelectedGarden }: Props) {
   function handleClick() {
     switchSelectedGarden(garden.id)
   }

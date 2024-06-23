@@ -3,21 +3,16 @@ import GardenButton from './GardenButton'
 
 interface Props {
   gardenData: GardenSimpleDB[]
-  setCurrentGardenID: React.Dispatch<React.SetStateAction<number | undefined>>
+  switchSelectedGarden: (id: number) => void
 }
 
-function GardenSelect({
-  gardenData,
-  setCurrentGardenID,
-  switchSelectedGarden,
-}: Props) {
+function GardenSelect({ gardenData, switchSelectedGarden }: Props) {
   return (
     <div>
       {gardenData.map((garden: GardenSimpleDB) => (
         <GardenButton
           key={`${garden.id}+++${garden.user_id}`}
           garden={garden}
-          setCurrentGardenID={setCurrentGardenID}
           switchSelectedGarden={switchSelectedGarden}
         />
       ))}

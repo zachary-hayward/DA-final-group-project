@@ -59,6 +59,10 @@ export interface PlotDatum {
   growable: boolean
 }
 
+export interface PlotDatumDB extends PlotDatum {
+  gardenId: number
+}
+
 export interface GardenToSave {
   layout: Layout[]
   plotData: PlotDatum[]
