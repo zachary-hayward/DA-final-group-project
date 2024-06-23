@@ -1,6 +1,6 @@
 import {
   useMutation,
-  // useQueryClient,
+  useQueryClient,
   // MutationFunction,
   useQuery,
 } from '@tanstack/react-query'
@@ -8,6 +8,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import request from 'superagent'
 import { Plant } from '../../models/growGrub'
 import { GardenToSave } from '../../models/growGrub'
+import { useNavigate } from 'react-router-dom'
 
 const rootURL = new URL(`/api/v1`, document.baseURI).toString()
 
@@ -81,7 +82,8 @@ const useGetPlants = () => {
 
 export function useSaveGarden() {
   const { getAccessTokenSilently } = useAuth0()
-  // const queryClient = useQueryClient()
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   return useMutation({
     mutationFn: async ({ layout, plotData }: GardenToSave) => {
@@ -93,9 +95,10 @@ export function useSaveGarden() {
         .set('Authorization', `Bearer ${token}`)
       return res.body
     },
-    // onSuccess: async () => {
-    //   queryClient.invalidateQueries({ queryKey: ['datatable'] })
-    // },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['gardens'] })
+      navigate('/')
+    },
   })
 }
 
