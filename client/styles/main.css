@@ -19,7 +19,7 @@
 }
 
 .banner-title {
-  @apply text-4xl font-bold text-gray-800;
+  @apply text-4xl font-bold text-green-800;
 }
 
 /* Instruction List */
