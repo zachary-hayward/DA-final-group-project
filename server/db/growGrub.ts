@@ -34,6 +34,22 @@ export function getUsersGardens(auth0Id: string) {
     .select('gardens.*')
 }
 
+export const getAllUsersPlots = (auth0Id: string) => {
+  return db('users')
+    .where('users.auth0_id', auth0Id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .select(
+      'garden_id as gardenId',
+      'plots.name',
+      'plot_number as plotNumber',
+      'size',
+      'plot_type as blockType',
+      'rain_exposure as rainExposure',
+      'sun_level as sunLight',
+    )
+}
+
 export function getUserGarden(
   auth0Id: string,
   id: number,
