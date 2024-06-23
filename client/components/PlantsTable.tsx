@@ -25,7 +25,7 @@ const plants: PlantsProps[] = [
     lastPerformed: '3 November 2022',
     status: 'Good',
     extraCare: 'No extra care needed',
-    growthStatus: 'Ready to Harvest',
+    growthStatus: 'Seedling',
   },
   {
     id: 2,
@@ -47,18 +47,21 @@ const plants: PlantsProps[] = [
     lastPerformed: '3 November 2022',
     status: 'Good',
     extraCare: 'Suspected disease: Bug infestation',
-    growthStatus: 'Ready to Harvest',
+    growthStatus: 'Growing',
   },
 ]
 
 const SimpleTable: React.FC<PlantsProps> = () => {
   return (
     <div className="list-container mx-auto py-12">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-end">
+        {' '}
+        {/* justify-end instead of justify-between */}
         <PrimaryButton
           onClick={(event: MouseEvent<Element, MouseEvent>): void => {
             throw new Error('Function not implemented.')
           }}
+          style={{ marginRight: '0' }} // optional: to adjust spacing from right edge
         >
           Add New Plant
         </PrimaryButton>
@@ -74,7 +77,13 @@ const SimpleTable: React.FC<PlantsProps> = () => {
                 My Plants
               </th>
               <th className="table-header border-t border-slate-200">
-                Task Type
+                Plant Care
+              </th>
+              <th className="table-header border-t border-slate-200">
+                Plant Health
+              </th>
+              <th className="table-header border-t border-slate-200">
+                Growth Status
               </th>
               <th className="table-header border-r border-t border-slate-200"></th>
             </tr>
@@ -103,8 +112,19 @@ const SimpleTable: React.FC<PlantsProps> = () => {
                   </div>
                 </td>
                 <td className="border border-slate-200 px-4 py-2">
-                  <div className="mb-1 font-medium">{}</div>
-                  <div className="text-gray-600">{}</div>
+                  <div className="mb-1 font-medium">{plant.taskType}</div>
+                  <div className="text-gray-600">
+                    Last performed: {plant.lastPerformed}
+                  </div>
+                </td>
+                <td className="border border-slate-200 px-4 py-2">
+                  <div className="mb-1 font-medium">{plant.status}</div>
+                  <div className="text-gray-600">
+                    Last performed: {plant.extraCare}
+                  </div>
+                </td>
+                <td className="border border-slate-200 px-4 py-2">
+                  <div className="mb-1 font-medium">{plant.growthStatus}</div>
                 </td>
                 <td className="w-1/12 border border-slate-200 px-4 py-2 text-right">
                   <SecondaryButton
@@ -114,7 +134,7 @@ const SimpleTable: React.FC<PlantsProps> = () => {
                       throw new Error('Function not implemented.')
                     }}
                   >
-                    Done
+                    Edit
                   </SecondaryButton>
                 </td>
               </tr>
