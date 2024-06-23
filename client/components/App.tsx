@@ -6,7 +6,6 @@ import Header from './Header.tsx'
 import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
-import SinglePlant from '../pages/SinglePlant.tsx'
 
 function App() {
   const [processing, setProcessing] = useState(true)
@@ -45,7 +44,6 @@ function App() {
             )}
           </>
         )}
-        <SinglePlant />
         <Footer />
       </div>
     </>
