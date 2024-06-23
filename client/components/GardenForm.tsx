@@ -37,9 +37,9 @@ function GardenForm({
         : Number(e.target.value)
 
     const newPlot = {
-          ...currentPlot!,
-          [e.target.name]: value,
-        }
+      ...currentPlot!,
+      [e.target.name]: value,
+    }
     setPlots(newPlot)
   }
 
@@ -260,5 +260,19 @@ function GardenForm({
     </div>
   )
 }
+
+// ADD PLANTS TO PLOT
+
+// RECOMMENDED PLANTS - OTHERS
+
+// Use Zacs drop down to let users choose from their desired plants first
+
+// it should also suggest plants that require that amount of sunlight - and plants that should be planted at that time of year
+
+// then, all the other plants that exist
+
+// If a plant is added it needs to be stored in some sort of state
+
+// When the garden is saved
 
 export default GardenForm
