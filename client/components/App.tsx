@@ -6,7 +6,6 @@ import Header from './Header.tsx'
 import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
-import TaskPage from '../pages/TaskPage.tsx'
 
 function App() {
   const [processing, setProcessing] = useState(true)
