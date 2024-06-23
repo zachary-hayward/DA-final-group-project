@@ -153,6 +153,12 @@ export async function addUser(userData: addUserProps) {
 }
 
 export async function addVege(prompResult) {
+  const existingVege = await db('plant_care_data').where({ plantName: prompResult.plantCareData[0].plantName }).first()
+
+if (existingVege) {
+  console.log(`Plant with name '${prompResult.plantCareData[0].plantName}' already exists in the plant_care_data database`)
+  return existingVege
+  } else {
   const promptData = {
     plantName: prompResult.plantCareData[0].plantName,
     scientificName: prompResult.plantCareData[0].scientificName,
@@ -173,6 +179,31 @@ export async function addVege(prompResult) {
     havestingTime: prompResult.plantCareData[0].harvesting.harvestingTime,
     harvestingTips: prompResult.plantCareData[0].harvesting.harvestingTips,
   }
-  console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
+  // console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
   return db('plant_care_data').insert(promptData)
+
+
+}
+}
+
+export async function addPlant(promptResult) {
+  const existingPlant = await db('plants').where({ name: promptResult.plantCareData[0].plantName }).first()
+
+  if (existingPlant) {
+    console.log(`Plant with name '${promptResult.plantCareData[0].plantName}' already exists in the plants database`)
+    return existingPlant
+    } else {
+  const promptData = {
+    name: promptResult.plantCareData[0].plantName,
+    difficulty: promptResult.plantCareData[0].careInstructions.difficulty,
+    planting_starts: promptResult.plantCareData[0].careInstructions.planting_starts,
+    planting_ends: promptResult.plantCareData[0].careInstructions.planting_ends,
+    watering_frequency: promptResult.plantCareData[0].careInstructions.watering,
+    sun_level: promptResult.plantCareData[0].careInstructions.sunlight,
+    cycle: promptResult.plantCareData[0].careInstructions.cycle,
+    days_from_planting_until_harvest: promptResult.plantCareData[0].careInstructions.days_from_planting_until_harvest,
+    days_from_seed_until_seedling: promptResult.plantCareData[0].careInstructions.days_from_seed_until_seedling,
+  } 
+  return db('plants').insert(promptData)
+}
 }
