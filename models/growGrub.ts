@@ -15,7 +15,7 @@ export interface Plant {
   planting_starts: string
   planting_ends: string
   watering_frequency: string
-  sunlight: number
+  sun_level: string
   cycle: string
 }
 

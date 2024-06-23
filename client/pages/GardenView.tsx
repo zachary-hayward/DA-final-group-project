@@ -23,6 +23,7 @@ export function GardenView() {
     getGardens.data.gardens.length > 0 &&
     currentGardenID === undefined
   ) {
+    console.log('oops')
     return (
       <GardenSelect
         gardenData={getGardens.data.gardens}

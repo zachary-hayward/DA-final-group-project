@@ -6,6 +6,9 @@ import DeleteButton from './DeleteButton'
 import { Layout } from 'react-grid-layout'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import DropDownAutoFilter from './DropDownAutoFilter'
+import { useHooks } from '../hooks/useHooks'
+import PlotPlantSuggestionDropDown from './PlotPlantSuggestionDropDown'
 
 interface Props {
   plotData: PlotDatum[]
@@ -27,6 +30,9 @@ function GardenForm({
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
   )
+  // const [chosenPlants, setChosenPlants] = useState()
+
+  function handlePlantSelect() {}
 
   function handleChange(
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
@@ -247,9 +253,14 @@ function GardenForm({
           <option value="100">100%</option>
         </select>{' '}
         <br /> */}
-        <TertiaryButton onClick={() => console.log('clicked')}>
+        <PlotPlantSuggestionDropDown
+          // key={currentPlot?.sunLight}
+          handlePlantSelect={handlePlantSelect}
+          plotSunLevel={currentPlot?.sunLight}
+        />
+        {/* <TertiaryButton onClick={() => console.log('clicked')}>
           Add plant
-        </TertiaryButton>
+        </TertiaryButton> */}
         {/* <button className="add-plant" type="button">
           Add plant
         </button> */}
@@ -262,19 +273,5 @@ function GardenForm({
     </div>
   )
 }
-
-// ADD PLANTS TO PLOT
-
-// RECOMMENDED PLANTS - OTHERS
-
-// Use Zacs drop down to let users choose from their desired plants first
-
-// it should also suggest plants that require that amount of sunlight - and plants that should be planted at that time of year
-
-// then, all the other plants that exist
-
-// If a plant is added it needs to be stored in some sort of state
-
-// When the garden is saved
 
 export default GardenForm
