@@ -62,6 +62,7 @@ export function GardenView() {
           setActiveID={setActiveID}
           layout={layout}
           setLayout={setLayout}
+          currentGardenID={currentGardenID}
           setCurrentGardenID={setCurrentGardenID}
         />
         <GardenForm

@@ -13,7 +13,7 @@ function PlotPlantSuggestionDropDown({
   plotSunLevel,
 }: Props) {
   const hooks = useHooks()
-  const plantsQuery = hooks.getPlants()
+  const plantsQuery = hooks.useGetPlants()
 
   const userSummerStartMonth = 'september'
 
@@ -60,8 +60,6 @@ function PlotPlantSuggestionDropDown({
     indexOfSummerMonth,
     currentMonthIndex,
   )
-  console.log(indexOfSummerMonth)
-  console.log('months since: ', numMonthsSinceEarlySummer)
   function getMonthsSinceEarlySummer(
     summerStartIndex: number,
     currMonthIndex: number,
@@ -124,18 +122,6 @@ function PlotPlantSuggestionDropDown({
   )
 }
 
-// ADD PLANTS TO PLOT
-
-// RECOMMENDED PLANTS - OTHERS
-
-// Use Zacs drop down to let users choose from their desired plants first
-
-// it should also suggest plants that require that amount of sunlight - and plants that should be planted at that time of year
-
-// then, all the other plants that exist
-
-// If a plant is added it needs to be stored in some sort of state
-
-// When the garden is saved
+// Possibly add filter for if the plants are in the users desired plants
 
 export default PlotPlantSuggestionDropDown
