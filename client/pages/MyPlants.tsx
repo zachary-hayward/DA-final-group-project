@@ -9,7 +9,7 @@ export default function TaskPage() {
           <h2 className="banner-title">My Plants</h2>
         </div>
       </div>
-      <div className="my-20">
+      <div className="mx-auto my-20 max-w-7xl">
         <PlantsTable
           id={0}
           plantName={''}
