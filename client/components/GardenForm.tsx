@@ -37,9 +37,9 @@ function GardenForm({
         : Number(e.target.value)
 
     const newPlot = {
-          ...currentPlot!,
-          [e.target.name]: value,
-        }
+      ...currentPlot!,
+      [e.target.name]: value,
+    }
     setPlots(newPlot)
   }
 
@@ -128,7 +128,9 @@ function GardenForm({
             onChange={handleCheckboxChange}
           />
           <br />
-          <button className="save-garden">Save garden & exit</button>
+          <PrimaryButton onClick={handleSubmit}>
+            Save garden & exit
+          </PrimaryButton>
         </form>
       </div>
     )

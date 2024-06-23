@@ -13,7 +13,7 @@ export const up = function (knex) {
       .onDelete('CASCADE')
     table.integer('plot_number')
     table.string('sun_level')
-    table.string('growable')
+    table.boolean('growable')
     table.string('plot_type')
     table.integer('size')
     table.string('name')
