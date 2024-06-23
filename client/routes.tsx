@@ -12,7 +12,6 @@ export default createRoutesFromElements(
     <Route index element={<Home />} />
     <Route path="/my-garden" element={<GardenView />} />
     <Route path="/my-plants" element={<MyPlants />} />
-    {/* '/my-plants' should link to the plants list of an exisiting garden */}
     <Route path="/my-plants/:id" element={<SinglePlant />} />
     <Route path="/my-tasks" element={<TaskPage />} />
   </Route>,
