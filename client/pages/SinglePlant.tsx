@@ -2,7 +2,6 @@
 // import React from "react"
 
 import InstructionListItem from '../components/InstructionListItem'
-import PlantsTable from '../components/PlantsTable'
 import SimpleTable from '../components/SimpleTable'
 
 // mockData
@@ -183,14 +182,6 @@ export default function SinglePlant() {
             </div>
           </div>
         </div>
-        <PlantsTable
-          id={0}
-          plantName={''}
-          plantImage={''}
-          plantedDate={''}
-          taskType={''}
-          lastPerformed={''}
-        />
       </div>
     </>
   )
