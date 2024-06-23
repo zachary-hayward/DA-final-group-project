@@ -12,8 +12,8 @@ export const up = function (knex) {
     table.string('watering_frequency')
     table.string('sun_level')
     table.string('cycle')
-    table.number('days_from_planting_until_harvest')
-    table.number('days_from_seed_until_seedling')
+    table.integer('days_from_planting_until_harvest')
+    table.integer('days_from_seed_until_seedling')
   })
 }
 
