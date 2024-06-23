@@ -27,6 +27,7 @@ export function GardenView() {
     getGardens.data.gardens.length > 0 &&
     currentGardenID === undefined
   ) {
+    console.log('here')
     return (
       <GardenSelect
         gardenData={getGardens.data.gardens}
@@ -62,6 +63,7 @@ export function GardenView() {
           setActiveID={setActiveID}
           layout={layout}
           setLayout={setLayout}
+          currentGardenID={currentGardenID}
           setCurrentGardenID={setCurrentGardenID}
         />
         <GardenForm
