@@ -128,7 +128,9 @@ function GardenForm({
             onChange={handleCheckboxChange}
           />
           <br />
-          <button className="save-garden">Save garden & exit</button>
+          <PrimaryButton onClick={handleSubmit}>
+            Save garden & exit
+          </PrimaryButton>
         </form>
       </div>
     )
