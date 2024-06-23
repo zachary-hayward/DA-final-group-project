@@ -124,4 +124,4 @@ const TaskTable: React.FC<TaskProps> = ({
   )
 }
 
-export default SimpleTable
+export default TaskTable
