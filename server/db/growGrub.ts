@@ -133,3 +133,26 @@ export async function addVege(prompResult) {
   console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
   return db('plant_care_data').insert(promptData)
 }
+
+export async function addPlant(promptResult) {
+  const plantName = promptResult.plantCareData[0].plantName
+  const existingPlant = await db('plants').where({ name: plantName})
+
+  if (!plantName) {
+  const promptData = {
+    name: promptResult.plantCareData[0].plantName,
+    difficulty: promptResult.plantCareData[0].careInstructions.difficulty,
+    planting_starts: promptResult.plantCareData[0].careInstructions.planting_starts,
+    planting_ends: promptResult.plantCareData[0].careInstructions.planting_ends,
+    watering_frequency: promptResult.plantCareData[0].careInstructions.watering,
+    sun_level: promptResult.plantCareData[0].careInstructions.sunlight,
+    cycle: promptResult.plantCareData[0].careInstructions.cycle,
+    days_from_planting_until_harvest: promptResult.plantCareData[0].careInstructions.days_from_planting_until_harvest,
+    days_from_seed_until_seedling: promptResult.plantCareData[0].careInstructions.days_from_seed_until_seedling,
+  } 
+  return db('plants').insert(promptData)
+} else {
+  console.log(`Plant with name '${plantName}' already exists in the database`)
+  return existingPlant
+}
+}
