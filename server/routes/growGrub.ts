@@ -137,6 +137,7 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
     const layoutString = JSON.stringify(newGarden.layout)
     const newGardenID = await db.saveNewGarden(layoutString, user.id)
     const newPlotIDs = await db.saveNewPlots(newGarden.plotData, newGardenID[0])
+    // create a db function to save plants
     res.json({ newGardenID, newPlotIDs })
   } catch (error) {
     console.log(error)
