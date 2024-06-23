@@ -81,7 +81,8 @@ router.get('/gardens', checkJwt, async (req: JwtRequest, res) => {
   if (!auth0Id) return res.sendStatus(401)
   try {
     const gardens = await db.getUsersGardens(auth0Id)
-    res.json(gardens)
+    const plots = await db.getAllUsersPlots(auth0Id)
+    res.json({ gardens, plots })
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
