@@ -16,8 +16,8 @@ interface GardenGridProps {
   setActiveID: React.Dispatch<React.SetStateAction<string>>
   layout: Layout[]
   setLayout: React.Dispatch<React.SetStateAction<Layout[]>>
-  currentGardenID: number | undefined
-  setCurrentGardenID: React.Dispatch<React.SetStateAction<number | undefined>>
+  currentGardenID: number | null
+  setCurrentGardenID: React.Dispatch<React.SetStateAction<number | null>>
 }
 
 export function GardenGrid({
@@ -72,9 +72,7 @@ export function GardenGrid({
       buttons: [
         {
           label: 'My gardens',
-          onClick: () => {
-            setCurrentGardenID(undefined)
-          },
+          onClick: () => setCurrentGardenID(null),
         },
         { label: 'Stay here' },
       ],
