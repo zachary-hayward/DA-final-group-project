@@ -43,17 +43,47 @@ export interface GardenDB {
   cycle: string
 }
 
+export interface GardenSimpleDB {
+  id: number
+  user_id: number
+  layout: string
+}
+
 export interface PlotDatum {
   plotNumber: string
   name: string
   sunLight: string
   blockType: string
-  size: string
+  size: number
   rainExposure: string
   growable: boolean
+}
+
+export interface PlotDatumDB extends PlotDatum {
+  gardenId: number
 }
 
 export interface GardenToSave {
   layout: Layout[]
   plotData: PlotDatum[]
+}
+
+export interface plantCareData {
+  id: number
+  plantName: string
+  scientificName: string
+  description: string
+  soil: string
+  sunlight: string
+  watering: string
+  fertilization: string
+  pruning: string
+  pests: string
+  diseases: string
+  indoorsPlantingTime: string
+  outdoorsPlantingTime: string
+  spacing: string
+  plantingTime: string
+  havestingTime: string
+  harvestingTips: string
 }

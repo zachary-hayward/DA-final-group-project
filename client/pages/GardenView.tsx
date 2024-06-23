@@ -1,66 +1,64 @@
 import GardenGrid from '../components/GardenGrid.tsx'
 import GardenForm from '../components/GardenForm.tsx'
-import { useSaveGarden } from '../hooks/useHooks.ts'
+import { useGetGardens, useSaveGarden } from '../hooks/useHooks.ts'
 
 import { useState } from 'react'
+import {
+  layoutDefaultState,
+  plotDataDefaultState,
+} from '../functions/defaultState.ts'
+import GardenSelect from '../components/GardenSelect.tsx'
+import { GardenSimpleDB, PlotDatumDB } from '../../models/growGrub.ts'
 
 export function GardenView() {
   const saveGarden = useSaveGarden()
-
-  const [plotData, setPlotData] = useState([
-    {
-      plotNumber: '1',
-      name: 'window garden',
-      sunLight: 'full-sun',
-      blockType: 'house',
-      size: '3x3',
-      rainExposure: 'undercover',
-      growable: true,
-    },
-    {
-      plotNumber: '2',
-      name: 'glasshouse',
-      sunLight: 'part-sun',
-      blockType: 'garden',
-      size: '3x3',
-      rainExposure: 'fully',
-      growable: true,
-    },
-    {
-      plotNumber: '3',
-      name: 'kitchen garden',
-      sunLight: 'full-shade',
-      blockType: 'garden',
-      size: '3x3',
-      rainExposure: 'partially',
-      growable: true,
-    },
-  ])
+  const getGardens = useGetGardens()
+  const [currentGardenID, setCurrentGardenID] = useState<number | undefined>()
+  const [plotData, setPlotData] = useState(plotDataDefaultState)
   const [activeID, setActiveID] = useState<string>('1')
-  const [layout, setLayout] = useState([
-    { w: 1, h: 16, x: 0, y: 0, i: '1' },
-    { w: 2, h: 9, x: 2, y: 0, i: '2' },
-    { w: 5, h: 1, x: 1, y: 9, i: '3' },
-  ])
+  const [layout, setLayout] = useState(layoutDefaultState)
+
+  if (
+    getGardens.data &&
+    getGardens.data.gardens.length > 0 &&
+    currentGardenID === undefined
+  ) {
+    return (
+      <GardenSelect
+        gardenData={getGardens.data.gardens}
+        switchSelectedGarden={switchSelectedGarden}
+      />
+    )
+  }
+
+  function switchSelectedGarden(id: number) {
+    setCurrentGardenID(id)
+    const currentGarden = getGardens.data.gardens.find(
+      (garden: GardenSimpleDB) => garden.id === id,
+    )
+    const currentPlotData = getGardens.data.plots
+      .filter((plot: PlotDatumDB) => plot.gardenId === id)
+      .map((plot: PlotDatumDB) => {
+        return { ...plot, plotNumber: String(plot.plotNumber) }
+      })
+    setPlotData(currentPlotData)
+    setLayout(JSON.parse(currentGarden.layout))
+  }
 
   const onSaveGarden = async () => {
     saveGarden.mutateAsync({ layout, plotData })
   }
 
-  if (saveGarden.data) {
-    console.log(saveGarden.data)
-  }
-
   return (
     <>
       <div className="gardenview">
-        <p>{activeID}</p>
         <GardenGrid
           plotData={plotData}
           setPlotData={setPlotData}
           setActiveID={setActiveID}
           layout={layout}
           setLayout={setLayout}
+          setCurrentGardenID={setCurrentGardenID}
         />
         <GardenForm
           key={activeID}
@@ -68,6 +66,8 @@ export function GardenView() {
           setPlotData={setPlotData}
           activeID={activeID}
           onSaveGarden={onSaveGarden}
+          layout={layout}
+          setLayout={setLayout}
         />
       </div>
     </>

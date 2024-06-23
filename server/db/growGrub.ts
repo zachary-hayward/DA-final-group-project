@@ -34,6 +34,22 @@ export function getUsersGardens(auth0Id: string) {
     .select('gardens.*')
 }
 
+export const getAllUsersPlots = (auth0Id: string) => {
+  return db('users')
+    .where('users.auth0_id', auth0Id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .select(
+      'garden_id as gardenId',
+      'plots.name',
+      'plot_number as plotNumber',
+      'size',
+      'plot_type as blockType',
+      'rain_exposure as rainExposure',
+      'sun_level as sunLight',
+    )
+}
+
 export function getUserGarden(
   auth0Id: string,
   id: number,
@@ -89,4 +105,29 @@ interface addUserProps extends UserData {
 }
 export async function addUser(userData: addUserProps) {
   return db('users').insert(userData)
+}
+
+export async function addVege(prompResult) {
+  const promptData = {
+    plantName: prompResult.plantCareData[0].plantName,
+    scientificName: prompResult.plantCareData[0].scientificName,
+    description: prompResult.plantCareData[0].description,
+    soil: prompResult.plantCareData[0].careInstructions.soil,
+    sunlight: prompResult.plantCareData[0].careInstructions.sunlight,
+    watering: prompResult.plantCareData[0].careInstructions.watering,
+    fertilization: prompResult.plantCareData[0].careInstructions.fertilization,
+    pruning: prompResult.plantCareData[0].careInstructions.pruning,
+    pests: prompResult.plantCareData[0].careInstructions.pests,
+    diseases: prompResult.plantCareData[0].careInstructions.diseases,
+    indoorsPlantingTime:
+      prompResult.plantCareData[0].plantingTime.indoorsPlantingTime,
+    outdoorsPlantingTime:
+      prompResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
+    spacing: prompResult.plantCareData[0].plantingTime.spacing,
+    plantingTime: prompResult.plantCareData[0].plantingTime.plantingTime,
+    havestingTime: prompResult.plantCareData[0].harvesting.harvestingTime,
+    harvestingTips: prompResult.plantCareData[0].harvesting.harvestingTips,
+  }
+  console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
+  return db('plant_care_data').insert(promptData)
 }
