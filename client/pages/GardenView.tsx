@@ -6,7 +6,7 @@ import {
   useSaveNewGarden,
 } from '../hooks/useHooks.ts'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   layoutDefaultState,
   plotDataDefaultState,
@@ -26,11 +26,6 @@ export function GardenView() {
   const [plotData, setPlotData] = useState<PlotDatum[]>(plotDataDefaultState)
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState(layoutDefaultState)
-
-  useEffect(
-    () => console.log(`The current garden ID is ${currentGardenID}`),
-    [currentGardenID],
-  )
 
   if (
     getGardens.data &&
