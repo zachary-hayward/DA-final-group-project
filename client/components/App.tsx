@@ -45,7 +45,6 @@ function App() {
             )}
           </>
         )}
-        <TaskPage />
         <Footer />
       </div>
     </>
