@@ -39,7 +39,7 @@ const tasks: TaskProps = [
   },
 ]
 
-const SimpleTable: React.FC<TaskProps> = ({
+const TaskTable: React.FC<TaskProps> = ({
   id,
   plantName,
   plantImage,
@@ -124,4 +124,4 @@ const SimpleTable: React.FC<TaskProps> = ({
   )
 }
 
-export default SimpleTable
+export default TaskTable
