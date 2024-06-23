@@ -11,18 +11,21 @@ export const seed = async function (knex) {
       auth0_id: 'auth0|123',
       username: 'gardener_john',
       location: 'New York',
+      summer_start_month: 'June',
     },
     {
       id: 2,
       auth0_id: 'auth0|456',
       username: 'plantlover_jane',
       location: 'California',
+      summer_start_month: 'March',
     },
     {
       id: 3,
       auth0_id: 'auth0|789',
       username: 'green_thumb_joe',
-      location: 'Texas',
+      location: 'Wellington',
+      summer_start_month: 'December',
     },
   ])
   await knex('gardens').del()

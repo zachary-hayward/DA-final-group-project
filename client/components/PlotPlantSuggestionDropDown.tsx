@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { useHooks } from '../hooks/useHooks'
 import DropDownAutoFilter from './DropDownAutoFilter'
 import { Plant } from '../../models/growGrub'
@@ -16,19 +16,89 @@ function PlotPlantSuggestionDropDown({
   const hooks = useHooks()
   const plantsQuery = hooks.getPlants()
 
-  // get current date
+  const userSummerStartMonth = 'september'
+
   const dateNow = new Date()
-  console.log(dateNow)
+  const currentMonthIndex = dateNow.getMonth()
+  // console.log(dateNow.getMonth())
 
-  // align with season
+  // ALIGN WITH SEASON
+  // - ask gemeni when summer starts for the users location then do maths
+  const months = [
+    'january',
+    'febuary',
+    'march',
+    'april',
+    'may',
+    'june',
+    'july',
+    'august',
+    'september',
+    'october',
+    'november',
+    'december',
+  ]
 
-  // filter vegetables by sun_level
+  // figure out current season
+  const seasons = [
+    'early-summer',
+    'summer',
+    'late-summer',
+    'early-autumn',
+    'autumn',
+    'late-autumn',
+    'early-winter',
+    'winter',
+    'late-winter',
+    'early-spring',
+    'spring',
+    'late-spring',
+  ]
+
+  // to figure out what the current season is we need to take the index of the users summer month, and then move it
+  const indexOfSummerMonth = months.findIndex(
+    (month) => month === userSummerStartMonth.toLowerCase(),
+  )
+  const numMonthsSinceEarlySummer = getMonthsSinceEarlySummer(
+    indexOfSummerMonth,
+    currentMonthIndex,
+  )
+  console.log(indexOfSummerMonth)
+  console.log('months since: ', numMonthsSinceEarlySummer)
+  function getMonthsSinceEarlySummer(
+    summerStartIndex: number,
+    currMonthIndex: number,
+  ) {
+    if (currMonthIndex < summerStartIndex) {
+      return currMonthIndex + 1 + (11 - summerStartIndex)
+    }
+    if (currMonthIndex === summerStartIndex) {
+      return 0
+    }
+    if (currMonthIndex > summerStartIndex) {
+      return currMonthIndex - summerStartIndex
+    }
+  }
+
+  const currentSeason = seasons[numMonthsSinceEarlySummer!]
+  const nextSeasonPhase = seasons[numMonthsSinceEarlySummer! + 1]
+    ? seasons[numMonthsSinceEarlySummer! + 1]
+    : seasons[0]
+
+  // FILTER
   let plantSuggestions: string[] = []
   if (plantsQuery.data) {
     const filteredBySun = plantsQuery.data.filter(
-      (plant: Plant) => plant.sun_level === plotSunLevel,
+      (plant: Plant) =>
+        plant.sun_level.includes(plotSunLevel!) || plotSunLevel === undefined,
     )
-    plantSuggestions = filteredBySun.map((plant: Plant) => plant.name)
+    const filteredBySeason = filteredBySun.filter(
+      (plant) =>
+        plant.planting_starts.toLowerCase() === 'year-round' ||
+        plant.planting_starts.toLowerCase() === currentSeason ||
+        plant.planting_starts.toLowerCase() === nextSeasonPhase,
+    )
+    plantSuggestions = filteredBySeason.map((plant: Plant) => plant.name)
     // setPlantSuggestions(strings)
   }
   return (
