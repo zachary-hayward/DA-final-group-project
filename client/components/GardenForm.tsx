@@ -12,8 +12,10 @@ interface Props {
   setPlotData: React.Dispatch<React.SetStateAction<PlotDatum[]>>
   activeID: string
   onSaveGarden: () => void
+  onSaveNewGarden: () => void
   layout: Layout[]
   setLayout: React.Dispatch<React.SetStateAction<Layout[]>>
+  currentGardenID: number | null
 }
 
 function GardenForm({
@@ -21,8 +23,10 @@ function GardenForm({
   setPlotData,
   activeID,
   onSaveGarden,
+  onSaveNewGarden,
   layout,
   setLayout,
+  currentGardenID,
 }: Props) {
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
@@ -105,6 +109,11 @@ function GardenForm({
     onSaveGarden()
   }
 
+  function handleNewSaveGardenSubmit(e: React.MouseEvent) {
+    e.preventDefault()
+    onSaveNewGarden()
+  }
+
   if (currentPlot?.blockType === 'house' && currentPlot?.growable === false) {
     return (
       <div className="garden-form">
@@ -146,7 +155,13 @@ function GardenForm({
           <br />
           <PrimaryButton onClick={handleSubmit}>
             Save garden & exit
-          </PrimaryButton>
+          </PrimaryButton>{' '}
+          {/* Conditionally render 'save as new garden' button if currentGardenID isn't null or undefined */}
+          {currentGardenID && (
+            <PrimaryButton onClick={handleNewSaveGardenSubmit}>
+              Save as new garden
+            </PrimaryButton>
+          )}
         </form>
       </div>
     )
@@ -277,6 +292,12 @@ function GardenForm({
             ))}
         </ul>
         <PrimaryButton onClick={handleSubmit}>Save garden & exit</PrimaryButton>
+        {/* Conditionally render 'save as new garden' button if currentGardenID isn't null or undefined */}
+        {currentGardenID && (
+          <PrimaryButton onClick={handleNewSaveGardenSubmit}>
+            Save as new garden
+          </PrimaryButton>
+        )}
         <DeleteButton onClick={handleDeleteButtonPush}>
           Delete plot
         </DeleteButton>

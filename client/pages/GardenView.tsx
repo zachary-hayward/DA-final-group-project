@@ -1,8 +1,12 @@
 import GardenGrid from '../components/GardenGrid.tsx'
 import GardenForm from '../components/GardenForm.tsx'
-import { useGetGardens, useSaveGarden } from '../hooks/useHooks.ts'
+import {
+  useGetGardens,
+  useSaveGarden,
+  useSaveNewGarden,
+} from '../hooks/useHooks.ts'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   layoutDefaultState,
   plotDataDefaultState,
@@ -16,11 +20,17 @@ import {
 
 export function GardenView() {
   const saveGarden = useSaveGarden()
+  const saveNewGarden = useSaveNewGarden()
   const getGardens = useGetGardens()
   const [currentGardenID, setCurrentGardenID] = useState<number | null>(null)
   const [plotData, setPlotData] = useState<PlotDatum[]>(plotDataDefaultState)
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState(layoutDefaultState)
+
+  useEffect(
+    () => console.log(`The current garden ID is ${currentGardenID}`),
+    [currentGardenID],
+  )
 
   if (
     getGardens.data &&
@@ -53,6 +63,10 @@ export function GardenView() {
     saveGarden.mutateAsync({ layout, plotData, garden_id: currentGardenID })
   }
 
+  const onSaveNewGarden = async () => {
+    saveNewGarden.mutateAsync({ layout, plotData })
+  }
+
   return (
     <>
       <div className="gardenview">
@@ -71,8 +85,10 @@ export function GardenView() {
           setPlotData={setPlotData}
           activeID={activeID}
           onSaveGarden={onSaveGarden}
+          onSaveNewGarden={onSaveNewGarden}
           layout={layout}
           setLayout={setLayout}
+          currentGardenID={currentGardenID}
         />
       </div>
     </>

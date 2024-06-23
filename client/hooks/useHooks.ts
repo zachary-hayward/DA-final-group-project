@@ -111,6 +111,32 @@ export function useSaveGarden() {
   })
 }
 
+export function useSaveNewGarden() {
+  const { getAccessTokenSilently } = useAuth0()
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
+
+  return useMutation({
+    mutationFn: async ({
+      layout,
+      plotData,
+    }: Omit<GardenToSave, 'garden_id'>) => {
+      const token = await getAccessTokenSilently()
+      const newGarden = { layout, plotData }
+
+      const res = await request
+        .post(`api/v1/gardens`)
+        .send(newGarden)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['gardens'] })
+      navigate('/')
+    },
+  })
+}
+
 export const useGetGardens = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   return useQuery({
