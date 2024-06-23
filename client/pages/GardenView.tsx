@@ -18,7 +18,7 @@ export function GardenView() {
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState(layoutDefaultState)
 
-  if (getGardens.data && currentGardenID === undefined) {
+  if (getGardens.data.gardens.length > 0 && currentGardenID === undefined) {
     return (
       <GardenSelect
         gardenData={getGardens.data.gardens}
