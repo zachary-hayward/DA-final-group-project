@@ -15,7 +15,7 @@ export interface Plant {
   planting_starts: string
   planting_ends: string
   watering_frequency: string
-  sunlight: number
+  sun_level: string
   cycle: string
 }
 
@@ -57,6 +57,15 @@ export interface PlotDatum {
   size: number
   rainExposure: string
   growable: boolean
+  plants: PlotPlant[]
+}
+
+export interface PlotPlant {
+  plantName: string
+  name: string
+  id: null | number
+  last_watered: null | string
+  date_planted: string
 }
 
 export interface DBPlotDatum {

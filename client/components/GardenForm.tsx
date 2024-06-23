@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import type { PlotDatum } from '../../models/growGrub'
 import PrimaryButton from './PrimaryButton'
-import TertiaryButton from './TertiaryButton'
 import DeleteButton from './DeleteButton'
 import { Layout } from 'react-grid-layout'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import PlotPlantSuggestionDropDown from './PlotPlantSuggestionDropDown'
 
 interface Props {
   plotData: PlotDatum[]
@@ -28,6 +28,24 @@ function GardenForm({
     plotData.find((plot) => plot.plotNumber === activeID),
   )
 
+  function handlePlantSelect(option: string) {
+    const newPlantsArr = [
+      ...currentPlot!.plants,
+      {
+        plantName: option,
+        name: option,
+        id: null,
+        last_watered: null,
+        date_planted: 'today?', //change this to todays date
+      },
+    ]
+    const newPlot = {
+      ...currentPlot!,
+      plants: [...newPlantsArr],
+    }
+    setPlots(newPlot)
+  }
+
   function handleChange(
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
   ) {
@@ -37,9 +55,9 @@ function GardenForm({
         : Number(e.target.value)
 
     const newPlot = {
-          ...currentPlot!,
-          [e.target.name]: value,
-        }
+      ...currentPlot!,
+      [e.target.name]: value,
+    }
     setPlots(newPlot)
   }
 
@@ -50,8 +68,6 @@ function GardenForm({
     }
     setPlots(newPlot)
   }
-  // if type is house - ask could you grow plants there?
-  // otherwise hide the rest of the form.
 
   function setPlots(newPlot: PlotDatum) {
     const otherPlots = plotData.filter((plot) => plot.plotNumber !== activeID)
@@ -128,7 +144,9 @@ function GardenForm({
             onChange={handleCheckboxChange}
           />
           <br />
-          <button className="save-garden">Save garden & exit</button>
+          <PrimaryButton onClick={handleSubmit}>
+            Save garden & exit
+          </PrimaryButton>
         </form>
       </div>
     )
@@ -245,13 +263,19 @@ function GardenForm({
           <option value="100">100%</option>
         </select>{' '}
         <br /> */}
-        <TertiaryButton onClick={() => console.log('clicked')}>
-          Add plant
-        </TertiaryButton>
-        {/* <button className="add-plant" type="button">
-          Add plant
-        </button> */}
+        <PlotPlantSuggestionDropDown
+          // key={currentPlot?.sunLight}
+          handlePlantSelect={handlePlantSelect}
+          plotSunLevel={currentPlot?.sunLight}
+        />
         <br />
+        <p>Plants:</p>
+        <ul>
+          {currentPlot?.plants &&
+            currentPlot?.plants.map((plant, index) => (
+              <li key={`${plant}+${index}`}>{plant.name}</li>
+            ))}
+        </ul>
         <PrimaryButton onClick={handleSubmit}>Save garden & exit</PrimaryButton>
         <DeleteButton onClick={handleDeleteButtonPush}>
           Delete plot

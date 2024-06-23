@@ -8,6 +8,7 @@ export const up = function (knex) {
     table.string('auth0_id').unique().notNullable()
     table.string('username').unique()
     table.string('location')
+    table.string('summer_start_month')
   })
 }
 

@@ -7,7 +7,6 @@ import DropDownAutoFilter from '../components/DropDownAutoFilter'
 interface UserData {
   username: string
   location: string
-  plants: string[]
 }
 interface Props {
   registered: boolean
@@ -23,12 +22,12 @@ export default function Register({ registered, setRegistered }: Props) {
   const [displayMessage, setDisplayMessage] = useState('')
   const hooks = useHooks()
 
-  const usernameQuery = hooks.getUsernames()
-  const usernameList = usernameQuery.data
-  const plantsQuery = hooks.getPlants()
+  const useUsernameQuery = hooks.useGetUsernames()
+  const usernameList = useUsernameQuery.data
+  const usePlantsQuery = hooks.useGetPlants()
   const plantList: string[] = []
-  if (plantsQuery.data) {
-    plantsQuery.data.forEach((item) => plantList.push(item.name))
+  if (usePlantsQuery.data) {
+    usePlantsQuery.data.forEach((item) => plantList.push(item.name))
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

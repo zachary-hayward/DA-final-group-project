@@ -6,7 +6,6 @@ import Header from './Header.tsx'
 import LandingPage from '../pages/LandingPage.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
-import SinglePlant from '../pages/SinglePlant.tsx'
 
 function App() {
   const [processing, setProcessing] = useState(true)
@@ -17,7 +16,7 @@ function App() {
     const getUser = async () => {
       setProcessing(true)
       const token = await getAccessTokenSilently()
-      console.log(token)
+      // console.log(token)
       try {
         const result = await getUserByAuth(token)
         if (result.id) setRegistered(true)
@@ -45,7 +44,6 @@ function App() {
             )}
           </>
         )}
-        <SinglePlant />
         <Footer />
       </div>
     </>

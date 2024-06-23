@@ -47,6 +47,7 @@ export const getAllUsersPlots = (auth0Id: string) => {
       'plot_type as blockType',
       'rain_exposure as rainExposure',
       'sun_level as sunLight',
+      'growable',
     )
 }
 
@@ -97,6 +98,7 @@ export function saveNewPlots(
     size: plot.size,
     name: plot.name,
     rain_exposure: plot.rainExposure,
+    growable: plot.growable,
   }))
   return db('plots').insert(plotsToInsert).returning(['id'])
 }
