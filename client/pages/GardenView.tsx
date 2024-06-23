@@ -1,7 +1,6 @@
 import GardenGrid from '../components/GardenGrid.tsx'
 import GardenForm from '../components/GardenForm.tsx'
 import { useGetGardens, useSaveGarden } from '../hooks/useHooks.ts'
-
 import { useState } from 'react'
 import {
   layoutDefaultState,
@@ -40,10 +39,16 @@ export function GardenView() {
     const currentGarden = getGardens.data.gardens.find(
       (garden: GardenSimpleDB) => garden.id === id,
     )
+    //////////////////////////////////////////////////////////////////////
+    //  REMOVE THE .MAP PLANTS ADDING FUNCTION BELOW ONCE ADDING PLANTS TO THE DATABASE HAS BEEN SOLVED
+    //////////////////////////////////////////////////////////////////////
     const currentPlotData = getGardens.data.plots
       .filter((plot: PlotDatumDB) => plot.gardenId === id)
       .map((plot: PlotDatumDB) => {
         return { ...plot, plotNumber: String(plot.plotNumber) }
+      })
+      .map((plot: PlotDatumDB) => {
+        return { ...plot, plants: [] }
       })
     setPlotData(currentPlotData)
     setLayout(JSON.parse(currentGarden.layout))
