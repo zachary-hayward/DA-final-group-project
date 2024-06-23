@@ -49,6 +49,7 @@ export function GardenGrid({
       size: 2,
       rainExposure: 'fully',
       growable: true,
+      plants: [],
     })
     setPlotData(newPlotData)
   }
