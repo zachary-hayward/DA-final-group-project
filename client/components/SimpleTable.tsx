@@ -17,9 +17,9 @@ const notes = [
 
 const SimpleTable: React.FC<TableProps> = ({ id, title, content }) => {
   return (
-    <div className="list-container mx-auto rounded-lg py-8">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="container-title">My Notes</div>
+    <div className="mx-auto py-12">
+      <div className="flex items-center justify-between">
+        <div className="text-2xl font-medium">My Notes</div>
         <PrimaryButton
           onClick={(event: MouseEvent<Element, MouseEvent>): void => {
             throw new Error('Function not implemented.')
@@ -30,18 +30,18 @@ const SimpleTable: React.FC<TableProps> = ({ id, title, content }) => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse border border-gray-300">
+      <div className="overflow-x-auto pt-4">
+        <table>
           {/* Table header */}
           <thead>
-            <tr className="bg-slate-50">
-              <th className="border-b-0 bg-slate-50 px-4 py-2 text-left uppercase">
+            <tr className="bg-slate-50 ">
+              <th className="table-header border-l border-t border-slate-200">
                 Title
               </th>
-              <th className="border-b-0 bg-slate-50 px-4 py-2 text-left uppercase">
+              <th className="table-header border-t border-slate-200">
                 Content
               </th>
-              <th className="border-b-0 bg-slate-50 px-4 py-2 text-left uppercase"></th>
+              <th className="table-header border-r border-t border-slate-200"></th>
             </tr>
           </thead>
 
@@ -50,15 +50,15 @@ const SimpleTable: React.FC<TableProps> = ({ id, title, content }) => {
             {notes.map((note, index) => (
               <tr
                 key={note.id}
-                className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+                className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
               >
-                <td className="w-1/4 border border-gray-300 px-4 py-2">
+                <td className="w-1/4 border border-slate-200 px-4 py-2">
                   {note.title}
                 </td>
-                <td className="w-3/4 border border-gray-300 px-4 py-2">
+                <td className="w-3/4 border border-slate-200 px-4 py-2">
                   {note.content}
                 </td>
-                <td className="w-1/12 border border-gray-300 px-4 py-2 text-right">
+                <td className="w-1/12 border border-slate-200 px-4 py-2 text-right">
                   <SecondaryButton
                     onClick={(
                       event: MouseEvent<Element, globalThis.MouseEvent>,
