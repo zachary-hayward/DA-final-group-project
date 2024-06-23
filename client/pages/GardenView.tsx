@@ -30,7 +30,6 @@ export function GardenView() {
       />
     )
   }
-  // merge with dev
 
   function switchSelectedGarden(id: number) {
     setCurrentGardenID(id)
