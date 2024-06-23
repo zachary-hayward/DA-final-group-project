@@ -30,11 +30,11 @@ const SimpleTable: React.FC<TableProps> = ({ id, title, content }) => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto pt-4">
+      <div className="overflow-x-auto pt-4 ">
         <table>
           {/* Table header */}
           <thead>
-            <tr className="bg-slate-50 ">
+            <tr className="bg-slate-50">
               <th className="table-header border-l border-t border-slate-200">
                 Title
               </th>
