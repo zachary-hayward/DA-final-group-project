@@ -86,14 +86,23 @@ export function useSaveGarden() {
   const navigate = useNavigate()
 
   return useMutation({
-    mutationFn: async ({ layout, plotData }: GardenToSave) => {
+    mutationFn: async ({ layout, plotData, garden_id }: GardenToSave) => {
       const token = await getAccessTokenSilently()
       const newGarden = { layout, plotData }
-      const res = await request
-        .post(`api/v1/gardens`)
-        .send(newGarden)
-        .set('Authorization', `Bearer ${token}`)
-      return res.body
+      if (garden_id == null) {
+        const res = await request
+          .post(`api/v1/gardens`)
+          .send(newGarden)
+          .set('Authorization', `Bearer ${token}`)
+        return res.body
+      } else {
+        const res = await request
+          .put(`api/v1/gardens/${garden_id}`)
+          .send(newGarden)
+          .set('Authorization', `Bearer ${token}`)
+
+        return res.body
+      }
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['gardens'] })

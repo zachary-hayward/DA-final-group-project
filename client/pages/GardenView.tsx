@@ -13,7 +13,7 @@ import { GardenSimpleDB, PlotDatumDB } from '../../models/growGrub.ts'
 export function GardenView() {
   const saveGarden = useSaveGarden()
   const getGardens = useGetGardens()
-  const [currentGardenID, setCurrentGardenID] = useState<number | undefined>()
+  const [currentGardenID, setCurrentGardenID] = useState<number | null>(null)
   const [plotData, setPlotData] = useState(plotDataDefaultState)
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState(layoutDefaultState)
@@ -21,7 +21,7 @@ export function GardenView() {
   if (
     getGardens.data &&
     getGardens.data.gardens.length > 0 &&
-    currentGardenID === undefined
+    currentGardenID === null
   ) {
     return (
       <GardenSelect
@@ -46,7 +46,7 @@ export function GardenView() {
   }
 
   const onSaveGarden = async () => {
-    saveGarden.mutateAsync({ layout, plotData })
+    saveGarden.mutateAsync({ layout, plotData, garden_id: currentGardenID })
   }
 
   return (

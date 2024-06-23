@@ -158,9 +158,13 @@ router.post('/plots', async (req, res) => {
 })
 
 // Router used for updating existing garden - NOT IN USE, ONLY FOR TESTING
-router.put('/gardens/:id', async (req, res) => {
+router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
   // Body of request will include plotData, layout
   const garden_id = Number(req.params.id)
+
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) return res.sendStatus(401)
+
   try {
     const updatedGarden = req.body
     const updatedLayoutString = JSON.stringify(updatedGarden.layout)
@@ -176,7 +180,11 @@ router.put('/gardens/:id', async (req, res) => {
     await db.updatePlots(plotsToUpdate, garden_id)
     await db.saveNewPlots(plotsToCreate, garden_id)
     await db.deletePlotsByID(plotIDsToDelete)
-    res.json({ message: 'it worked!' }).status(200)
+    res
+      .json({
+        message: `Garden ${garden_id} was successfully updated in the database.`,
+      })
+      .status(200)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)

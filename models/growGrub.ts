@@ -90,6 +90,7 @@ export interface DBPlotDatum {
 export interface GardenToSave {
   layout: Layout[]
   plotData: PlotDatum[]
+  garden_id: number | null
 }
 
 export interface plantCareData {
