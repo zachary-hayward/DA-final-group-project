@@ -125,3 +125,8 @@ export interface plantCareData {
 export interface ID {
   id: number
 }
+
+export interface PlantID {
+  id: number
+  name: string
+}

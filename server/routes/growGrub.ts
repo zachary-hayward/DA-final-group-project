@@ -2,7 +2,7 @@ import { Router } from 'express'
 import checkJwt, { JwtRequest } from '../auth0.ts'
 
 import * as db from '../db/growGrub.ts'
-import { UserData, User } from '../../models/growGrub.ts'
+import { UserData, User, PlotDatum } from '../../models/growGrub.ts'
 import { differentiatePlots } from '../db/helperFunctions.tsx'
 
 const router = Router()
@@ -138,20 +138,23 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
     const layoutString = JSON.stringify(newGarden.layout)
     const newGardenID = await db.saveNewGarden(layoutString, user.id)
     const newPlotIDs = await db.saveNewPlots(newGarden.plotData, newGardenID[0])
+    const plantsIDs = await getPlantsIds(newGarden.plotData)
 
+    console.log(plantsIDs)
     // map over plotData so that each plant object inside the plants array includes it's plant_id
     // will need a new databse function getPlantIdByName
-
+    // const newPlantIDs = await db.function()
     const newPlants = await db.saveNewPlotPlants(
       newPlotIDs,
       newGarden.plotData,
       user.id,
+      plantsIDs,
     )
 
     //need user id + plant id of each plant
     console.log(newPlotIDs)
     console.log(newGarden.plotData)
-
+    console.log(newPlants)
     // create a db function to save plants
     res.json({ newGardenID, newPlotIDs })
   } catch (error) {
@@ -159,6 +162,21 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
+
+async function getPlantsIds(plotData: PlotDatum[]) {
+  const plantsNames = []
+  plotData.forEach((plot) => {
+    if (plot.plants.length > 0) {
+      plot.plants.forEach((plant) => {
+        plantsNames.push(plant.plantName)
+      })
+    }
+  })
+
+  const plantsIds = await db.getPlantIDs(plantsNames)
+  return plantsIds
+
+}
 
 // Router for adding new plots - NOT IN USE, ONLY FOR TESTING
 // router.post('/plots', async (req, res) => {

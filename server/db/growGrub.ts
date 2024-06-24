@@ -1,6 +1,6 @@
 import { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
-import type { ID, PlotDatum } from '../../models/growGrub.ts'
+import type { ID, PlantID, PlotDatum } from '../../models/growGrub.ts'
 
 export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
   return db('users')
@@ -72,6 +72,28 @@ export function getUserGarden(
       'plants.name as plant_name',
     )
 }
+
+//  export function plantIDs( plotNumber: number, gardenID: number, plants: ): Promise<number[]> { 
+//    if (plants.length == 0) -> there are no plants (IGNORE, THIS IS ALREADY DONE IN SAVENEWPLOTPLANTS)
+//     const plantsToSave = plants.map((plant) => ({
+//      plant_id: plotplant.id
+//      plant_name: plotplant.name
+//      }))
+//     
+//    }
+
+
+export function getPlantIDs (plantNames: string[]): Promise<ID[]> { 
+  return db('plants')
+  .whereIn(`name`, plantNames)
+  .select(
+    'id',
+    'name'
+  )
+
+}
+
+
 
 export function saveNewGarden(
   layout: string,
@@ -156,13 +178,28 @@ export async function saveNewPlotPlants(
   plotIdArr: ID[],
   plotData: PlotDatum[],
   userId: number,
+  plantsIDs: PlantID[],
 ) {
+  const plantList = ['Tomato', 'Caulilower', 'Broccoli']
+  const plant = await getPlantIDs(plantList)
+
+  console.log(plant)
+
   const plantsToInsert = []
-  plotData.forEach((plot, i) => {
+
+  plotData.forEach( (plot, i) => {
     if (plot.plants.length > 0) {
       plot.plants.forEach((plant) => {
         const newPlant = {
-          plant_id: 1,
+
+
+          //plant_id grab id from db. 
+          //array of plant ids for each plot id, iterate through
+          //plot id = plotIdArr[i].id
+          //plant_id: () => await { plotIdArr[i] }
+          plant_id: plantsIDs.find((currentPlant) => 
+            currentPlant.name === plant.plantName
+          )?.id,
           user_id: userId,
           plot_id: plotIdArr[i].id,
           date_planted: plant.date_planted,
@@ -170,6 +207,7 @@ export async function saveNewPlotPlants(
         }
         plantsToInsert.push(newPlant)
       })
+    
     }
   })
   await db('plots_plants').insert(plantsToInsert)
