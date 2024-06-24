@@ -6,10 +6,13 @@ export interface User extends UserData {
 export interface UserData {
   username: string
   location: string
+  summerStarts: string
 }
 
-export interface Plant {
+export interface Plant extends PlantData {
   id: number
+}
+export interface PlantData {
   name: string
   difficulty: string
   planting_starts: string

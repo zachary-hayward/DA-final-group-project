@@ -19,6 +19,7 @@ router.get('/users', checkJwt, async (req: JwtRequest, res) => {
       id: userDB.id,
       username: userDB.username,
       location: userDB.location,
+      summerStarts: userDB.summerStarts,
     }
     res.json(user)
   } catch (error) {
@@ -27,9 +28,12 @@ router.get('/users', checkJwt, async (req: JwtRequest, res) => {
   }
 })
 //For registering a new user
+interface NewUserData extends UserData {
+  plants: string[]
+}
 router.post('/users', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
-  const userData: UserData = req.body
+  const userData: NewUserData = req.body
   if (!auth0Id) return res.sendStatus(401)
   if (!userData) return res.sendStatus(400)
   try {
@@ -93,6 +97,7 @@ router.get('/plants/desired', checkJwt, async (req: JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
+
 //Get the users gardens NOT IN USE
 router.get('/gardens', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub

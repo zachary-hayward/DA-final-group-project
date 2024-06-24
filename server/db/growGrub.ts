@@ -1,11 +1,11 @@
-import { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
+import type { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
 import type { PlotDatum } from '../../models/growGrub.ts'
 
-export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
+export function getUserByAuth0Id(auth0Id: string): Promise<User> {
   return db('users')
     .where({ auth0_id: auth0Id })
-    .first('id', 'username', 'location')
+    .first('id', 'username', 'location', 'summer_start_month as summerStarts')
 }
 
 interface getUsernameProps {
@@ -145,13 +145,6 @@ export async function deletePlotsByID(plotIDs: number[]) {
   return db('plots').whereIn('id', plotIDs).delete()
 }
 
-interface addUserProps extends UserData {
-  auth0_id: string
-}
-export async function addUser(userData: addUserProps) {
-  return db('users').insert(userData)
-}
-
 export async function addVege(prompResult) {
   const existingVege = await db('plant_care_data')
     .where({ plantName: prompResult.plantCareData[0].plantName })
@@ -186,6 +179,38 @@ export async function addVege(prompResult) {
     }
     // console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
     return db('plant_care_data').insert(promptData)
+  }
+}
+interface NewUserData extends UserData {
+  plants: string[]
+  auth0_id: string
+}
+export async function addUser({
+  username,
+  location,
+  plants,
+  summerStarts,
+  auth0_id,
+}: NewUserData) {
+  try {
+    await db.transaction(async (trx) => {
+      const [user] = await trx('users').insert(
+        { username, location, auth0_id, summer_start_month: summerStarts },
+        ['id'],
+      )
+      const userId = user.id
+      const knownPlants = await trx('plants').whereIn('name', plants)
+      const desiredPlantsData = knownPlants.map((plant) => ({
+        plant_id: plant.id,
+        user_id: userId,
+      }))
+      await trx('user_desired_plants').insert(desiredPlantsData)
+
+      console.log(`added user ${userId}: ${username}`)
+    })
+  } catch (error) {
+    console.log(error)
+    throw new Error(`Couldn't add user`)
   }
 }
 
