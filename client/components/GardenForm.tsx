@@ -198,7 +198,6 @@ function GardenForm({
       </div>
     )
   }
-  console.log(currentPlot)
 
   return (
     <div className="garden-form">

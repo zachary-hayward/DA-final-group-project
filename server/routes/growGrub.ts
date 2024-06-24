@@ -2,7 +2,13 @@ import { Router } from 'express'
 import checkJwt, { JwtRequest } from '../auth0.ts'
 
 import * as db from '../db/growGrub.ts'
-import { UserData, User, NewPlant } from '../../models/growGrub.ts'
+import {
+  UserData,
+  User,
+  NewPlant,
+  Plant,
+  PlotPlant,
+} from '../../models/growGrub.ts'
 import { differentiatePlots } from '../db/helperFunctions.tsx'
 import { getSinglePlantById } from '../db/growGrub.ts'
 import { getPlantsIds } from '../db/helperFunctions.tsx'
@@ -232,13 +238,15 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
 
     // get an array of all plants not in db (w/o id's)
     const plantsToInsert: NewPlant[] = []
+    const plantsWithIds: PlotPlant[] = [] //plants from frontend with ids
     const plantsIDs = await getPlantsIds(plotsToUpdate)
     if (plotsToUpdate.length > 0) {
       plotsToUpdate.forEach((plot) => {
         if (plot.plants.length > 0) {
           plot.plants.forEach((plant) => {
-            if (plant.id) return
-            else {
+            if (plant.id) {
+              plantsWithIds.push(plant)
+            } else {
               const newPlant = {
                 plant_id: plantsIDs.find(
                   (currentPlant) =>
@@ -255,6 +263,11 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
           })
         }
       })
+      // delete plants which didn't come back in the list
+      // get list of plants that exist in DB
+      // compare with list from frontend
+      // const plantsToDelete = plantsIDs
+
       if (plantsToInsert.length > 0) {
         db.saveNewPlants(plantsToInsert)
       }
