@@ -2,8 +2,15 @@ import { MouseEvent } from 'react'
 import PrimaryButton from '../components/PrimaryButton'
 import { Link } from 'react-router-dom'
 import SecondaryButton from '../components/SecondaryButton'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function LandingPageNewUser() {
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
+
+  const handleLog = () => {
+    if (isAuthenticated) logout()
+    else loginWithRedirect()
+  }
   return (
     <>
       <div
@@ -37,23 +44,24 @@ export default function LandingPageNewUser() {
       <div className="align-center flex justify-center pb-20 text-center">
         {/* Link to Register page */}
         <div className="mr-4">
-          <Link to="/register">
+          {/* <Link to="/register"> */}
             <PrimaryButton
-              onClick={(event) => {
+              onClick={() => {
                 throw new Error('Function not implemented.')
               }}
             >
               Sign up now
             </PrimaryButton>
-          </Link>
+          {/* </Link> */}
         </div>
         <div>
           {/* This needs to open auth? */}
           <Link to="/">
             <SecondaryButton
-              onClick={(event) => {
-                throw new Error('Function not implemented.')
-              }}
+              onClick={handleLog} 
+              // => {
+              //   throw new Error('Function not implemented.')
+              // }}
             >
               Sign in
             </SecondaryButton>
