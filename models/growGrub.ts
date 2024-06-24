@@ -124,3 +124,15 @@ export interface plantCareData {
   havestingTime: string
   harvestingTips: string
 }
+
+export interface MyPlant {
+  datePlanted: string
+  daysUntilHarvest: number
+  iconSrc: string
+  lastWatered: string
+  name: string
+  photoSrc: string
+  plantsId: number
+  plotsName: string
+  plotsPlantsId: number
+}

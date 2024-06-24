@@ -1,8 +1,8 @@
 import { MouseEvent } from 'react'
-import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useGetMyPlants } from '../hooks/useHooks'
+import { MyPlant } from '../../models/growGrub'
 
 interface PlantsProps {
   id: number
@@ -16,46 +16,9 @@ interface PlantsProps {
   growthStatus?: string // Optional field for growth status
 }
 
-// Mock data
-// const plants: PlantsProps[] = [
-//   {
-//     id: 1,
-//     plantName: 'Tomato',
-//     plantImage: '/images/flat-icons/veg-fruit-icons/tomato.png',
-//     plantedDate: '3 June 2022',
-//     taskType: 'Watering',
-//     lastPerformed: '3 November 2022',
-//     status: 'Great',
-//     extraCare: 'No extra care needed',
-//     growthStatus: 'Seedling',
-//   },
-//   {
-//     id: 2,
-//     plantName: 'Basil',
-//     plantImage: '/images/flat-icons/veg-fruit-icons/basil.png',
-//     plantedDate: '3 June 2022',
-//     taskType: 'Watering',
-//     lastPerformed: '3 November 2022',
-//     status: 'Good',
-//     extraCare: 'No extra care needed',
-//     growthStatus: 'Ready to Harvest',
-//   },
-//   {
-//     id: 3,
-//     plantName: 'Cauliflower',
-//     plantImage: '/images/flat-icons/veg-fruit-icons/cauliflower.png',
-//     plantedDate: '3 June 2022',
-//     taskType: 'Watering',
-//     lastPerformed: '3 November 2022',
-//     status: 'Poor',
-//     extraCare: 'Suspected disease: Bug infestation',
-//     growthStatus: 'Growing',
-//   },
-// ]
-
 const PlantsTable: React.FC<PlantsProps> = () => {
   // Add useParams but will need to fix header and overall routing to check if this works!
-  const { id } = useParams()
+  // const { id } = useParams()
   const getMyPlants = useGetMyPlants()
 
   if (getMyPlants.isError) {
@@ -94,13 +57,13 @@ const PlantsTable: React.FC<PlantsProps> = () => {
   return (
     <div className="mx-auto max-w-7xl py-12">
       <div className="flex items-center justify-end">
-        <PrimaryButton
+        {/* <PrimaryButton
           onClick={(event: MouseEvent<Element, MouseEvent>): void => {
             throw new Error('Function not implemented.')
           }}
         >
           Add New Plant
-        </PrimaryButton>
+        </PrimaryButton> */}
       </div>
 
       {/* Table */}
@@ -119,9 +82,9 @@ const PlantsTable: React.FC<PlantsProps> = () => {
 
           {/* Table body */}
           <tbody>
-            {getMyPlants.data.map((plant, index) => (
+            {getMyPlants.data.map((plant: MyPlant, index: number) => (
               <tr
-                key={plant.id}
+                key={`${plant.name}+${plant.plantsId}`}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
               >
                 <td className="border border-slate-200 px-4 py-2">
