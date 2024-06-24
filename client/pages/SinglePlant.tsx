@@ -158,7 +158,7 @@ export default function SinglePlant() {
             />
           </div>
 
-          {/* Harvesting Instructions*/}
+          Harvesting Instructions
           <div>
             <div className="list-container">
               <h3 className="container-title">Harvesting</h3>
