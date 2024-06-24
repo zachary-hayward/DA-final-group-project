@@ -4,6 +4,7 @@ import checkJwt, { JwtRequest } from '../auth0.ts'
 import * as db from '../db/growGrub.ts'
 import { UserData, User, NewPlant } from '../../models/growGrub.ts'
 import { differentiatePlots } from '../db/helperFunctions.tsx'
+import { getPlantsIds } from '../db/helperFunctions.tsx'
 
 const router = Router()
 
@@ -82,7 +83,7 @@ router.get('/gardens', checkJwt, async (req: JwtRequest, res) => {
   try {
     const gardens = await db.getUsersGardens(auth0Id)
     const usersPlots = await db.getAllUsersPlots(auth0Id)
-    
+
     const plots = await Promise.all(
       usersPlots.map(async (plot) => {
         const plants = await db.getPlotPlantsByPlotId(plot.id)
@@ -147,21 +148,15 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
     const layoutString = JSON.stringify(newGarden.layout)
     const newGardenID = await db.saveNewGarden(layoutString, user.id)
     const newPlotIDs = await db.saveNewPlots(newGarden.plotData, newGardenID[0])
+    const plantsIDs = await getPlantsIds(newGarden.plotData)
 
-    // map over plotData so that each plant object inside the plants array includes it's plant_id
-    // will need a new databse function getPlantIdByName
-
-    const newPlants = await db.saveNewPlotPlants(
+    await db.saveNewPlotPlants(
       newPlotIDs,
       newGarden.plotData,
       user.id,
+      plantsIDs,
     )
 
-    //need user id + plant id of each plant
-    console.log(newPlotIDs)
-    console.log(newGarden.plotData)
-
-    // create a db function to save plants
     res.json({ newGardenID, newPlotIDs })
   } catch (error) {
     console.log(error)
@@ -203,13 +198,17 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
 
     await db.updatePlots(plotsToUpdate, garden_id)
     const newPlotIDs = await db.saveNewPlots(plotsToCreate, garden_id)
+
+    // plants
     if (newPlotIDs.length > 0) {
-      await db.saveNewPlotPlants(newPlotIDs, plotsToCreate, user.id)
+      const plantsIDs = await getPlantsIds(plotsToCreate)
+      await db.saveNewPlotPlants(newPlotIDs, plotsToCreate, user.id, plantsIDs)
     }
     await db.deletePlotsByID(plotIDsToDelete)
 
     // get an array of all plants not in db (w/o id's)
     const plantsToInsert: NewPlant[] = []
+    const plantsIDs = await getPlantsIds(plotsToUpdate)
     if (plotsToUpdate.length > 0) {
       plotsToUpdate.forEach((plot) => {
         if (plot.plants.length > 0) {
@@ -217,7 +216,11 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
             if (plant.id) return
             else {
               const newPlant = {
-                plant_id: 1,
+                plant_id: plantsIDs.find(
+                  (currentPlant) =>
+                    currentPlant.name.toLowerCase() ===
+                    plant.plantName.toLowerCase(),
+                )?.id,
                 user_id: user.id,
                 plot_id: plot.id,
                 date_planted: plant.date_planted,

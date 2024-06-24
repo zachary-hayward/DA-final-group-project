@@ -69,7 +69,7 @@ export interface PlotPlant {
 }
 
 export interface NewPlant {
-  plant_id: number
+  plant_id: number | undefined
   user_id: number
   plot_id: number
   date_planted: string
@@ -132,4 +132,9 @@ export interface plantCareData {
 
 export interface ID {
   id: number
+}
+
+export interface PlantID {
+  id: number
+  name: string
 }
