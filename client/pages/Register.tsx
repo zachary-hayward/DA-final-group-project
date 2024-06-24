@@ -4,6 +4,10 @@ import { addUser } from '../apis/growGrub.ts'
 import { useHooks } from '../hooks/useHooks.ts'
 import DropDownAutoFilter from '../components/DropDownAutoFilter.tsx'
 import titleWord from '../functions/titleWord.ts'
+import { MouseEvent } from 'react'
+import PrimaryButton from '../components/PrimaryButton'
+import { Link } from 'react-router-dom'
+import SecondaryButton from '../components/SecondaryButton'
 
 interface UserData {
   username: string
@@ -74,68 +78,86 @@ export default function Register({ registered, setRegistered }: Props) {
   const handleMonthSelect = (option: string) => {
     setFormData((prev) => ({...prev, summerStarts: option}))
   }
-  console.log(formData)
+  
   return (
     <>
-      <div className="container mx-auto rounded bg-slate-300">
-        <div className="m-2 flex gap-2">
-          <div className="mt-2 flex flex-col gap-2">
-            <p className="font-bold">UserName:</p>
-            <p className="font-bold">Location:</p>
-            <p className="font-bold">Summer Starts In:</p>
-            <p className="font-bold">Plants:</p>
-          </div>
-          <div className="mt-2 flex flex-col gap-2">
-            <input
-              type="text"
-              placeholder="Username"
-              autoComplete="off"
-              className="rounded pl-1"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              placeholder="Location"
-              autoComplete="off"
-              className="rounded pl-1"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-            />
-            <DropDownAutoFilter
-              value={formData.summerStarts}
-              options={months}
-              onSelect={handleMonthSelect}
-              containerClass={``}
-            />
-            <DropDownAutoFilter
-              options={plantList}
-              onSelect={handlePlantSelect}
-              containerClass={``}
-            />
-          </div>
-          <div className="ml-5 mt-1">
-            <p className="font-bold">Plants your interested in:</p>
-            <ul>
-              {formData.plants[0] &&
-                formData.plants.map((plant, i) => (
-                  <li key={`plant${i}`}>{plant}</li>
-                ))}
-            </ul>
-          </div>
+      <div
+        className="banner-container relative flex h-96 items-center justify-center bg-cover bg-center"
+        style={{
+          backgroundImage: `url('/images/homepage/Homepage_banner_bg.png')`,
+        }}
+      >
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="relative z-10 mx-auto max-w-3xl text-center text-white">
+          <h2 className="text-4xl font-bold">
+            Create your profile to start your garden.
+          </h2>
         </div>
-        {displayMessage && <div>{displayMessage}</div>}
-        {!registered && usernameList && (
-          <button
-            type="button"
-            className="w-full rounded-bl rounded-br bg-blue-300 hover:bg-blue-600"
-            onClick={() => handleOnRegister()}
-          >
-            Register
-          </button>
-        )}
+      </div>
+      <div className="align-center flex justify-center py-20 text-gray-800 text-left">
+        <div className="container w-1/2 mx-auto rounded bg-slate-100 p-3">
+          <div className="m-2 flex gap-2">
+            <div className="mt-2 flex flex-col gap-2 pr-2">
+              <p className="font-bold">UserName:</p>
+              <p className="font-bold">Location:</p>
+              <p className="font-bold">Summer Starts In:</p>
+              <p className="font-bold">Plants:</p>
+            </div>
+            <div className="mt-2 flex flex-col gap-2 pr-4">
+              <input
+                type="text"
+                placeholder="Username"
+                autoComplete="off"
+                className="rounded pl-1"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                placeholder="Location"
+                autoComplete="off"
+                className="rounded pl-1"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+              />
+              <DropDownAutoFilter
+                value={formData.summerStarts}
+                options={months}
+                onSelect={handleMonthSelect}
+                containerClass={``}
+              />
+              <DropDownAutoFilter
+                options={plantList}
+                onSelect={handlePlantSelect}
+                containerClass={``}
+              />
+            </div>
+            <div className="ml-5 mt-1">
+              <p className="font-bold">Plants your interested in:</p>
+              <ul>
+                {formData.plants[0] &&
+                  formData.plants.map((plant, i) => (
+                    <li key={`plant${i}`}>{plant}</li>
+                  ))}
+              </ul>
+            </div>
+          </div>
+          {displayMessage && <div>{displayMessage}</div>}
+          {!registered && usernameList && (<>
+            <div className="flex items-center justify-end p-4">
+            <PrimaryButton
+              onClick={() => handleOnRegister()}
+              //   () => {
+              //   throw new Error('Function not implemented.')
+              // }}
+            >
+              Get Growing!
+            </PrimaryButton>
+            </div>
+          </>)}
+        </div>
       </div>
     </>
   )

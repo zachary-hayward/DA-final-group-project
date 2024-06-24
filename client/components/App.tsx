@@ -6,7 +6,6 @@ import Header from './Header.tsx'
 import LandingPage from '../pages/LandingPageNewUser.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
-import LandingPageExisitingUser from '../pages/LandingPageExisitingUser.tsx'
 
 function App() {
   const [processing, setProcessing] = useState(true)
@@ -33,8 +32,8 @@ function App() {
   return (
     <>
       <div className="app min-w-screen min-h-screen">
-        <Header />
-        {!isAuthenticated ? (
+        <Header registered={registered}/>
+        {!isAuthenticated || processing ? (
           <LandingPage />
         ) : (
           <>
@@ -45,7 +44,6 @@ function App() {
             )}
           </>
         )}
-        <LandingPageExisitingUser />
         <Footer />
       </div>
     </>

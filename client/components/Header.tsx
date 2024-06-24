@@ -13,7 +13,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'react-router-dom'
 
 const navigation = [
-  { name: 'Dashboard', path: '/', current: true },
+  { name: 'Home', path: '/', current: true },
   { name: 'My Garden', path: '/my-garden', current: false },
   { name: 'My Tasks', path: '/my-tasks', current: false },
   { name: 'My Plants', path: '/my-plants', current: false },
@@ -23,7 +23,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Header() {
+interface Props { registered: boolean}
+export default function Header({registered}: Props) {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
 
   const handleLog = () => {
@@ -56,25 +57,27 @@ export default function Header() {
                     alt="Grow-grub Ltd. logo"
                   />
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.path}
-                        className={classNames(
-                          item.current
-                            ? 'border-b-4 border-green-600 text-gray-700'
-                            : 'text-gray-500 hover:border-b-4 hover:border-green-600 hover:text-gray-700',
-                          'py-2 text-sm font-medium',
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                {registered && 
+                  <div className="hidden sm:ml-6 sm:block">
+                    <div className="flex space-x-4">
+                      {navigation.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.path}
+                          className={classNames(
+                            item.current
+                              ? 'border-b-4 border-green-600 text-gray-700'
+                              : 'text-gray-500 hover:text-gray-700',
+                            'py-2 text-sm font-medium',
+                          )}
+                          aria-current={item.current ? 'page' : undefined}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                }
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button

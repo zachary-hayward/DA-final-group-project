@@ -52,22 +52,9 @@ export default function LandingPageNewUser() {
               //   throw new Error('Function not implemented.')
               // }}
             >
-              Sign up now
+              Sign in
             </PrimaryButton>
           {/* </Link> */}
-        </div>
-        <div>
-          {/* This needs to open auth? */}
-          <Link to="/">
-            <SecondaryButton
-              onClick={handleLog} 
-              // => {
-              //   throw new Error('Function not implemented.')
-              // }}
-            >
-              Sign in
-            </SecondaryButton>
-          </Link>
         </div>
       </div>
     </>

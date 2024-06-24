@@ -3,9 +3,8 @@ import spinachIcon from '/images/flat-icons/spinach.png'
 import carrotIcon from '/images/flat-icons/carrot.png'
 import wateringCanIcon from '/images/flat-icons/watering-can.png'
 import TaskTable from '../components/TasksTable'
-import SimpleTable from '../components/SimpleTable'
 
-export default function LandingPageExisitingUser() {
+export default function Home() {
   return (
     <>
       <div
@@ -40,7 +39,7 @@ export default function LandingPageExisitingUser() {
         />
       </div>
 
-<SimpleTable id={0} title={''} content={''} />
+<TaskTable id={0} title={''} content={''} />
     </>
   )
 }
