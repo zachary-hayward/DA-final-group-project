@@ -69,6 +69,15 @@ export interface PlotPlant {
   id: null | number
   last_watered: null | string
   date_planted: string
+  plant_id?: number
+}
+
+export interface NewPlant {
+  plant_id: number | undefined
+  user_id: number
+  plot_id: number
+  date_planted: string
+  name: string
 }
 
 export interface DBPlotDatum {
@@ -123,4 +132,13 @@ export interface plantCareData {
   plantingTime: string
   havestingTime: string
   harvestingTips: string
+}
+
+export interface ID {
+  id: number
+}
+
+export interface PlantID {
+  id: number
+  name: string
 }
