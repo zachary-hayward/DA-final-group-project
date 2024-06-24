@@ -180,17 +180,8 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
   if (!auth0Id) return res.sendStatus(401)
   const user = await db.getUserByAuth0Id(auth0Id)
 
-  // CHECK UPDATING PLOTS
-
-  // check if plants already exist - if (plant.id)
-
-  // if it does then update
-
-  // if not then insert new
-
   try {
     const updatedGarden = req.body
-    // console.log(updatedGarden)
     const updatedLayoutString = JSON.stringify(updatedGarden.layout)
 
     await db.updateGardenLayout(garden_id, updatedLayoutString)
@@ -208,6 +199,7 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
     }
     await db.deletePlotsByID(plotIDsToDelete)
 
+    // get an array of all plants not in db (w/o id's)
     const plantsToInsert: NewPlant[] = []
     if (plotsToUpdate.length > 0) {
       plotsToUpdate.forEach((plot) => {
