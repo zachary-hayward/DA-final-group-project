@@ -1,6 +1,6 @@
 import { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
-import type { PlotDatum } from '../../models/growGrub.ts'
+import type { ID, PlotDatum } from '../../models/growGrub.ts'
 
 export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
   return db('users')
@@ -152,58 +152,95 @@ export async function addUser(userData: addUserProps) {
   return db('users').insert(userData)
 }
 
-export async function addVege(prompResult) {
-  const existingVege = await db('plant_care_data').where({ plantName: prompResult.plantCareData[0].plantName }).first()
-
-if (existingVege) {
-  console.log(`Plant with name '${prompResult.plantCareData[0].plantName}' already exists in the plant_care_data database`)
-  return existingVege
-  } else {
-  const promptData = {
-    plantName: prompResult.plantCareData[0].plantName,
-    scientificName: prompResult.plantCareData[0].scientificName,
-    description: prompResult.plantCareData[0].description,
-    soil: prompResult.plantCareData[0].careInstructions.soil,
-    sunlight: prompResult.plantCareData[0].careInstructions.sunlight,
-    watering: prompResult.plantCareData[0].careInstructions.watering,
-    fertilization: prompResult.plantCareData[0].careInstructions.fertilization,
-    pruning: prompResult.plantCareData[0].careInstructions.pruning,
-    pests: prompResult.plantCareData[0].careInstructions.pests,
-    diseases: prompResult.plantCareData[0].careInstructions.diseases,
-    indoorsPlantingTime:
-      prompResult.plantCareData[0].plantingTime.indoorsPlantingTime,
-    outdoorsPlantingTime:
-      prompResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
-    spacing: prompResult.plantCareData[0].plantingTime.spacing,
-    plantingTime: prompResult.plantCareData[0].plantingTime.plantingTime,
-    havestingTime: prompResult.plantCareData[0].harvesting.harvestingTime,
-    harvestingTips: prompResult.plantCareData[0].harvesting.harvestingTips,
-  }
-  // console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
-  return db('plant_care_data').insert(promptData)
-
-
+export async function saveNewPlotPlants(
+  plotIdArr: ID[],
+  plotData: PlotDatum[],
+  userId: number,
+) {
+  const plantsToInsert = []
+  plotData.forEach((plot, i) => {
+    if (plot.plants.length > 0) {
+      plot.plants.forEach((plant) => {
+        const newPlant = {
+          plant_id: 1,
+          user_id: userId,
+          plot_id: plotIdArr[i].id,
+          date_planted: plant.date_planted,
+          name: plant.name,
+        }
+        plantsToInsert.push(newPlant)
+      })
+    }
+  })
+  await db('plots_plants').insert(plantsToInsert)
 }
+
+export async function addVege(prompResult) {
+  const existingVege = await db('plant_care_data')
+    .where({ plantName: prompResult.plantCareData[0].plantName })
+    .first()
+
+  if (existingVege) {
+    console.log(
+      `Plant with name '${prompResult.plantCareData[0].plantName}' already exists in the plant_care_data database`,
+    )
+    return existingVege
+  } else {
+    const promptData = {
+      plantName: prompResult.plantCareData[0].plantName,
+      scientificName: prompResult.plantCareData[0].scientificName,
+      description: prompResult.plantCareData[0].description,
+      soil: prompResult.plantCareData[0].careInstructions.soil,
+      sunlight: prompResult.plantCareData[0].careInstructions.sunlight,
+      watering: prompResult.plantCareData[0].careInstructions.watering,
+      fertilization:
+        prompResult.plantCareData[0].careInstructions.fertilization,
+      pruning: prompResult.plantCareData[0].careInstructions.pruning,
+      pests: prompResult.plantCareData[0].careInstructions.pests,
+      diseases: prompResult.plantCareData[0].careInstructions.diseases,
+      indoorsPlantingTime:
+        prompResult.plantCareData[0].plantingTime.indoorsPlantingTime,
+      outdoorsPlantingTime:
+        prompResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
+      spacing: prompResult.plantCareData[0].plantingTime.spacing,
+      plantingTime: prompResult.plantCareData[0].plantingTime.plantingTime,
+      havestingTime: prompResult.plantCareData[0].harvesting.harvestingTime,
+      harvestingTips: prompResult.plantCareData[0].harvesting.harvestingTips,
+    }
+    // console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
+    return db('plant_care_data').insert(promptData)
+  }
 }
 
 export async function addPlant(promptResult) {
-  const existingPlant = await db('plants').where({ name: promptResult.plantCareData[0].plantName }).first()
+  const existingPlant = await db('plants')
+    .where({ name: promptResult.plantCareData[0].plantName })
+    .first()
 
   if (existingPlant) {
-    console.log(`Plant with name '${promptResult.plantCareData[0].plantName}' already exists in the plants database`)
+    console.log(
+      `Plant with name '${promptResult.plantCareData[0].plantName}' already exists in the plants database`,
+    )
     return existingPlant
-    } else {
-  const promptData = {
-    name: promptResult.plantCareData[0].plantName,
-    difficulty: promptResult.plantCareData[0].careInstructions.difficulty,
-    planting_starts: promptResult.plantCareData[0].careInstructions.planting_starts,
-    planting_ends: promptResult.plantCareData[0].careInstructions.planting_ends,
-    watering_frequency: promptResult.plantCareData[0].careInstructions.watering,
-    sun_level: promptResult.plantCareData[0].careInstructions.sunlight,
-    cycle: promptResult.plantCareData[0].careInstructions.cycle,
-    days_from_planting_until_harvest: promptResult.plantCareData[0].careInstructions.days_from_planting_until_harvest,
-    days_from_seed_until_seedling: promptResult.plantCareData[0].careInstructions.days_from_seed_until_seedling,
-  } 
-  return db('plants').insert(promptData)
-}
+  } else {
+    const promptData = {
+      name: promptResult.plantCareData[0].plantName,
+      difficulty: promptResult.plantCareData[0].careInstructions.difficulty,
+      planting_starts:
+        promptResult.plantCareData[0].careInstructions.planting_starts,
+      planting_ends:
+        promptResult.plantCareData[0].careInstructions.planting_ends,
+      watering_frequency:
+        promptResult.plantCareData[0].careInstructions.watering,
+      sun_level: promptResult.plantCareData[0].careInstructions.sunlight,
+      cycle: promptResult.plantCareData[0].careInstructions.cycle,
+      days_from_planting_until_harvest:
+        promptResult.plantCareData[0].careInstructions
+          .days_from_planting_until_harvest,
+      days_from_seed_until_seedling:
+        promptResult.plantCareData[0].careInstructions
+          .days_from_seed_until_seedling,
+    }
+    return db('plants').insert(promptData)
+  }
 }

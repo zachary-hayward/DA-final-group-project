@@ -138,6 +138,20 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
     const layoutString = JSON.stringify(newGarden.layout)
     const newGardenID = await db.saveNewGarden(layoutString, user.id)
     const newPlotIDs = await db.saveNewPlots(newGarden.plotData, newGardenID[0])
+
+    // map over plotData so that each plant object inside the plants array includes it's plant_id
+    // will need a new databse function getPlantIdByName
+
+    const newPlants = await db.saveNewPlotPlants(
+      newPlotIDs,
+      newGarden.plotData,
+      user.id,
+    )
+
+    //need user id + plant id of each plant
+    console.log(newPlotIDs)
+    console.log(newGarden.plotData)
+
     // create a db function to save plants
     res.json({ newGardenID, newPlotIDs })
   } catch (error) {
@@ -147,16 +161,16 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
 })
 
 // Router for adding new plots - NOT IN USE, ONLY FOR TESTING
-router.post('/plots', async (req, res) => {
-  try {
-    const newPlots = req.body
-    const newPlotIDs = await db.saveNewPlots(newPlots, 1)
-    res.json(newPlotIDs)
-  } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
-  }
-})
+// router.post('/plots', async (req, res) => {
+//   try {
+//     const newPlots = req.body
+//     const newPlotIDs = await db.saveNewPlots(newPlots, 1)
+//     res.json(newPlotIDs)
+//   } catch (error) {
+//     console.log(error)
+//     res.sendStatus(500)
+//   }
+// })
 
 // Router used for updating existing garden
 router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {

@@ -121,3 +121,7 @@ export interface plantCareData {
   havestingTime: string
   harvestingTips: string
 }
+
+export interface ID {
+  id: number
+}
