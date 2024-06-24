@@ -19,19 +19,21 @@ export default function LandingPage() {
           </h2>
         </div>
       </div>
-      <div className="h-30 image-center mx-auto w-20 justify-center pb-5 pt-8">
+      <div className="h-30 image-center mx-auto w-20 justify-center pb-5 pt-20 pt-8">
         <img src="/images/homepage/pot_shove_icon.png" alt="plant shovel" />
       </div>
-      <div className="pb-3 text-center">
-        <h2 className="text-xl text-green-700">
-          Oh! You haven't setup your garden yet!
-        </h2>
-        <p className="text-base text-green-700">
-          It's time to start planting and growing your favourite vegetables.
-          Create your first garden and watch your green paradise come to life!
-        </p>
+      <div className="flex justify-center pb-3">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-green-700">
+            Oh! You haven't setup your garden yet!
+          </h2>
+          <p className="max-w-sm py-4 text-base text-green-700">
+            It's time to start planting and growing your favourite vegetables.
+            Create your first garden and watch your green paradise come to life!
+          </p>
+        </div>
       </div>
-      <div className="pb-5 text-center">
+      <div className="pb-20 text-center">
         {/* Link to Register page */}
         <Link to="/register">
           <PrimaryButton
