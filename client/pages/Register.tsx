@@ -41,6 +41,10 @@ export default function Register({ registered, setRegistered }: Props) {
     usePlantsQuery.data.forEach((item) => plantList.push(item.name))
   }
 
+  const handleMonthChange = (month: string) => {
+    setFormData((prev) => ({ ...prev, month: month }))
+  }
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -125,6 +129,7 @@ export default function Register({ registered, setRegistered }: Props) {
               <DropDownAutoFilter
                 value={formData.summerStarts}
                 options={months}
+                onChange={handleMonthChange}
                 onSelect={handleMonthSelect}
                 containerClass={``}
               />

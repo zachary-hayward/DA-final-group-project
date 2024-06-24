@@ -79,7 +79,7 @@ export function GardenView() {
         </div>
       </div>
     
-      <div className="gardenview">
+      <div className="gardenview py-20">
         <GardenGrid
           plotData={plotData}
           setPlotData={setPlotData}

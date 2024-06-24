@@ -10,13 +10,15 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useAuth0 } from '@auth0/auth0-react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useGetUser } from '../hooks/useHooks'
+
 
 const navigation = [
-  { name: 'Home', path: '/', current: true },
-  { name: 'My Garden', path: '/my-garden', current: false },
-  { name: 'My Tasks', path: '/my-tasks', current: false },
-  { name: 'My Plants', path: '/my-plants', current: false },
+  { name: 'Home', path: '/', current: location.pathname === '/' },
+  { name: 'My Garden', path: '/my-garden', current: location.pathname === '/my-garden' },
+  { name: 'My Tasks', path: '/my-tasks', current: location.pathname === '/my-tasks' },
+  { name: 'My Plants', path: '/my-plants', current: location.pathname === '/my-plants' },
 ]
 
 function classNames(...classes) {
