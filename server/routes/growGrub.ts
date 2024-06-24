@@ -75,13 +75,21 @@ router.get('/plants/desired', checkJwt, async (req: JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
-//Get the users gardens NOT IN USE
+//Get the users gardens
 router.get('/gardens', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   try {
     const gardens = await db.getUsersGardens(auth0Id)
-    const plots = await db.getAllUsersPlots(auth0Id)
+    const usersPlots = await db.getAllUsersPlots(auth0Id)
+    const plots = await Promise.all(
+      usersPlots.map(async (plot) => {
+        const plants = await db.getPlotPlantsByPlotId(plot.id)
+        return { ...plot, plants }
+      }),
+    )
+    // get the plot_plants from each plot
+
     res.json({ gardens, plots })
   } catch (error) {
     console.log(error)

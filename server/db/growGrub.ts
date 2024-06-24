@@ -1,6 +1,6 @@
 import { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
-import type { ID, PlotDatum } from '../../models/growGrub.ts'
+import type { ID, NewPlant, PlotDatum } from '../../models/growGrub.ts'
 
 export async function getUserByAuth0Id(auth0Id: string): Promise<User> {
   return db('users')
@@ -48,6 +48,20 @@ export const getAllUsersPlots = (auth0Id: string) => {
       'rain_exposure as rainExposure',
       'sun_level as sunLight',
       'growable',
+      'plots.id as id',
+    )
+}
+
+export function getPlotPlantsByPlotId(id: number) {
+  return db('plots_plants')
+    .where('plot_id', id)
+    .join('plants', 'plants.id', 'plots_plants.plant_id')
+    .select(
+      'plant_id',
+      'user_id as userId',
+      'date_planted',
+      'plots_plants.name as name',
+      'plants.name as plantName',
     )
 }
 
@@ -157,7 +171,7 @@ export async function saveNewPlotPlants(
   plotData: PlotDatum[],
   userId: number,
 ) {
-  const plantsToInsert = []
+  const plantsToInsert: NewPlant[] = []
   plotData.forEach((plot, i) => {
     if (plot.plants.length > 0) {
       plot.plants.forEach((plant) => {
@@ -175,7 +189,7 @@ export async function saveNewPlotPlants(
   await db('plots_plants').insert(plantsToInsert)
 }
 
-export async function saveNewPlants(plantsToInsert) {
+export async function saveNewPlants(plantsToInsert: NewPlant[]) {
   await db('plots_plants').insert(plantsToInsert)
 }
 
