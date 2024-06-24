@@ -31,6 +31,7 @@ function GardenForm({
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
   )
+  const todaysDate = new Date().toISOString().split('T')[0]
 
   function handlePlantSelect(option: string) {
     const newPlantsArr = [
@@ -40,7 +41,7 @@ function GardenForm({
         name: option,
         id: null,
         last_watered: null,
-        date_planted: 'today?', //change this to todays date
+        date_planted: todaysDate,
       },
     ]
     const newPlot = {
