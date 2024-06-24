@@ -3,7 +3,7 @@ import PrimaryButton from '../components/PrimaryButton'
 import { Link } from 'react-router-dom'
 import SecondaryButton from '../components/SecondaryButton'
 
-export default function LandingPage() {
+export default function LandingPageNewUser() {
   return (
     <>
       <div
