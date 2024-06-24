@@ -1,11 +1,13 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 interface Props {
+  value?: string
   onSelect: (option: string) => void
   options: string[]
   containerClass: string
 }
 //onSelect will return the string of the option chosen, pass your own function into it so it lifts it to the parent
 export default function DropDownAutoFilter({
+  value,
   onSelect,
   options,
   containerClass,
@@ -46,14 +48,15 @@ export default function DropDownAutoFilter({
 
   const handleOnBlur = () => {
     setTimeout(() => setShowDropDown(false), 100)
+    if (inputValue !== '') handleSelect(inputValue)
   }
-
+  
   return (
     <div className={`container relative ${containerClass || ''}`}>
       <input
         name="dropDown"
         className={`w-full rounded bg-white pl-1 italic`}
-        value={inputValue}
+        value={value || inputValue}
         onChange={handleOnChange}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
