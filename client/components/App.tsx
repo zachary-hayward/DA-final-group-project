@@ -6,6 +6,7 @@ import Header from './Header.tsx'
 import LandingPage from '../pages/LandingPageNewUser.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
+import LandingPageExisitingUser from '../pages/LandingPageExisitingUser.tsx'
 
 function App() {
   const [processing, setProcessing] = useState(true)
@@ -44,7 +45,7 @@ function App() {
             )}
           </>
         )}
-        <LandingPage />
+        <LandingPageExisitingUser />
         <Footer />
       </div>
     </>

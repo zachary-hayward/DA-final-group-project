@@ -1,3 +1,8 @@
+import QuickLinksCards from '../components/QuicklinksCard'
+import spinachIcon from '/images/flat-icons/spinach.png'
+import carrotIcon from '/images/flat-icons/carrot.png'
+import wateringCanIcon from '/images/flat-icons/watering-can.png'
+
 export default function LandingPageExisitingUser() {
   return (
     <>
@@ -14,6 +19,23 @@ export default function LandingPageExisitingUser() {
             enthusiasts like you.
           </h2>
         </div>
+      </div>
+      <div className="mx-auto mt-10 flex max-w-7xl justify-center p-8">
+        <QuickLinksCards
+          icon={spinachIcon}
+          text={'My Garden'}
+          link={'/my-garden'}
+        />
+        <QuickLinksCards
+          icon={carrotIcon}
+          text={'My Plants'}
+          link={'/my-plants'}
+        />
+        <QuickLinksCards
+          icon={wateringCanIcon}
+          text={'My Tasks'}
+          link={'/my-tasks'}
+        />
       </div>
     </>
   )
