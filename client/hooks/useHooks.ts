@@ -187,3 +187,18 @@ export function useGetSinglePlant(name: string) {
     },
   })
 }
+
+export function useGetMyPlants() {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: ['plants'],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .get(`${rootURL}/myplants`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+  })
+}

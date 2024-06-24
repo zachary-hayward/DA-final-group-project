@@ -2,6 +2,7 @@ import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
 import { Link, useParams } from 'react-router-dom'
+import { useGetMyPlants } from '../hooks/useHooks'
 
 interface PlantsProps {
   id: number
@@ -55,6 +56,11 @@ const plants: PlantsProps[] = [
 const PlantsTable: React.FC<PlantsProps> = () => {
   // Add useParams but will need to fix header and overall routing to check if this works!
   const { id } = useParams()
+  const getMyPlants = useGetMyPlants()
+
+  if (getMyPlants.data) {
+    console.log(getMyPlants.data)
+  }
 
   return (
     <div className="mx-auto max-w-7xl py-12">

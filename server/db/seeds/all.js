@@ -8,7 +8,7 @@ export const seed = async function (knex) {
   await knex('users').insert([
     {
       id: 1,
-      auth0_id: 'auth0|123',
+      auth0_id: 'google-oauth2|118294311203163729435',
       username: 'gardener_john',
       location: 'New York',
       summer_start_month: 'June',
