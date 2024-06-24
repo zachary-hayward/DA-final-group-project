@@ -12,7 +12,7 @@ export default createRoutesFromElements(
     <Route index element={<Home />} />
     <Route path="/my-garden" element={<GardenView />} />
     <Route path="/my-plants" element={<MyPlants />} />
-    <Route path="/my-plants/:id" element={<SinglePlant />} />
+    <Route path="/my-plants/:name" element={<SinglePlant />} />
     <Route path="/my-tasks" element={<TaskPage />} />
   </Route>,
 )

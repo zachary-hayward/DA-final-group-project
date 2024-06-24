@@ -73,6 +73,8 @@ export const seed = async function (knex) {
     {
       id: 1,
       name: 'Tomato',
+      icon_src: '/images/flat-icons/veg-fruit-icons/tomato.png',
+      photo_src: '/images/photos/tomatoes.jpg',
       difficulty: 'Medium',
       planting_starts: 'early-spring',
       planting_ends: 'summer',
@@ -85,6 +87,8 @@ export const seed = async function (knex) {
     {
       id: 2,
       name: 'Basil',
+      icon_src: '/images/flat-icons/veg-fruit-icons/basil.png',
+      photo_src: '/images/photos/basil.jpg',
       difficulty: 'Easy',
       planting_starts: 'late-summer',
       planting_ends: 'early-winter',
@@ -97,6 +101,8 @@ export const seed = async function (knex) {
     {
       id: 3,
       name: 'Carrot',
+      icon_src: '/images/flat-icons/veg-fruit-icons/carrot.png',
+      photo_src: '/images/photos/carrots.jpg',
       difficulty: 'Hard',
       planting_starts: 'early-spring',
       planting_ends: 'late-spring',
@@ -108,7 +114,9 @@ export const seed = async function (knex) {
     },
     {
       id: 4,
-      name: 'Caulilower',
+      name: 'Cauliflower',
+      icon_src: '/images/flat-icons/veg-fruit-icons/cauliflower.png',
+      photo_src: '/images/photos/cauliflower.jpg',
       difficulty: 'Medium',
       planting_starts: 'summer',
       planting_ends: 'winter',
@@ -121,6 +129,8 @@ export const seed = async function (knex) {
     {
       id: 5,
       name: 'Broccoli',
+      icon_src: '/images/flat-icons/veg-fruit-icons/broccoli.png',
+      photo_src: '/images/photos/broccoli.jpg',
       difficulty: 'Easy',
       planting_starts: 'summer',
       planting_ends: 'late-summer',
@@ -133,6 +143,8 @@ export const seed = async function (knex) {
     {
       id: 6,
       name: 'Silverbeet',
+      icon_src: '/images/flat-icons/veg-fruit-icons/chard.png',
+      photo_src: '/images/photos/silverbeet.jpg',
       difficulty: 'Easy',
       planting_starts: 'year-round',
       planting_ends: 'year-round',

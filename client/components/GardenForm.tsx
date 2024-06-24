@@ -6,6 +6,7 @@ import { Layout } from 'react-grid-layout'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import PlotPlantSuggestionDropDown from './PlotPlantSuggestionDropDown'
+import SmallDeleteButton from './SmallDeleteButton'
 
 interface Props {
   plotData: PlotDatum[]
@@ -31,6 +32,7 @@ function GardenForm({
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
   )
+  const todaysDate = new Date().toISOString().split('T')[0]
 
   function handlePlantSelect(option: string) {
     const newPlantsArr = [
@@ -40,7 +42,7 @@ function GardenForm({
         name: option,
         id: null,
         last_watered: null,
-        date_planted: 'today?', //change this to todays date
+        date_planted: todaysDate,
       },
     ]
     const newPlot = {
@@ -48,6 +50,36 @@ function GardenForm({
       plants: [...newPlantsArr],
     }
     setPlots(newPlot)
+  }
+
+  function removePlant(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+
+    // const target = e.target as
+    const delDetails = e.target.closest('button').id.split('-')
+    if (!isNaN(Number(delDetails[1]))) {
+      // if there's an id
+      const newPlantsArr = currentPlot!.plants.filter(
+        (plant) => plant.id !== Number(delDetails[1]),
+      )
+      const newPlot = {
+        ...currentPlot!,
+        plants: [...newPlantsArr],
+      }
+      setPlots(newPlot)
+    } else {
+      // if theres no id
+      const index = currentPlot!.plants.findIndex(
+        (plant) => plant.id === null && plant.plantName === delDetails[0],
+      )
+      const newPlantsArr = [...currentPlot!.plants]
+      newPlantsArr.splice(index, 1)
+      const newPlot = {
+        ...currentPlot!,
+        plants: [...newPlantsArr],
+      }
+      setPlots(newPlot)
+    }
   }
 
   function handleChange(
@@ -256,28 +288,6 @@ function GardenForm({
           <option value="fully">Fully exposed</option>
         </select>{' '}
         <br />
-        {/* Occupation */}
-        {/* <label htmlFor="occupation">Occupation: </label> <br />
-        <select
-          value={currentPlot?.occupation}
-          name="occupation"
-          id="occupation"
-          onChange={handleChange}
-          className="dropmenu"
-        >
-          <option value="">--Empty?--</option>
-          <option value="10">10%</option>
-          <option value="20">20%</option>
-          <option value="30">30%</option>
-          <option value="40">40%</option>
-          <option value="50">50%</option>
-          <option value="60">60%</option>
-          <option value="70">70%</option>
-          <option value="80">80%</option>
-          <option value="90">90%</option>
-          <option value="100">100%</option>
-        </select>{' '}
-        <br /> */}
         <PlotPlantSuggestionDropDown
           // key={currentPlot?.sunLight}
           handlePlantSelect={handlePlantSelect}
@@ -288,7 +298,14 @@ function GardenForm({
         <ul>
           {currentPlot?.plants &&
             currentPlot?.plants.map((plant, index) => (
-              <li key={`${plant}+${index}`}>{plant.name}</li>
+              <li key={`${plant}+${index}`}>
+                {plant.name}{' '}
+                <SmallDeleteButton
+                  deleteId={plant.id}
+                  deleteName={plant.plantName}
+                  onClick={removePlant}
+                />
+              </li>
             ))}
         </ul>
         <PrimaryButton onClick={handleSubmit}>Save garden & exit</PrimaryButton>

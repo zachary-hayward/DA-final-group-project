@@ -1,9 +1,11 @@
 import {
   PlotDatum,
   DBPlotDatum,
+  PlotPlant,
   PlotPlantJoinedRowEntry,
   Task,
 } from '../../models/growGrub'
+import * as db from '../db/growGrub.ts'
 
 export function differentiatePlots(
   FEPlots: PlotDatum[],
@@ -44,6 +46,30 @@ export function differentiatePlots(
   const plotIDsToDelete = plotsToDelete.map((plot) => plot.id)
 
   return { plotsToCreate, plotsToUpdate, plotIDsToDelete }
+}
+
+export async function getPlantsIds(plotData: PlotDatum[]) {
+  const plantsNames: string[] = []
+  plotData.forEach((plot) => {
+    if (plot.plants.length > 0) {
+      plot.plants.forEach((plant) => {
+        plantsNames.push(plant.plantName)
+      })
+    }
+  })
+  const plantsIds = await db.getPlantIDs(plantsNames)
+  return plantsIds
+}
+
+export const getAllPlantsInGarden = async (
+  garden_id: number,
+  plantsToKeep: PlotPlant[],
+) => {
+  const existingDBPlantIDs = await db.getGardensPlantsById(garden_id)
+  const idsToDelete = existingDBPlantIDs.filter(
+    (plantId) => !plantsToKeep.find((plant) => plant.id === plantId.id),
+  )
+  return idsToDelete.map((obj) => obj.id)
 }
 
 export function refreshTasks(

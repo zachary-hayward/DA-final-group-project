@@ -17,6 +17,7 @@ export function useHooks() {
     useGetUsernames,
     useGetPlants,
     useGetGardens,
+    useAddPlant,
     useGetTasks,
   }
 }
@@ -66,7 +67,8 @@ const useGetUsernames = () => {
   })
 }
 
-const useGetPlants = () => {
+//hook to get plant list
+export function useGetPlants() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   return useQuery({
     enabled: isAuthenticated,
@@ -77,6 +79,24 @@ const useGetPlants = () => {
         .get(`${rootURL}/plants`)
         .set('Authorization', `Bearer ${token}`)
       return res.body as Plant[]
+    },
+  })
+}
+
+const useAddPlant = () => {
+  const { getAccessTokenSilently } = useAuth0()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: async (plant: string) => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .get(`${rootURL}/googleGemini/`)
+        .query({ vege: plant })
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['plants'] })
     },
   })
 }
@@ -147,6 +167,22 @@ export const useGetGardens = () => {
       const token = await getAccessTokenSilently()
       const res = await request
         .get(`${rootURL}/gardens`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+  })
+}
+
+//hook to get single plant
+export function useGetSinglePlant(name: string) {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: ['singlePlant'],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .get(`${rootURL}/plants/${name}`)
         .set('Authorization', `Bearer ${token}`)
       return res.body
     },
