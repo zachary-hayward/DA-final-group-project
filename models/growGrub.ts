@@ -71,13 +71,38 @@ export interface PlotPlant {
   date_planted: string
 }
 
+export interface DBPlotDatum {
+  id: number
+  garden_id: number
+  plot_number: number
+  sun_level: string
+  plot_type: string
+  size: number
+  name: string
+  rain_exposure: string
+}
 export interface PlotDatumDB extends PlotDatum {
   gardenId: number
 }
 
+// export interface DBPlotDatum extends PlotDatum {
+//   id: number
+// }
+
+export interface DBPlotDatum {
+  id: number
+  garden_id: number
+  plot_number: number
+  sun_level: string
+  plot_type: string
+  size: number
+  name: string
+  rain_exposure: string
+}
 export interface GardenToSave {
   layout: Layout[]
   plotData: PlotDatum[]
+  garden_id: number | null
 }
 
 export interface plantCareData {

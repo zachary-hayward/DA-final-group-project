@@ -1,6 +1,10 @@
 import GardenGrid from '../components/GardenGrid.tsx'
 import GardenForm from '../components/GardenForm.tsx'
-import { useGetGardens, useSaveGarden } from '../hooks/useHooks.ts'
+import {
+  useGetGardens,
+  useSaveGarden,
+  useSaveNewGarden,
+} from '../hooks/useHooks.ts'
 
 import { useState } from 'react'
 import {
@@ -16,8 +20,9 @@ import {
 
 export function GardenView() {
   const saveGarden = useSaveGarden()
+  const saveNewGarden = useSaveNewGarden()
   const getGardens = useGetGardens()
-  const [currentGardenID, setCurrentGardenID] = useState<number | undefined>()
+  const [currentGardenID, setCurrentGardenID] = useState<number | null>(null)
   const [plotData, setPlotData] = useState<PlotDatum[]>(plotDataDefaultState)
   const [activeID, setActiveID] = useState<string>('1')
   const [layout, setLayout] = useState(layoutDefaultState)
@@ -25,7 +30,7 @@ export function GardenView() {
   if (
     getGardens.data &&
     getGardens.data.gardens.length > 0 &&
-    currentGardenID === undefined
+    currentGardenID === null
   ) {
     return (
       <GardenSelect
@@ -40,17 +45,27 @@ export function GardenView() {
     const currentGarden = getGardens.data.gardens.find(
       (garden: GardenSimpleDB) => garden.id === id,
     )
+    //////////////////////////////////////////////////////////////////////
+    //  REMOVE THE .MAP PLANTS ADDING FUNCTION BELOW ONCE ADDING PLANTS TO THE DATABASE HAS BEEN SOLVED
+    //////////////////////////////////////////////////////////////////////
     const currentPlotData = getGardens.data.plots
       .filter((plot: PlotDatumDB) => plot.gardenId === id)
       .map((plot: PlotDatumDB) => {
         return { ...plot, plotNumber: String(plot.plotNumber) }
+      })
+      .map((plot: PlotDatumDB) => {
+        return { ...plot, plants: [] }
       })
     setPlotData(currentPlotData)
     setLayout(JSON.parse(currentGarden.layout))
   }
 
   const onSaveGarden = async () => {
-    saveGarden.mutateAsync({ layout, plotData })
+    saveGarden.mutateAsync({ layout, plotData, garden_id: currentGardenID })
+  }
+
+  const onSaveNewGarden = async () => {
+    saveNewGarden.mutateAsync({ layout, plotData })
   }
 
   return (
@@ -62,6 +77,7 @@ export function GardenView() {
           setActiveID={setActiveID}
           layout={layout}
           setLayout={setLayout}
+          currentGardenID={currentGardenID}
           setCurrentGardenID={setCurrentGardenID}
         />
         <GardenForm
@@ -70,8 +86,10 @@ export function GardenView() {
           setPlotData={setPlotData}
           activeID={activeID}
           onSaveGarden={onSaveGarden}
+          onSaveNewGarden={onSaveNewGarden}
           layout={layout}
           setLayout={setLayout}
+          currentGardenID={currentGardenID}
         />
       </div>
     </>
