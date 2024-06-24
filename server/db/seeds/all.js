@@ -297,7 +297,7 @@ export const seed = async function (knex) {
       plant_id: 1,
       plot_id: 1,
       date_planted: '2024-03-01',
-      last_watered: '2024-03-15',
+      last_watered: '2023-03-15',
       watering_history: '[2024-03-15]',
       user_id: 1,
       name: 'tomato 1',
@@ -384,6 +384,44 @@ export const seed = async function (knex) {
     },
   ])
 
+  await knex('tasks').del()
+  await knex('tasks').insert([
+    {
+      id: 1,
+      type: 'water',
+      plots_plants_id: 1,
+      overdue_by: 0,
+      completed: false,
+    },
+    {
+      id: 2,
+      type: 'water',
+      plots_plants_id: 2,
+      overdue_by: 1,
+      completed: false,
+    },
+    {
+      id: 3,
+      type: 'water',
+      plots_plants_id: 3,
+      overdue_by: 3,
+      completed: false,
+    },
+    {
+      id: 4,
+      type: 'water',
+      plots_plants_id: 4,
+      overdue_by: 4,
+      completed: false,
+    },
+    {
+      id: 5,
+      type: 'water',
+      plots_plants_id: 5,
+      overdue_by: 5,
+      completed: false,
+    },
+  ])
   // await knex('plant_notes').del()
   // await knex('plant_notes').insert([
   //   {id: 1, plot_plant_id: 1, date: '2024-03-16', note: 'Plant is growing well.' },

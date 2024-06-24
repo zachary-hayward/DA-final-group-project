@@ -124,3 +124,19 @@ export interface plantCareData {
   havestingTime: string
   harvestingTips: string
 }
+
+export interface PlotPlantJoinedRowEntry {
+  id: number
+  last_watered: string
+  watering_history: string
+  watering_frequency: string
+  [key: string]: number | string | Date
+}
+
+export interface Task {
+  id: number
+  type: string
+  plots_plants_id: number
+  overdue_by: number
+  completed: boolean
+}

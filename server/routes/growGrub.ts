@@ -3,7 +3,7 @@ import checkJwt, { JwtRequest } from '../auth0.ts'
 
 import * as db from '../db/growGrub.ts'
 import { UserData, User } from '../../models/growGrub.ts'
-import { differentiatePlots } from '../db/helperFunctions.tsx'
+import { differentiatePlots, refreshTasks } from '../db/helperFunctions.tsx'
 
 const router = Router()
 
@@ -18,7 +18,7 @@ router.get('/users', checkJwt, async (req: JwtRequest, res) => {
       id: userDB.id,
       username: userDB.username,
       location: userDB.location,
-      summerStarts: userDB.summerStarts
+      summerStarts: userDB.summerStarts,
     }
     res.json(user)
   } catch (error) {
@@ -27,14 +27,16 @@ router.get('/users', checkJwt, async (req: JwtRequest, res) => {
   }
 })
 //For registering a new user
-interface NewUserData extends UserData {plants: string[]}
+interface NewUserData extends UserData {
+  plants: string[]
+}
 router.post('/users', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   const userData: NewUserData = req.body
   if (!auth0Id) return res.sendStatus(401)
   if (!userData) return res.sendStatus(400)
   try {
-    const userId = await db.addUser({...userData, auth0_id: auth0Id })
+    const userId = await db.addUser({ ...userData, auth0_id: auth0Id })
     res.json(userId)
   } catch (error) {
     console.log(error)
@@ -193,6 +195,94 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
     console.log(error)
     res.sendStatus(500)
   }
+})
+
+// Authenticated route for refreshing and retrieving tasks for user
+router.put('/tasks', checkJwt, async (req: JwtRequest, res) => {
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) return res.sendStatus(401)
+  else
+    try {
+      const currentDate = new Date()
+      const plotsPlants = await db.getPlotsPlantsJoinByAuth(auth0Id)
+      const existingTasks = await db.getTasksByAuth(auth0Id)
+
+      const { tasksToUpdate, tasksToCreate } = refreshTasks(
+        plotsPlants,
+        existingTasks,
+        currentDate,
+      )
+
+      await db.updateTasks(tasksToUpdate)
+      await db.createTasks(tasksToCreate)
+
+      const refreshedTasks = await db.getTasksByAuth(auth0Id)
+      res.json(refreshedTasks)
+    } catch (error) {
+      console.log(error)
+      res.sendStatus(500)
+    }
+})
+
+// For testing tasks route:
+// 1) npm run knex seed:run
+// 2) Make a GET request to localhost:3000/api/v1/tasksTEST2 using Thunderclient; expect first entry to be:
+// {
+//   "id": 1,
+//   "type": "water",
+//   "plots_plants_id": 1,
+//   "overdue_by": 0,
+//   "completed": 0
+// }
+// 3) Make a PUT request to localhost:3000/api/v1/tasksTEST3 using Thunderclient; expect overdue_by of first entry to be 465
+
+// Route for testing only - returns PlotsPlantsJoin for auth0_id user auth0|123
+router.get('/tasksTEST1', async (req, res) => {
+  try {
+    const plotsPlants = await db.getPlotsPlantsJoinByAuth('auth0|123')
+    res.json(plotsPlants)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
+
+// Route for testing only - returns tasks for auth0_id user auth0|123
+router.get('/tasksTEST2', async (req, res) => {
+  try {
+    const plotsPlants = await db.getTasksByAuth('auth0|123')
+    res.json(plotsPlants)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
+
+// Route for testing only - refreshes and retrives tasks for auth0_id user auth0|123
+router.put('/tasksTEST3', async (req, res) => {
+  const auth0Id = 'auth0|123'
+  if (!auth0Id) return res.sendStatus(401)
+  else
+    try {
+      const currentDate = new Date()
+      const plotsPlants = await db.getPlotsPlantsJoinByAuth(auth0Id)
+      const existingTasks = await db.getTasksByAuth(auth0Id)
+
+      const { tasksToUpdate, tasksToCreate } = refreshTasks(
+        plotsPlants,
+        existingTasks,
+        currentDate,
+      )
+
+      await db.updateTasks(tasksToUpdate)
+      await db.createTasks(tasksToCreate)
+
+      const refreshedTasks = await db.getTasksByAuth(auth0Id)
+      res.json(refreshedTasks)
+    } catch (error) {
+      console.log(error)
+      res.sendStatus(500)
+    }
 })
 
 export default router
