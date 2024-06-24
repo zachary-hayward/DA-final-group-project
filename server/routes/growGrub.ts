@@ -4,6 +4,7 @@ import checkJwt, { JwtRequest } from '../auth0.ts'
 import * as db from '../db/growGrub.ts'
 import { UserData, User } from '../../models/growGrub.ts'
 import { differentiatePlots } from '../db/helperFunctions.tsx'
+import { getSinglePlantById } from '../db/growGrub.ts'
 
 const router = Router()
 
@@ -18,7 +19,7 @@ router.get('/users', checkJwt, async (req: JwtRequest, res) => {
       id: userDB.id,
       username: userDB.username,
       location: userDB.location,
-      summerStarts: userDB.summerStarts
+      summerStarts: userDB.summerStarts,
     }
     res.json(user)
   } catch (error) {
@@ -27,14 +28,16 @@ router.get('/users', checkJwt, async (req: JwtRequest, res) => {
   }
 })
 //For registering a new user
-interface NewUserData extends UserData {plants: string[]}
+interface NewUserData extends UserData {
+  plants: string[]
+}
 router.post('/users', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   const userData: NewUserData = req.body
   if (!auth0Id) return res.sendStatus(401)
   if (!userData) return res.sendStatus(400)
   try {
-    const userId = await db.addUser({...userData, auth0_id: auth0Id })
+    const userId = await db.addUser({ ...userData, auth0_id: auth0Id })
     res.json(userId)
   } catch (error) {
     console.log(error)
@@ -62,6 +65,22 @@ router.get('/plants', checkJwt, async (req: JwtRequest, res) => {
     res.json(plants)
   } catch (error) {
     console.log(error)
+    res.sendStatus(500)
+  }
+})
+
+//Get single plant to show detailed care info
+router.get('/plants/:name', checkJwt, async (req: JwtRequest, res) => {
+  const name = req.params.name
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) {
+    return res.status(401).send('Unauthorized')
+  }
+  try {
+    const singlePlant = await getSinglePlantById(name)
+    res.json(singlePlant)
+  } catch (error) {
+    console.error(`Database error ${error}`)
     res.sendStatus(500)
   }
 })

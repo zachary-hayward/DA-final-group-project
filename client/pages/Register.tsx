@@ -25,7 +25,9 @@ export default function Register({ registered, setRegistered }: Props) {
   })
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const [displayMessage, setDisplayMessage] = useState('')
+
   const hooks = useHooks()
+  const useAddPlant = hooks.useAddPlant()
 
   const useUsernameQuery = hooks.useGetUsernames()
   const usernameList = useUsernameQuery.data
@@ -67,12 +69,12 @@ export default function Register({ registered, setRegistered }: Props) {
   const handlePlantSelect = (option: string) => {
     const plant = titleWord(option)
     setFormData((prev) => ({...prev, plants: [...prev.plants, plant]}))
-    
+    if (!plantList.includes(option)) useAddPlant.mutate(option)
   }
   const handleMonthSelect = (option: string) => {
     setFormData((prev) => ({...prev, summerStarts: option}))
   }
-
+  
   return (
     <>
       <div className="container mx-auto rounded bg-slate-300">
