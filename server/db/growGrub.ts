@@ -88,7 +88,7 @@ export function saveNewGarden(
 export function saveNewPlots(
   plotData: PlotDatum[],
   gardenID: number,
-): Promise<number[]> {
+): Promise<ID[]> {
   if (plotData.length == 0) return Promise.resolve([]) // Return an empty array if there are no plots to save
   const plotsToInsert = plotData.map((plot) => ({
     garden_id: gardenID,
@@ -172,6 +172,10 @@ export async function saveNewPlotPlants(
       })
     }
   })
+  await db('plots_plants').insert(plantsToInsert)
+}
+
+export async function saveNewPlants(plantsToInsert) {
   await db('plots_plants').insert(plantsToInsert)
 }
 

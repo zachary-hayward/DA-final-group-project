@@ -2,7 +2,7 @@ import { Router } from 'express'
 import checkJwt, { JwtRequest } from '../auth0.ts'
 
 import * as db from '../db/growGrub.ts'
-import { UserData, User } from '../../models/growGrub.ts'
+import { UserData, User, NewPlant } from '../../models/growGrub.ts'
 import { differentiatePlots } from '../db/helperFunctions.tsx'
 
 const router = Router()
@@ -176,12 +176,21 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
 router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
   // Body of request will include plotData, layout
   const garden_id = Number(req.params.id)
-
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
+  const user = await db.getUserByAuth0Id(auth0Id)
+
+  // CHECK UPDATING PLOTS
+
+  // check if plants already exist - if (plant.id)
+
+  // if it does then update
+
+  // if not then insert new
 
   try {
     const updatedGarden = req.body
+    // console.log(updatedGarden)
     const updatedLayoutString = JSON.stringify(updatedGarden.layout)
 
     await db.updateGardenLayout(garden_id, updatedLayoutString)
@@ -193,8 +202,36 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
       differentiatePlots(updatedPlotData, existingPlotData, garden_id)
 
     await db.updatePlots(plotsToUpdate, garden_id)
-    await db.saveNewPlots(plotsToCreate, garden_id)
+    const newPlotIDs = await db.saveNewPlots(plotsToCreate, garden_id)
+    if (newPlotIDs.length > 0) {
+      await db.saveNewPlotPlants(newPlotIDs, plotsToCreate, user.id)
+    }
     await db.deletePlotsByID(plotIDsToDelete)
+
+    const plantsToInsert: NewPlant[] = []
+    if (plotsToUpdate.length > 0) {
+      plotsToUpdate.forEach((plot) => {
+        if (plot.plants.length > 0) {
+          plot.plants.forEach((plant) => {
+            if (plant.id) return
+            else {
+              const newPlant = {
+                plant_id: 1,
+                user_id: user.id,
+                plot_id: plot.id,
+                date_planted: plant.date_planted,
+                name: plant.name,
+              }
+              plantsToInsert.push(newPlant)
+            }
+          })
+        }
+      })
+      if (plantsToInsert.length > 0) {
+        db.saveNewPlants(plantsToInsert)
+      }
+    }
+
     res
       .json({
         message: `Garden ${garden_id} was successfully updated in the database.`,

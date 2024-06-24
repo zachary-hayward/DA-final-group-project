@@ -68,6 +68,14 @@ export interface PlotPlant {
   date_planted: string
 }
 
+export interface NewPlant {
+  plant_id: number
+  user_id: number
+  plot_id: number
+  date_planted: string
+  name: string
+}
+
 export interface DBPlotDatum {
   id: number
   garden_id: number

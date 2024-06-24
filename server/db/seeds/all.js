@@ -95,7 +95,7 @@ export const seed = async function (knex) {
     },
     {
       id: 4,
-      name: 'Caulilower',
+      name: 'Cauliflower',
       difficulty: 'Medium',
       planting_starts: 'summer',
       planting_ends: 'winter',
