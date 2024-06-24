@@ -109,11 +109,11 @@ const TaskTable: React.FC<TaskProps> = ({
               >
                 <td className="flex items-center border border-slate-200 px-4 py-2">
                   <div className="flex items-center">
-                    {/* <img
-                      src={task.plantImage}
-                      alt={task.plantName}
+                    <img
+                      src={task.photo_src}
+                      alt={task.name}
                       className="mr-2 h-12 w-12"
-                    /> */}
+                    />
                   </div>
                   <div className="ml-2">
                     <div className="mb-1 font-semibold">{task.name}</div>

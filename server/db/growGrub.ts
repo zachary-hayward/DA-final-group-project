@@ -360,11 +360,13 @@ export async function getUpdatedTasksByAuth(auth0_id: string) {
     .join('plots', 'plots.garden_id', 'gardens.id')
     .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
     .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
+    .join('plants', 'plants.id', 'plots_plants.plant_id')
     .select(
       'tasks.*',
       'plots_plants.name',
       'plots_plants.date_planted',
       'plots_plants.last_watered',
+      'plants.photo_src',
     )
 }
 
