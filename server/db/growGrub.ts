@@ -313,3 +313,16 @@ export async function getSinglePlantById(plantName: string) {
     .select('*')
     .first()
 }
+
+export async function getGardensPlantsById(garden_id: number) {
+  return db('gardens')
+    .where('gardens.id', garden_id)
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .select('plots_plants.id as id')
+}
+
+export async function deletePlotsPlantsByID(plantIDs: number[]) {
+  if (plantIDs.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to delete
+  return db('plots_plants').whereIn('id', plantIDs).delete()
+}

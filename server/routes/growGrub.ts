@@ -238,14 +238,14 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
 
     // get an array of all plants not in db (w/o id's)
     const plantsToInsert: NewPlant[] = []
-    const plantsWithIds: PlotPlant[] = [] //plants from frontend with ids
+    const plantsFEWithIds: PlotPlant[] = [] //plants from frontend with ids
     const plantsIDs = await getPlantsIds(plotsToUpdate)
     if (plotsToUpdate.length > 0) {
       plotsToUpdate.forEach((plot) => {
         if (plot.plants.length > 0) {
           plot.plants.forEach((plant) => {
             if (plant.id) {
-              plantsWithIds.push(plant)
+              plantsFEWithIds.push(plant)
             } else {
               const newPlant = {
                 plant_id: plantsIDs.find(
@@ -263,10 +263,17 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
           })
         }
       })
+      console.log(plantsFEWithIds)
+      const plantIDsToDelete = await getAllPlantsInGarden(
+        garden_id,
+        plantsFEWithIds,
+      )
       // delete plants which didn't come back in the list
       // get list of plants that exist in DB
       // compare with list from frontend
       // const plantsToDelete = plantsIDs
+      console.log('plantIDsToDelete: ', plantIDsToDelete)
+      await db.deletePlotsPlantsByID(plantIDsToDelete)
 
       if (plantsToInsert.length > 0) {
         db.saveNewPlants(plantsToInsert)
@@ -283,5 +290,16 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
+
+const getAllPlantsInGarden = async (
+  garden_id: number,
+  plantsToKeep: PlotPlant[],
+) => {
+  const existingDBPlantIDs = await db.getGardensPlantsById(garden_id)
+  const idsToDelete = existingDBPlantIDs.filter(
+    (plantId) => !plantsToKeep.find((plant) => plant.id === plantId.id),
+  )
+  return idsToDelete.map((obj) => obj.id)
+}
 
 export default router
