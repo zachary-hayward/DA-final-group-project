@@ -1,6 +1,13 @@
 import TasksTable from '../components/TasksTable'
+// import { useGetTasks } from '../hooks/useHooks'
 
 export default function TaskPage() {
+  // const getTasks = useGetTasks()
+  // console.log('tasks page')
+
+  // if (getTasks.data) {
+  //   console.log('getTasks.data: ', getTasks.data)
+  // }
   return (
     <>
       {/* Page Banner - hard coded - currently WIP of componentising it */}

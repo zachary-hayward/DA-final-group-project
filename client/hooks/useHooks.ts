@@ -17,6 +17,7 @@ export function useHooks() {
     useGetUsernames,
     useGetPlants,
     useGetGardens,
+    useGetTasks,
   }
 }
 
@@ -150,4 +151,28 @@ export const useGetGardens = () => {
       return res.body
     },
   })
+}
+
+export function useGetTasks() {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: ['tasks'],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .put(`${rootURL}/tasks`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+  })
+  // return useMutation({
+  //   mutationFn: async () => {
+  //     const token = await getAccessTokenSilently()
+  //     const res = await request
+  //       .put(`api/v1/tasks`)
+  //       .set('Authorization', `Bearer ${token}`)
+  //     return res.body
+  //   },
+  // })
 }

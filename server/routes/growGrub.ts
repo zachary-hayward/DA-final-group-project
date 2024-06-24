@@ -199,10 +199,12 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
 
 // Authenticated route for refreshing and retrieving tasks for user
 router.put('/tasks', checkJwt, async (req: JwtRequest, res) => {
+  console.log('tasks')
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   else
     try {
+      console.log('ttassks')
       const currentDate = new Date()
       const plotsPlants = await db.getPlotsPlantsJoinByAuth(auth0Id)
       const existingTasks = await db.getTasksByAuth(auth0Id)

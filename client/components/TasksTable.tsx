@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
+import { useGetTasks } from '../hooks/useHooks'
 
 interface TaskProps {
   id: number
@@ -47,6 +48,12 @@ const TaskTable: React.FC<TaskProps> = ({
   taskType,
   lastPerformed,
 }) => {
+  const getTasks = useGetTasks()
+
+  if (getTasks.data) {
+    console.log('getTasks.data: ', getTasks.data)
+  }
+
   return (
     <div className="list-container mx-auto py-12">
       <div className="flex items-center justify-between">
