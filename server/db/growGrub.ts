@@ -199,12 +199,11 @@ export async function addUser({
         ['id'],
       )
       const userId = user.id
-      const knownPlants = await trx('plants').whereIn('name', plants)
-      const desiredPlantsData = knownPlants.map((plant) => ({
-        plant_id: plant.id,
-        user_id: userId,
-      }))
-      await trx('user_desired_plants').insert(desiredPlantsData)
+      if (plants && plants.length > 0) {
+        const knownPlants = await trx('plants').whereIn('name', plants)
+        const desiredPlantsData = knownPlants.map(plant => ({plant_id:plant.id, user_id: userId}))
+        await trx('user_desired_plants').insert(desiredPlantsData)
+      }
 
       console.log(`added user ${userId}: ${username}`)
     })
