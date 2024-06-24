@@ -11,7 +11,7 @@ const Card = ({ icon, text, link }) => {
     <Link to={link} className="mx-4 flex-1">
       <div className="rounded-lg bg-white p-6 shadow-md transition duration-300 hover:shadow-lg">
         <div className="mb-4 flex items-center justify-center">
-          <div className="mr-4">{icon}</div>
+          <div className="mr-4 style= w-20 h-20">{icon}</div>
           <div>{text}</div>
         </div>
       </div>
