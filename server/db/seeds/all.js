@@ -228,6 +228,7 @@ export const seed = async function (knex) {
       plot_type: 'house',
       size: 5,
       growable: false,
+      name: 'Kitchen',
     },
     {
       id: 2,
@@ -237,6 +238,7 @@ export const seed = async function (knex) {
       plot_type: 'path',
       size: 4,
       growable: true,
+      name: 'Wonderland',
     },
     {
       id: 3,
@@ -246,6 +248,7 @@ export const seed = async function (knex) {
       plot_type: 'garden',
       size: 4,
       growable: true,
+      name: 'Secret Garden',
     },
     {
       id: 4,
@@ -255,6 +258,7 @@ export const seed = async function (knex) {
       plot_type: 'garden',
       size: 5,
       growable: true,
+      name: 'Edible for sure',
     },
     {
       id: 5,
@@ -264,6 +268,7 @@ export const seed = async function (knex) {
       plot_type: 'garden',
       size: 4,
       growable: true,
+      name: 'Underground world',
     },
     {
       id: 6,
@@ -273,6 +278,7 @@ export const seed = async function (knex) {
       plot_type: 'garden',
       size: 2,
       growable: true,
+      name: 'Floral planet',
     },
     {
       id: 7,
@@ -282,6 +288,7 @@ export const seed = async function (knex) {
       plot_type: 'grass',
       size: 5,
       growable: true,
+      name: 'Greenhouse',
     },
     {
       id: 8,
@@ -291,6 +298,7 @@ export const seed = async function (knex) {
       plot_type: 'grass',
       size: 4,
       growable: true,
+      name: 'Underground gold',
     },
     {
       id: 9,
@@ -300,6 +308,7 @@ export const seed = async function (knex) {
       plot_type: 'garden',
       size: 2,
       growable: true,
+      name: 'Secret garden',
     },
   ])
   await knex('plots_plants').del()

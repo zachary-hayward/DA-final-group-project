@@ -269,6 +269,8 @@ export async function getMyPlantsInPlots(auth0Id: string) {
       'last_watered as lastWatered',
       'icon_src as iconSrc',
       'photo_src as photoSrc',
+      'days_from_planting_until_harvest as daysUntilHarvest',
+      'plots.name as plotsName',
     )
   return result
 }
