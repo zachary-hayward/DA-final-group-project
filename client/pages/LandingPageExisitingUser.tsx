@@ -22,17 +22,17 @@ export default function LandingPageExisitingUser() {
       </div>
       <div className="mx-auto mt-10 flex max-w-7xl justify-center p-8">
         <QuickLinksCards
-          icon={spinachIcon}
+          icon={<img src={spinachIcon} alt="Spinach"/>}
           text={'My Garden'}
           link={'/my-garden'}
         />
         <QuickLinksCards
-          icon={carrotIcon}
+          icon={<img src={carrotIcon} alt="Carrot"/>}
           text={'My Plants'}
-          link={'/my-plants'}
+          link='/my-plants'
         />
         <QuickLinksCards
-          icon={wateringCanIcon}
+          icon={<img src={wateringCanIcon} alt="Watering Can"/>}
           text={'My Tasks'}
           link={'/my-tasks'}
         />

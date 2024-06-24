@@ -34,7 +34,7 @@ function App() {
     <>
       <div className="app min-w-screen min-h-screen">
         <Header />
-        {!isAuthenticated || processing ? (
+        {!isAuthenticated ? (
           <LandingPage />
         ) : (
           <>
