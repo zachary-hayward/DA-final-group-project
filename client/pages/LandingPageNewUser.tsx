@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react'
 import PrimaryButton from '../components/PrimaryButton'
 import { Link } from 'react-router-dom'
+import SecondaryButton from '../components/SecondaryButton'
 
 export default function LandingPage() {
   return (
@@ -33,16 +34,31 @@ export default function LandingPage() {
           </p>
         </div>
       </div>
-      <div className="pb-20 text-center">
+      <div className="align-center flex justify-center pb-20 text-center">
         {/* Link to Register page */}
-        <Link to="/register">
-          <PrimaryButton
-            onClick={function (event: MouseEvent<Element, MouseEvent>): void {
-              throw new Error('Function not implemented.')
-            }}
-            children={'Register now'}
-          />
-        </Link>
+        <div className="mr-4">
+          <Link to="/register">
+            <PrimaryButton
+              onClick={(event) => {
+                throw new Error('Function not implemented.')
+              }}
+            >
+              Sign up now
+            </PrimaryButton>
+          </Link>
+        </div>
+        <div>
+          {/* This needs to open auth? */}
+          <Link to="/">
+            <SecondaryButton
+              onClick={(event) => {
+                throw new Error('Function not implemented.')
+              }}
+            >
+              Sign in
+            </SecondaryButton>
+          </Link>
+        </div>
       </div>
     </>
   )
