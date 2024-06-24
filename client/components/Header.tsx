@@ -12,14 +12,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link, useLocation } from 'react-router-dom'
 import { useGetUser } from '../hooks/useHooks'
+import { useEffect, useState } from 'react'
 
-
-const navigation = [
-  { name: 'Home', path: '/', current: location.pathname === '/' },
-  { name: 'My Garden', path: '/my-garden', current: location.pathname === '/my-garden' },
-  { name: 'My Tasks', path: '/my-tasks', current: location.pathname === '/my-tasks' },
-  { name: 'My Plants', path: '/my-plants', current: location.pathname === '/my-plants' },
-]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -29,6 +23,22 @@ interface Props { registered: boolean}
 export default function Header({registered}: Props) {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0()
 
+  const location = useLocation()
+  const [navigation, setNavigation] = useState([
+    { name: 'Home', path: '/', current: false },
+    { name: 'My Garden', path: '/my-garden', current: false },
+    { name: 'My Tasks', path: '/my-tasks', current: false },
+    { name: 'My Plants', path: '/my-plants', current: false },
+  ]
+)
+
+useEffect(() => {
+  const updatedNavigation = navigation.map(item => ({
+    ...item, current: item.path === location.pathname,
+  }))
+  setNavigation(updatedNavigation)
+}, [location.pathname])
+  
   const handleLog = () => {
     if (isAuthenticated) logout()
     else loginWithRedirect()
