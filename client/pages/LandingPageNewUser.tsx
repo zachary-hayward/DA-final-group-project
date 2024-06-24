@@ -12,7 +12,7 @@ export default function LandingPage() {
         }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="mx-auto max-w-7xl text-left text-white">
+        <div className="relative z-10 mx-auto max-w-3xl text-center text-white">
           <h2 className="text-4xl font-bold">
             Transform your gardening experience with tools tailored for veggie
             enthusiasts like you.
@@ -25,7 +25,7 @@ export default function LandingPage() {
       <div className="flex justify-center pb-3">
         <div className="text-center">
           <h2 className="text-xl font-semibold text-green-700">
-            Oh! You haven't setup your garden yet!
+            Let's setup your garden!
           </h2>
           <p className="max-w-sm py-4 text-base text-green-700">
             It's time to start planting and growing your favourite vegetables.
