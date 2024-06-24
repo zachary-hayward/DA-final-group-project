@@ -1,4 +1,4 @@
-import { PlotDatum, DBPlotDatum } from '../../models/growGrub'
+import { PlotDatum, DBPlotDatum, PlotPlant } from '../../models/growGrub'
 import * as db from '../db/growGrub.ts'
 
 export function differentiatePlots(
@@ -53,4 +53,15 @@ export async function getPlantsIds(plotData: PlotDatum[]) {
   })
   const plantsIds = await db.getPlantIDs(plantsNames)
   return plantsIds
+}
+
+export const getAllPlantsInGarden = async (
+  garden_id: number,
+  plantsToKeep: PlotPlant[],
+) => {
+  const existingDBPlantIDs = await db.getGardensPlantsById(garden_id)
+  const idsToDelete = existingDBPlantIDs.filter(
+    (plantId) => !plantsToKeep.find((plant) => plant.id === plantId.id),
+  )
+  return idsToDelete.map((obj) => obj.id)
 }

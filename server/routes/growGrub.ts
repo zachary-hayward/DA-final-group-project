@@ -2,16 +2,13 @@ import { Router } from 'express'
 import checkJwt, { JwtRequest } from '../auth0.ts'
 
 import * as db from '../db/growGrub.ts'
+import { UserData, User, NewPlant, PlotPlant } from '../../models/growGrub.ts'
 import {
-  UserData,
-  User,
-  NewPlant,
-  Plant,
-  PlotPlant,
-} from '../../models/growGrub.ts'
-import { differentiatePlots } from '../db/helperFunctions.tsx'
+  differentiatePlots,
+  getPlantsIds,
+  getAllPlantsInGarden,
+} from '../db/helperFunctions.tsx'
 import { getSinglePlantById } from '../db/growGrub.ts'
-import { getPlantsIds } from '../db/helperFunctions.tsx'
 
 const router = Router()
 
@@ -263,16 +260,11 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
           })
         }
       })
-      console.log(plantsFEWithIds)
+
       const plantIDsToDelete = await getAllPlantsInGarden(
         garden_id,
         plantsFEWithIds,
       )
-      // delete plants which didn't come back in the list
-      // get list of plants that exist in DB
-      // compare with list from frontend
-      // const plantsToDelete = plantsIDs
-      console.log('plantIDsToDelete: ', plantIDsToDelete)
       await db.deletePlotsPlantsByID(plantIDsToDelete)
 
       if (plantsToInsert.length > 0) {
@@ -290,16 +282,5 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
     res.sendStatus(500)
   }
 })
-
-const getAllPlantsInGarden = async (
-  garden_id: number,
-  plantsToKeep: PlotPlant[],
-) => {
-  const existingDBPlantIDs = await db.getGardensPlantsById(garden_id)
-  const idsToDelete = existingDBPlantIDs.filter(
-    (plantId) => !plantsToKeep.find((plant) => plant.id === plantId.id),
-  )
-  return idsToDelete.map((obj) => obj.id)
-}
 
 export default router
