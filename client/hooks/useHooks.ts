@@ -90,7 +90,7 @@ const useAddPlant = () => {
       const token = await getAccessTokenSilently()
       const res = await request
         .get(`${rootURL}/googleGemini/`)
-        .send({ vege: plant })
+        .query({ vege: plant })
         .set('Authorization', `Bearer ${token}`)
       return res.body
     },

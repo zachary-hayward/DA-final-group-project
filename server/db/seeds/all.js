@@ -101,7 +101,7 @@ export const seed = async function (knex) {
     },
     {
       id: 4,
-      name: 'Caulilower',
+      name: 'Cauliflower',
       icon_src: '/images/flat-icons/veg-fruit-icons/cauliflower.png',
       photo_src: '/images/photos/cauliflower.jpg',
       difficulty: 'Medium',

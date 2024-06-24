@@ -2,8 +2,12 @@ import { Router } from 'express'
 import checkJwt, { JwtRequest } from '../auth0.ts'
 
 import * as db from '../db/growGrub.ts'
-import { UserData, User } from '../../models/growGrub.ts'
-import { differentiatePlots } from '../db/helperFunctions.tsx'
+import { UserData, User, NewPlant, PlotPlant } from '../../models/growGrub.ts'
+import {
+  differentiatePlots,
+  getPlantsIds,
+  getAllPlantsInGarden,
+} from '../db/helperFunctions.tsx'
 import { getSinglePlantById } from '../db/growGrub.ts'
 
 const router = Router()
@@ -124,12 +128,22 @@ router.get('/plants/desired', checkJwt, async (req: JwtRequest, res) => {
 })
 
 //Get the users gardens NOT IN USE
+//Get the users gardens
 router.get('/gardens', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   try {
     const gardens = await db.getUsersGardens(auth0Id)
-    const plots = await db.getAllUsersPlots(auth0Id)
+    const usersPlots = await db.getAllUsersPlots(auth0Id)
+
+    const plots = await Promise.all(
+      usersPlots.map(async (plot) => {
+        const plants = await db.getPlotPlantsByPlotId(plot.id)
+        return { ...plot, plants }
+      }),
+    )
+    // get the plot_plants from each plot
+
     res.json({ gardens, plots })
   } catch (error) {
     console.log(error)
@@ -186,6 +200,15 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
     const layoutString = JSON.stringify(newGarden.layout)
     const newGardenID = await db.saveNewGarden(layoutString, user.id)
     const newPlotIDs = await db.saveNewPlots(newGarden.plotData, newGardenID[0])
+    const plantsIDs = await getPlantsIds(newGarden.plotData)
+
+    await db.saveNewPlotPlants(
+      newPlotIDs,
+      newGarden.plotData,
+      user.id,
+      plantsIDs,
+    )
+
     res.json({ newGardenID, newPlotIDs })
   } catch (error) {
     console.log(error)
@@ -194,24 +217,24 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
 })
 
 // Router for adding new plots - NOT IN USE, ONLY FOR TESTING
-router.post('/plots', async (req, res) => {
-  try {
-    const newPlots = req.body
-    const newPlotIDs = await db.saveNewPlots(newPlots, 1)
-    res.json(newPlotIDs)
-  } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
-  }
-})
+// router.post('/plots', async (req, res) => {
+//   try {
+//     const newPlots = req.body
+//     const newPlotIDs = await db.saveNewPlots(newPlots, 1)
+//     res.json(newPlotIDs)
+//   } catch (error) {
+//     console.log(error)
+//     res.sendStatus(500)
+//   }
+// })
 
 // Router used for updating existing garden
 router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
   // Body of request will include plotData, layout
   const garden_id = Number(req.params.id)
-
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
+  const user = await db.getUserByAuth0Id(auth0Id)
 
   try {
     const updatedGarden = req.body
@@ -226,8 +249,54 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
       differentiatePlots(updatedPlotData, existingPlotData, garden_id)
 
     await db.updatePlots(plotsToUpdate, garden_id)
-    await db.saveNewPlots(plotsToCreate, garden_id)
+    const newPlotIDs = await db.saveNewPlots(plotsToCreate, garden_id)
+
+    // plants
+    if (newPlotIDs.length > 0) {
+      const plantsIDs = await getPlantsIds(plotsToCreate)
+      await db.saveNewPlotPlants(newPlotIDs, plotsToCreate, user.id, plantsIDs)
+    }
     await db.deletePlotsByID(plotIDsToDelete)
+
+    // get an array of all plants not in db (w/o id's)
+    const plantsToInsert: NewPlant[] = []
+    const plantsFEWithIds: PlotPlant[] = [] //plants from frontend with ids
+    const plantsIDs = await getPlantsIds(plotsToUpdate)
+    if (plotsToUpdate.length > 0) {
+      plotsToUpdate.forEach((plot) => {
+        if (plot.plants.length > 0) {
+          plot.plants.forEach((plant) => {
+            if (plant.id) {
+              plantsFEWithIds.push(plant)
+            } else {
+              const newPlant = {
+                plant_id: plantsIDs.find(
+                  (currentPlant) =>
+                    currentPlant.name.toLowerCase() ===
+                    plant.plantName.toLowerCase(),
+                )?.id,
+                user_id: user.id,
+                plot_id: plot.id,
+                date_planted: plant.date_planted,
+                name: plant.name,
+              }
+              plantsToInsert.push(newPlant)
+            }
+          })
+        }
+      })
+
+      const plantIDsToDelete = await getAllPlantsInGarden(
+        garden_id,
+        plantsFEWithIds,
+      )
+      await db.deletePlotsPlantsByID(plantIDsToDelete)
+
+      if (plantsToInsert.length > 0) {
+        db.saveNewPlants(plantsToInsert)
+      }
+    }
+
     res
       .json({
         message: `Garden ${garden_id} was successfully updated in the database.`,

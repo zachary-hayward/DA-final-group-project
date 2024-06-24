@@ -87,7 +87,7 @@ export default function Register({ registered, setRegistered }: Props) {
   const handleMonthSelect = (option: string) => {
     setFormData((prev) => ({ ...prev, summerStarts: option }))
   }
-
+  console.log(formData)
   return (
     <>
       <div className="container mx-auto rounded bg-slate-300">

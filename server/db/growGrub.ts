@@ -1,6 +1,6 @@
 import type { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
 import db from './connection.ts'
-import type { PlotDatum } from '../../models/growGrub.ts'
+import type { ID, PlantID, NewPlant, PlotDatum } from '../../models/growGrub.ts'
 
 export function getUserByAuth0Id(auth0Id: string): Promise<User> {
   return db('users')
@@ -48,6 +48,21 @@ export const getAllUsersPlots = (auth0Id: string) => {
       'rain_exposure as rainExposure',
       'sun_level as sunLight',
       'growable',
+      'plots.id as id',
+    )
+}
+
+export function getPlotPlantsByPlotId(id: number) {
+  return db('plots_plants')
+    .where('plot_id', id)
+    .join('plants', 'plants.id', 'plots_plants.plant_id')
+    .select(
+      'plant_id',
+      'user_id as userId',
+      'date_planted',
+      'plots_plants.name as name',
+      'plants.name as plantName',
+      'plots_plants.id as id',
     )
 }
 
@@ -73,6 +88,10 @@ export function getUserGarden(
     )
 }
 
+export function getPlantIDs(plantNames: string[]): Promise<PlantID[]> {
+  return db('plants').whereIn(`name`, plantNames).select('id', 'name')
+}
+
 export function saveNewGarden(
   layout: string,
   userID: number,
@@ -88,7 +107,7 @@ export function saveNewGarden(
 export function saveNewPlots(
   plotData: PlotDatum[],
   gardenID: number,
-): Promise<number[]> {
+): Promise<ID[]> {
   if (plotData.length == 0) return Promise.resolve([]) // Return an empty array if there are no plots to save
   const plotsToInsert = plotData.map((plot) => ({
     garden_id: gardenID,
@@ -145,39 +164,75 @@ export async function deletePlotsByID(plotIDs: number[]) {
   return db('plots').whereIn('id', plotIDs).delete()
 }
 
-export async function addVege(prompResult) {
-  const existingVege = await db('plant_care_data')
-    .where({ plantName: prompResult.plantCareData[0].plantName })
-    .first()
+// export async function addVege(prompResult) {
+//   const existingVege = await db('plant_care_data')
+//     .where({ plantName: prompResult.plantCareData[0].plantName })
+//     .first()
+// }
 
+export async function saveNewPlotPlants(
+  plotIdArr: ID[],
+  plotData: PlotDatum[],
+  userId: number,
+  plantsIDs: PlantID[],
+) {
+  const plantsToInsert: NewPlant[] = []
+  plotData.forEach((plot, i) => {
+    if (plot.plants.length > 0) {
+      plot.plants.forEach((plant) => {
+        const newPlant = {
+          plant_id: plantsIDs.find(
+            (currentPlant) =>
+              currentPlant.name.toLowerCase() === plant.plantName.toLowerCase(),
+          )?.id,
+          user_id: userId,
+          plot_id: plotIdArr[i].id,
+          date_planted: plant.date_planted,
+          name: plant.name,
+        }
+        plantsToInsert.push(newPlant)
+      })
+    }
+  })
+  await db('plots_plants').insert(plantsToInsert)
+}
+
+export async function saveNewPlants(plantsToInsert: NewPlant[]) {
+  await db('plots_plants').insert(plantsToInsert)
+}
+
+export async function addVege(promptResult) {
+  const existingVege = await db('plant_care_data')
+    .where({ plantName: promptResult.plantCareData[0].plantName })
+    .first()
   if (existingVege) {
     console.log(
-      `Plant with name '${prompResult.plantCareData[0].plantName}' already exists in the plant_care_data database`,
+      `Plant with name '${promptResult.plantCareData[0].plantName}' already exists in the plant_care_data database`,
     )
     return existingVege
   } else {
     const promptData = {
-      plantName: prompResult.plantCareData[0].plantName,
-      scientificName: prompResult.plantCareData[0].scientificName,
-      description: prompResult.plantCareData[0].description,
-      soil: prompResult.plantCareData[0].careInstructions.soil,
-      sunlight: prompResult.plantCareData[0].careInstructions.sunlight,
-      watering: prompResult.plantCareData[0].careInstructions.watering,
+      plantName: promptResult.plantCareData[0].plantName,
+      scientificName: promptResult.plantCareData[0].scientificName,
+      description: promptResult.plantCareData[0].description,
+      soil: promptResult.plantCareData[0].careInstructions.soil,
+      sunlight: promptResult.plantCareData[0].careInstructions.sunlight,
+      watering: promptResult.plantCareData[0].careInstructions.watering,
       fertilization:
-        prompResult.plantCareData[0].careInstructions.fertilization,
-      pruning: prompResult.plantCareData[0].careInstructions.pruning,
-      pests: prompResult.plantCareData[0].careInstructions.pests,
-      diseases: prompResult.plantCareData[0].careInstructions.diseases,
+        promptResult.plantCareData[0].careInstructions.fertilization,
+      pruning: promptResult.plantCareData[0].careInstructions.pruning,
+      pests: promptResult.plantCareData[0].careInstructions.pests,
+      diseases: promptResult.plantCareData[0].careInstructions.diseases,
       indoorsPlantingTime:
-        prompResult.plantCareData[0].plantingTime.indoorsPlantingTime,
+        promptResult.plantCareData[0].plantingTime.indoorsPlantingTime,
       outdoorsPlantingTime:
-        prompResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
-      spacing: prompResult.plantCareData[0].plantingTime.spacing,
-      plantingTime: prompResult.plantCareData[0].plantingTime.plantingTime,
-      havestingTime: prompResult.plantCareData[0].harvesting.harvestingTime,
-      harvestingTips: prompResult.plantCareData[0].harvesting.harvestingTips,
+        promptResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
+      spacing: promptResult.plantCareData[0].plantingTime.spacing,
+      plantingTime: promptResult.plantCareData[0].plantingTime.plantingTime,
+      havestingTime: promptResult.plantCareData[0].harvesting.harvestingTime,
+      harvestingTips: promptResult.plantCareData[0].harvesting.harvestingTips,
     }
-    // console.log(prompResult.plantCareData[0].harvesting.harvestingTime)
+    // console.log(promptResult.plantCareData[0].harvesting.harvestingTime)
     return db('plant_care_data').insert(promptData)
   }
 }
@@ -199,12 +254,14 @@ export async function addUser({
         ['id'],
       )
       const userId = user.id
-      const knownPlants = await trx('plants').whereIn('name', plants)
-      const desiredPlantsData = knownPlants.map((plant) => ({
-        plant_id: plant.id,
-        user_id: userId,
-      }))
-      await trx('user_desired_plants').insert(desiredPlantsData)
+      if (plants && plants.length > 0) {
+        const knownPlants = await trx('plants').whereIn('name', plants)
+        const desiredPlantsData = knownPlants.map((plant) => ({
+          plant_id: plant.id,
+          user_id: userId,
+        }))
+        await trx('user_desired_plants').insert(desiredPlantsData)
+      }
 
       console.log(`added user ${userId}: ${username}`)
     })
@@ -220,6 +277,9 @@ export async function addPlant(promptResult) {
     .first()
 
   if (existingPlant) {
+    console.log(
+      `Plant with name '${promptResult.plantCareData[0].plantName}' already exists in the plants database`,
+    )
     console.log(
       `Plant with name '${promptResult.plantCareData[0].plantName}' already exists in the plants database`,
     )
@@ -273,4 +333,17 @@ export async function getMyPlantsInPlots(auth0Id: string) {
       'plots.name as plotsName',
     )
   return result
+}
+
+export async function getGardensPlantsById(garden_id: number) {
+  return db('gardens')
+    .where('gardens.id', garden_id)
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .select('plots_plants.id as id')
+}
+
+export async function deletePlotsPlantsByID(plantIDs: number[]) {
+  if (plantIDs.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to delete
+  return db('plots_plants').whereIn('id', plantIDs).delete()
 }
