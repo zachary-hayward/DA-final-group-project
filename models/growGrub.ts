@@ -66,6 +66,7 @@ export interface PlotPlant {
   id: null | number
   last_watered: null | string
   date_planted: string
+  plant_id?: number
 }
 
 export interface NewPlant {

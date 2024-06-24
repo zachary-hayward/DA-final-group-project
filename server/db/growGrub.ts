@@ -62,6 +62,7 @@ export function getPlotPlantsByPlotId(id: number) {
       'date_planted',
       'plots_plants.name as name',
       'plants.name as plantName',
+      'plots_plants.id as id',
     )
 }
 
@@ -182,7 +183,8 @@ export async function saveNewPlotPlants(
       plot.plants.forEach((plant) => {
         const newPlant = {
           plant_id: plantsIDs.find(
-            (currentPlant) => currentPlant.name.toLowerCase() === plant.plantName.toLowerCase(),
+            (currentPlant) =>
+              currentPlant.name.toLowerCase() === plant.plantName.toLowerCase(),
           )?.id,
           user_id: userId,
           plot_id: plotIdArr[i].id,
