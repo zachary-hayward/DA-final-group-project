@@ -1,7 +1,11 @@
 import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
-import { useGetTasks } from '../hooks/useHooks'
+import {
+  useGetTasks,
+  useGetTestTasks,
+  useGetUpdatedTasks,
+} from '../hooks/useHooks'
 
 interface TaskProps {
   id: number
@@ -48,11 +52,24 @@ const TaskTable: React.FC<TaskProps> = ({
   taskType,
   lastPerformed,
 }) => {
-  const getTasks = useGetTasks()
+  // const getTasks = useGetUpdatedTasks()
+  const testTaskQuery = useGetTestTasks()
 
-  if (getTasks.data) {
-    console.log('getTasks.data: ', getTasks.data)
+  // console.log(testTasks)
+
+  if (testTaskQuery.isError) return <p>error</p>
+
+  if (testTaskQuery.isPending) return <p>loading</p>
+
+  // if (getTasks.data) {
+  //   console.log('getTasks.data: ', getTasks.data)
+  // }
+
+  if (testTaskQuery.data) {
+    console.log('getTestTasks.data: ', testTaskQuery.data)
   }
+
+  const testTasks = testTaskQuery.data
 
   return (
     <div className="list-container mx-auto py-12">
@@ -85,31 +102,41 @@ const TaskTable: React.FC<TaskProps> = ({
 
           {/* Table body */}
           <tbody>
-            {tasks.map((task, index) => (
+            {testTasks.map((task, index) => (
               <tr
-                key={task.id}
+                key={`tasktablerow${task.id}`}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
               >
                 <td className="flex items-center border border-slate-200 px-4 py-2">
                   <div className="flex items-center">
-                    <img
+                    {/* <img
                       src={task.plantImage}
                       alt={task.plantName}
                       className="mr-2 h-12 w-12"
-                    />
+                    /> */}
                   </div>
                   <div className="ml-2">
-                    <div className="mb-1 font-semibold">{task.plantName}</div>
+                    <div className="mb-1 font-semibold">{task.name}</div>
                     <div className="text-gray-600">
-                      Planted: {task.plantedDate}
+                      Planted: {task.date_planted}
                     </div>
                   </div>
                 </td>
                 <td className="border border-slate-200 px-4 py-2">
-                  <div className="mb-1 font-medium">{task.taskType}</div>
-                  <div className="text-gray-600">
-                    Last watered: {task.lastPerformed}
+                  <div className="mb-1 font-medium">
+                    {task.type == 'water'
+                      ? 'Watering'
+                      : 'Task type not recognised'}
                   </div>
+                  <div className="text-gray-600">
+                    Last watered: {String(task.last_watered)}
+                  </div>
+                  {task.overdue_by > 0 ? (
+                    <div className="text-gray-600">
+                      Overdue by {String(task.overdue_by)}{' '}
+                      {task.overdue_by == 1 ? 'day!' : 'days!'}
+                    </div>
+                  ) : null}
                 </td>
                 <td className="w-1/12 border border-slate-200 px-4 py-2 text-right">
                   <SecondaryButton

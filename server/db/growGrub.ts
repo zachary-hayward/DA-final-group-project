@@ -273,6 +273,21 @@ export async function getTasksByAuth(auth0_id: string) {
     .select('tasks.*')
 }
 
+export async function getUpdatedTasksByAuth(auth0_id: string) {
+  return db('users')
+    .where('users.auth0_id', auth0_id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
+    .select(
+      'tasks.*',
+      'plots_plants.name',
+      'plots_plants.date_planted',
+      'plots_plants.last_watered',
+    )
+}
+
 export async function updateTasks(tasksToUpdate: Task[]): Promise<void> {
   try {
     if (tasksToUpdate.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to update

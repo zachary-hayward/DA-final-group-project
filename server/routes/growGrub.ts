@@ -279,7 +279,7 @@ router.put('/tasksTEST3', async (req, res) => {
       await db.updateTasks(tasksToUpdate)
       await db.createTasks(tasksToCreate)
 
-      const refreshedTasks = await db.getTasksByAuth(auth0Id)
+      const refreshedTasks = await db.getUpdatedTasksByAuth(auth0Id)
       res.json(refreshedTasks)
     } catch (error) {
       console.log(error)

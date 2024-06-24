@@ -176,3 +176,32 @@ export function useGetTasks() {
   //   },
   // })
 }
+
+export function useGetUpdatedTasks() {
+  const { getAccessTokenSilently } = useAuth0()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .put(`${rootURL}/tasks`)
+        .set('Authorization', `Bearer ${token}`)
+
+      return res.body
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+}
+
+export function useGetTestTasks() {
+  return useQuery({
+    queryKey: ['testtasks'],
+    queryFn: async () => {
+      const res = await request.put(`${rootURL}/tasksTEST3`)
+      return res.body
+    },
+  })
+}
