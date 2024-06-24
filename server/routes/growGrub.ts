@@ -82,6 +82,7 @@ router.get('/gardens', checkJwt, async (req: JwtRequest, res) => {
   try {
     const gardens = await db.getUsersGardens(auth0Id)
     const usersPlots = await db.getAllUsersPlots(auth0Id)
+    
     const plots = await Promise.all(
       usersPlots.map(async (plot) => {
         const plants = await db.getPlotPlantsByPlotId(plot.id)
