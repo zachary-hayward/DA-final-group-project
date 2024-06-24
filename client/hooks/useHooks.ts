@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import request from 'superagent'
-import { Plant } from '../../models/growGrub'
+// import { Plant } from '../../models/growGrub'
 import { GardenToSave } from '../../models/growGrub'
 import { useNavigate } from 'react-router-dom'
 
@@ -77,7 +77,7 @@ export function useGetPlants() {
       const res = await request
         .get(`${rootURL}/plants`)
         .set('Authorization', `Bearer ${token}`)
-      return res.body as Plant[]
+      return res.body
     },
   })
 }
