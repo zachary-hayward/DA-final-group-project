@@ -11,6 +11,7 @@ export default function LandingPageNewUser() {
     if (isAuthenticated) logout()
     else loginWithRedirect()
   }
+
   return (
     <>
       <div
@@ -46,9 +47,10 @@ export default function LandingPageNewUser() {
         <div className="mr-4">
           {/* <Link to="/register"> */}
             <PrimaryButton
-              onClick={() => {
-                throw new Error('Function not implemented.')
-              }}
+              onClick={handleLog}
+              //   () => {
+              //   throw new Error('Function not implemented.')
+              // }}
             >
               Sign up now
             </PrimaryButton>
