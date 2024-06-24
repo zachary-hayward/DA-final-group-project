@@ -88,8 +88,9 @@ const useAddPlant = () => {
   return useMutation({
     mutationFn: async (plant: string) => {
       const token = await getAccessTokenSilently()
-      const res = await request.get(`${rootURL}/googleGemini/`)
-        .send({vege: plant})
+      const res = await request
+        .get(`${rootURL}/googleGemini/`)
+        .send({ vege: plant })
         .set('Authorization', `Bearer ${token}`)
       return res.body
     },

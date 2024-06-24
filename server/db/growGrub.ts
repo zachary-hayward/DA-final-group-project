@@ -253,3 +253,18 @@ export async function getSinglePlantById(plantName: string) {
     .select('*')
     .first()
 }
+
+export async function getMyPlantsInPlots() {
+  const result = await db('plants')
+    .join('plots_plants', 'plant_id', 'plants.id')
+    .select(
+      'plants.id as plantsId',
+      'plants.name as name',
+      'plots_plants.id as plotsPlantsId',
+      'date_planted as datePlanted',
+      'last_watered as lastWatered',
+      'icon_src as iconSrc',
+      'photo_src as photoSrc',
+    )
+  return result
+}
