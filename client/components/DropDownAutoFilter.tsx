@@ -50,7 +50,7 @@ export default function DropDownAutoFilter({
     setTimeout(() => setShowDropDown(false), 100)
     if (inputValue !== '') handleSelect(inputValue)
   }
-
+  
   return (
     <div className={`container relative ${containerClass || ''}`}>
       <input

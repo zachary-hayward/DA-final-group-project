@@ -185,9 +185,11 @@ export async function addUser({username, location, plants, summerStarts, auth0_i
     await db.transaction(async (trx) => {
       const [user] = await trx('users').insert({username, location, auth0_id, summer_start_month: summerStarts}, ['id'])
       const userId = user.id
-      const knownPlants = await trx('plants').whereIn('name', plants)
-      const desiredPlantsData = knownPlants.map(plant => ({plant_id:plant.id, user_id: userId}))
-      await trx('user_desired_plants').insert(desiredPlantsData)
+      if (plants && plants.length > 0) {
+        const knownPlants = await trx('plants').whereIn('name', plants)
+        const desiredPlantsData = knownPlants.map(plant => ({plant_id:plant.id, user_id: userId}))
+        await trx('user_desired_plants').insert(desiredPlantsData)
+      }
 
       console.log(`added user ${userId}: ${username}`)
     })
