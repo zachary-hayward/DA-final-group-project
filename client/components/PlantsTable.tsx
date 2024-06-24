@@ -143,4 +143,4 @@ const PlantsTable: React.FC<PlantsProps> = () => {
   )
 }
 
-export default SimpleTable
+export default PlantsTable
