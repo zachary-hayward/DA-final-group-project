@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
+import { Link, useParams } from 'react-router-dom'
 
 interface PlantsProps {
   id: number
@@ -23,7 +24,7 @@ const plants: PlantsProps[] = [
     plantedDate: '3 June 2022',
     taskType: 'Watering',
     lastPerformed: '3 November 2022',
-    status: 'Good',
+    status: 'Great',
     extraCare: 'No extra care needed',
     growthStatus: 'Seedling',
   },
@@ -45,23 +46,23 @@ const plants: PlantsProps[] = [
     plantedDate: '3 June 2022',
     taskType: 'Watering',
     lastPerformed: '3 November 2022',
-    status: 'Good',
+    status: 'Poor',
     extraCare: 'Suspected disease: Bug infestation',
     growthStatus: 'Growing',
   },
 ]
 
-const SimpleTable: React.FC<PlantsProps> = () => {
+const PlantsTable: React.FC<PlantsProps> = () => {
+  // Add useParams but will need to fix header and overall routing to check if this works!
+  const { id } = useParams()
+
   return (
-    <div className="list-container mx-auto py-12">
+    <div className="mx-auto max-w-7xl py-12">
       <div className="flex items-center justify-end">
-        {' '}
-        {/* justify-end instead of justify-between */}
         <PrimaryButton
           onClick={(event: MouseEvent<Element, MouseEvent>): void => {
             throw new Error('Function not implemented.')
           }}
-          style={{ marginRight: '0' }} // optional: to adjust spacing from right edge
         >
           Add New Plant
         </PrimaryButton>
@@ -69,23 +70,15 @@ const SimpleTable: React.FC<PlantsProps> = () => {
 
       {/* Table */}
       <div className="overflow-x-auto pt-4">
-        <table>
+        <table className="w-full">
           {/* Table header */}
           <thead>
             <tr className="bg-slate-50">
-              <th className="table-header border-l border-t border-slate-200">
-                My Plants
-              </th>
-              <th className="table-header border-t border-slate-200">
-                Plant Care
-              </th>
-              <th className="table-header border-t border-slate-200">
-                Plant Health
-              </th>
-              <th className="table-header border-t border-slate-200">
-                Growth Status
-              </th>
-              <th className="table-header border-r border-t border-slate-200"></th>
+              <th className="table-header">My Plants</th>
+              <th className="table-header">Plant Care</th>
+              <th className="table-header">Plant Health</th>
+              <th className="table-header">Growth Status</th>
+              <th className="table-header"></th>
             </tr>
           </thead>
 
@@ -96,18 +89,22 @@ const SimpleTable: React.FC<PlantsProps> = () => {
                 key={plant.id}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
               >
-                <td className="flex items-center border border-slate-200 px-4 py-2">
+                <td className="border border-slate-200 px-4 py-2">
                   <div className="flex items-center">
                     <img
                       src={plant.plantImage}
                       alt={plant.plantName}
                       className="mr-2 h-12 w-12"
                     />
-                  </div>
-                  <div className="ml-2">
-                    <div className="mb-1 font-semibold">{plant.plantName}</div>
-                    <div className="text-gray-600">
-                      Planted: {plant.plantedDate}
+                    <div className="ml-2">
+                      <div className="mb-1 font-semibold">
+                        <Link to={`/my-plants/${plant.id}`}>
+                          {plant.plantName}
+                        </Link>
+                      </div>
+                      <div className="text-gray-600">
+                        Planted: {plant.plantedDate}
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -126,7 +123,7 @@ const SimpleTable: React.FC<PlantsProps> = () => {
                 <td className="border border-slate-200 px-4 py-2">
                   <div className="mb-1 font-medium">{plant.growthStatus}</div>
                 </td>
-                <td className="w-1/12 border border-slate-200 px-4 py-2 text-right">
+                <td className="border border-slate-200 px-4 py-2 text-right">
                   <SecondaryButton
                     onClick={(
                       event: MouseEvent<Element, globalThis.MouseEvent>,
@@ -146,4 +143,4 @@ const SimpleTable: React.FC<PlantsProps> = () => {
   )
 }
 
-export default SimpleTable
+export default PlantsTable

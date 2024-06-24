@@ -1,12 +1,15 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { useState, ChangeEvent } from 'react'
-import { addUser } from '../apis/growGrub'
-import { useHooks } from '../hooks/useHooks'
-import DropDownAutoFilter from '../components/DropDownAutoFilter'
+import { addUser } from '../apis/growGrub.ts'
+import { useHooks } from '../hooks/useHooks.ts'
+import DropDownAutoFilter from '../components/DropDownAutoFilter.tsx'
+import titleWord from '../functions/titleWord.ts'
 
 interface UserData {
   username: string
   location: string
+  plants: string[]
+  summerStarts: string
 }
 interface Props {
   registered: boolean
@@ -17,10 +20,14 @@ export default function Register({ registered, setRegistered }: Props) {
   const [formData, setFormData] = useState<UserData>({
     username: '',
     location: '',
+    plants: [],
+    summerStarts: '',
   })
-  const [plantsData, setPlantsData] = useState<string[]>([])
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const [displayMessage, setDisplayMessage] = useState('')
+
   const hooks = useHooks()
+  const useAddPlant = hooks.useAddPlant()
 
   const useUsernameQuery = hooks.useGetUsernames()
   const usernameList = useUsernameQuery.data
@@ -40,8 +47,10 @@ export default function Register({ registered, setRegistered }: Props) {
       setDisplayMessage('Try a different username.')
     } else if (formData.username.length < 3) {
       setDisplayMessage('Please use a longer username.')
-    } else if (formData.location.length < 3) {
+    } else if (formData.location.length < 2) {
       setDisplayMessage('Please use your areas full name.')
+    } else if (!months.includes(formData.summerStarts)) {
+      setDisplayMessage('Please select the month that summer starts for you.')
     } else {
       const token = await getAccessTokenSilently()
       try {
@@ -52,15 +61,20 @@ export default function Register({ registered, setRegistered }: Props) {
         }, 1500)
       } catch (error) {
         setRegistered(false)
-        setDisplayMessage('Something went wrong, try a different username.')
+        setDisplayMessage('Something went wrong. Please try again.')
       }
     }
   }
 
   const handlePlantSelect = (option: string) => {
-    setPlantsData((prev) => [...prev, option])
+    const plant = titleWord(option)
+    setFormData((prev) => ({...prev, plants: [...prev.plants, plant]}))
+    if (!plantList.includes(option)) useAddPlant.mutate(option)
   }
-
+  const handleMonthSelect = (option: string) => {
+    setFormData((prev) => ({...prev, summerStarts: option}))
+  }
+  console.log(formData)
   return (
     <>
       <div className="container mx-auto rounded bg-slate-300">
@@ -68,6 +82,7 @@ export default function Register({ registered, setRegistered }: Props) {
           <div className="mt-2 flex flex-col gap-2">
             <p className="font-bold">UserName:</p>
             <p className="font-bold">Location:</p>
+            <p className="font-bold">Summer Starts In:</p>
             <p className="font-bold">Plants:</p>
           </div>
           <div className="mt-2 flex flex-col gap-2">
@@ -90,6 +105,12 @@ export default function Register({ registered, setRegistered }: Props) {
               onChange={handleChange}
             />
             <DropDownAutoFilter
+              value={formData.summerStarts}
+              options={months}
+              onSelect={handleMonthSelect}
+              containerClass={``}
+            />
+            <DropDownAutoFilter
               options={plantList}
               onSelect={handlePlantSelect}
               containerClass={``}
@@ -98,8 +119,8 @@ export default function Register({ registered, setRegistered }: Props) {
           <div className="ml-5 mt-1">
             <p className="font-bold">Plants your interested in:</p>
             <ul>
-              {plantsData[0] &&
-                plantsData.map((plant, i) => (
+              {formData.plants[0] &&
+                formData.plants.map((plant, i) => (
                   <li key={`plant${i}`}>{plant}</li>
                 ))}
             </ul>

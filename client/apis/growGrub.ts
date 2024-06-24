@@ -18,3 +18,4 @@ export async function addUser(userData: UserData, token: string) {
     .set('Authorization', `Bearer ${token}`)
   return result.body
 }
+

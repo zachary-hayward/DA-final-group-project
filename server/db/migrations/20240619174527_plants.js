@@ -6,6 +6,8 @@ export const up = function (knex) {
   return knex.schema.createTable('plants', (table) => {
     table.increments('id').primary()
     table.string('name')
+    table.string('icon_src')
+    table.string('photo_src')
     table.string('difficulty')
     table.string('planting_starts')
     table.string('planting_ends')
