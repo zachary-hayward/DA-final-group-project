@@ -37,7 +37,9 @@ export function GardenView() {
         gardenData={getGardens.data.gardens}
         switchSelectedGarden={switchSelectedGarden}
       />
+      
     )
+  
   }
 
   function switchSelectedGarden(id: number) {
@@ -70,6 +72,13 @@ export function GardenView() {
 
   return (
     <>
+    {/* Page Banner - hard coded - currently WIP of componentising it */}
+    <div className="banner-container">
+        <div className="mx-auto max-w-7xl text-center">
+          <h2 className="banner-title">My Garden</h2>
+        </div>
+      </div>
+    
       <div className="gardenview">
         <GardenGrid
           plotData={plotData}
