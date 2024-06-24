@@ -23,7 +23,20 @@ export default function Register({ registered, setRegistered }: Props) {
     plants: [],
     summerStarts: '',
   })
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ]
   const [displayMessage, setDisplayMessage] = useState('')
 
   const hooks = useHooks()
@@ -49,8 +62,8 @@ export default function Register({ registered, setRegistered }: Props) {
       setDisplayMessage('Please use a longer username.')
     } else if (formData.location.length < 2) {
       setDisplayMessage('Please use your areas full name.')
-    } else if (!months.includes(formData.summerStarts)) {
-      setDisplayMessage('Please select the month that summer starts for you.')
+      // } else if (!months.includes(formData.summerStarts)) {
+      //   setDisplayMessage('Please select the month that summer starts for you.')
     } else {
       const token = await getAccessTokenSilently()
       try {
@@ -68,11 +81,11 @@ export default function Register({ registered, setRegistered }: Props) {
 
   const handlePlantSelect = (option: string) => {
     const plant = titleWord(option)
-    setFormData((prev) => ({...prev, plants: [...prev.plants, plant]}))
+    setFormData((prev) => ({ ...prev, plants: [...prev.plants, plant] }))
     if (!plantList.includes(option)) useAddPlant.mutate(option)
   }
   const handleMonthSelect = (option: string) => {
-    setFormData((prev) => ({...prev, summerStarts: option}))
+    setFormData((prev) => ({ ...prev, summerStarts: option }))
   }
   console.log(formData)
   return (

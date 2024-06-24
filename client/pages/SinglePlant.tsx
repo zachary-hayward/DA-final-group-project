@@ -110,7 +110,7 @@ export default function SinglePlant() {
             <h3 className="container-title">Care instructions</h3>
             <InstructionListItem
               iconSrc={'/images/flat-icons/soil.png'}
-              title={'Soil'} // Hard coded for now because of mockdata!
+              title={'Soil'}
               description={plantData1.soil}
             />
             <InstructionListItem

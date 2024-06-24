@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import request from 'superagent'
-import { Plant } from '../../models/growGrub'
+// import { Plant } from '../../models/growGrub'
 import { GardenToSave } from '../../models/growGrub'
 import { useNavigate } from 'react-router-dom'
 
@@ -77,7 +77,7 @@ export function useGetPlants() {
       const res = await request
         .get(`${rootURL}/plants`)
         .set('Authorization', `Bearer ${token}`)
-      return res.body as Plant[]
+      return res.body
     },
   })
 }
@@ -88,8 +88,9 @@ const useAddPlant = () => {
   return useMutation({
     mutationFn: async (plant: string) => {
       const token = await getAccessTokenSilently()
-      const res = await request.get(`${rootURL}/googleGemini/`)
-        .query({vege: plant})
+      const res = await request
+        .get(`${rootURL}/googleGemini/`)
+        .query({ vege: plant })
         .set('Authorization', `Bearer ${token}`)
       return res.body
     },
@@ -181,6 +182,21 @@ export function useGetSinglePlant(name: string) {
       const token = await getAccessTokenSilently()
       const res = await request
         .get(`${rootURL}/plants/${name}`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+  })
+}
+
+export function useGetMyPlants() {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: ['plants'],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .get(`${rootURL}/myplants`)
         .set('Authorization', `Bearer ${token}`)
       return res.body
     },

@@ -314,6 +314,27 @@ export async function getSinglePlantById(plantName: string) {
     .first()
 }
 
+export async function getMyPlantsInPlots(auth0Id: string) {
+  const result = await db('users')
+    .where('users.auth0_id', auth0Id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .join('plants', 'plots_plants.plant_id', 'plants.id')
+    .select(
+      'plants.id as plantsId',
+      'plants.name as name',
+      'plots_plants.id as plotsPlantsId',
+      'date_planted as datePlanted',
+      'last_watered as lastWatered',
+      'icon_src as iconSrc',
+      'photo_src as photoSrc',
+      'days_from_planting_until_harvest as daysUntilHarvest',
+      'plots.name as plotsName',
+    )
+  return result
+}
+
 export async function getGardensPlantsById(garden_id: number) {
   return db('gardens')
     .where('gardens.id', garden_id)

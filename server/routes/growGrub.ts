@@ -60,13 +60,38 @@ router.get('/usernames', async (req, res) => {
     res.sendStatus(500)
   }
 })
+
 //Gets all plants NOT IN USE
+// router.get('/plants', checkJwt, async (req: JwtRequest, res) => {
+//   const auth0Id = req.auth?.sub
+//   if (!auth0Id) return res.sendStatus(401)
+//   try {
+//     const plants = await db.getPlants()
+//     res.json(plants)
+//   } catch (error) {
+//     console.log(error)
+//     res.sendStatus(500)
+//   }
+// })
+
 router.get('/plants', checkJwt, async (req: JwtRequest, res) => {
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   try {
     const plants = await db.getPlants()
     res.json(plants)
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500)
+  }
+})
+
+router.get('/myplants', checkJwt, async (req: JwtRequest, res) => {
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) return res.sendStatus(401)
+  try {
+    const plantsInPlots = await db.getMyPlantsInPlots(auth0Id)
+    res.json(plantsInPlots)
   } catch (error) {
     console.log(error)
     res.sendStatus(500)
