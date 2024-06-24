@@ -98,7 +98,7 @@ const PlantsTable: React.FC<PlantsProps> = () => {
                     />
                     <div className="ml-2">
                       <div className="mb-1 font-semibold">
-                        <Link to={`/my-plants/${plant.id}`}>
+                        <Link to={`/my-plants/${plant.plantName}`}>
                           {plant.plantName}
                         </Link>
                       </div>
