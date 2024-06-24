@@ -48,6 +48,7 @@ export default function DropDownAutoFilter({
 
   const handleOnBlur = () => {
     setTimeout(() => setShowDropDown(false), 100)
+    if (inputValue !== '') handleSelect(inputValue)
   }
 
   return (

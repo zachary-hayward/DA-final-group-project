@@ -20,6 +20,7 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
 
   try {
     const vege1 = req.query.vege
+    console.log(vege1)
     const prompt = `give me json data with whitespacing between each word about plant care information about ${vege1} that contains plant care information, 
     difficulty should be one of "easy", "medium" or "hard", 
     watering should be one of three properties: low, moderate or high, 
