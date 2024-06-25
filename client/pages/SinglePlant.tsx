@@ -188,7 +188,7 @@ export default function SinglePlant() {
               <InstructionListItem
                 iconSrc={'/images/flat-icons/harvest.png'}
                 title={'Season'}
-                description={plantData1.havestingTime}
+                description={plantData1.harvestingTime}
               />
               <InstructionListItem
                 iconSrc={'/images/flat-icons/idea.png'}
