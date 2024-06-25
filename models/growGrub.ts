@@ -130,7 +130,7 @@ export interface plantCareData {
   outdoorsPlantingTime: string
   spacing: string
   plantingTime: string
-  havestingTime: string
+  harvestingTime: string
   harvestingTips: string
 }
 

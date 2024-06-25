@@ -110,6 +110,7 @@ export default function SinglePlant() {
           title: plantData1.plantName,
           subtitle: plantData1.scientificName,
           description: plantData1.description,
+          imgURL: plantData1.photosrc,
         }}
         />
 
@@ -188,7 +189,7 @@ export default function SinglePlant() {
               <InstructionListItem
                 iconSrc={'/images/flat-icons/harvest.png'}
                 title={'Season'}
-                description={plantData1.havestingTime}
+                description={plantData1.harvestingTime}
               />
               <InstructionListItem
                 iconSrc={'/images/flat-icons/idea.png'}

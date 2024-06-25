@@ -59,7 +59,7 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
         "plantingSeasonEnd": str
     },
     "harvesting": {
-        "havestingTime": str,
+        "harvestingTime": str,
         "harvestingTips": str
     },
   }

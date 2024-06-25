@@ -83,11 +83,19 @@ const PlantsTable: React.FC<PlantsProps> = () => {
           {/* Table header */}
           <thead>
             <tr className="bg-slate-50">
-              <th className="table-header">My Plants</th>
-              <th className="table-header">Plant Care</th>
-              <th className="table-header">Days Until Harvest</th>
-              <th className="table-header">Plot Name</th>
-              <th className="table-header"></th>
+              <th className="table-header border-l border-t border-slate-200">
+                My Plants
+              </th>
+              <th className="table-header border-t border-slate-200">
+                Plant Care
+              </th>
+              <th className="table-header border-t border-slate-200">
+                Days Until Harvest
+              </th>
+              <th className="table-header border-t border-slate-200">
+                Plot Name
+              </th>
+              <th className="table-header border-r border-t border-slate-200"></th>
             </tr>
           </thead>
 
@@ -125,7 +133,7 @@ const PlantsTable: React.FC<PlantsProps> = () => {
                 </td>
                 <td className="border border-slate-200 px-4 py-2">
                   <div className="mb-1 font-medium"></div>
-                  <div className="text-center text-gray-600">
+                  <div className="text-left text-gray-600">
                     {getDaysUntilHarvest(
                       plant.daysUntilHarvest,
                       plant.datePlanted,
