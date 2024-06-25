@@ -133,7 +133,7 @@ const PlantsTable: React.FC<PlantsProps> = () => {
                 </td>
                 <td className="border border-slate-200 px-4 py-2">
                   <div className="mb-1 font-medium"></div>
-                  <div className="text-center text-gray-600">
+                  <div className="text-left text-gray-600">
                     {getDaysUntilHarvest(
                       plant.daysUntilHarvest,
                       plant.datePlanted,
