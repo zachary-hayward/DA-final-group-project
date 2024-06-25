@@ -95,7 +95,7 @@ const PlantsTable: React.FC<PlantsProps> = () => {
           <tbody>
             {getMyPlants.data.map((plant: MyPlant, index: number) => (
               <tr
-                key={`${plant.name}+${plant.plantsId}`}
+                key={`${plant.name}+${plant.plotsPlantsId}`}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
               >
                 <td className="border border-slate-200 px-4 py-2">

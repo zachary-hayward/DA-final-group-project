@@ -180,6 +180,7 @@ export async function saveNewPlotPlants(
   plotData.forEach((plot, i) => {
     if (plot.plants.length > 0) {
       plot.plants.forEach((plant) => {
+        console.log(plant)
         const newPlant = {
           plant_id: plantsIDs.find(
             (currentPlant) =>
