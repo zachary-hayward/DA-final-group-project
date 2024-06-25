@@ -3,6 +3,7 @@ import spinachIcon from '/images/flat-icons/spinach.png'
 import carrotIcon from '/images/flat-icons/carrot.png'
 import wateringCanIcon from '/images/flat-icons/watering-can.png'
 import TaskTable from '../components/TasksTable'
+import Banner from "../components/Banner"
 
 export default function Home() {
   return (
@@ -47,3 +48,6 @@ export default function Home() {
     </>
   )
 }
+
+
+

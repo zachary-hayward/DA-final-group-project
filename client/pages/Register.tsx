@@ -8,6 +8,7 @@ import { MouseEvent } from 'react'
 import PrimaryButton from '../components/PrimaryButton'
 import { Link } from 'react-router-dom'
 import SecondaryButton from '../components/SecondaryButton'
+import Banner from '../components/Banner.tsx'
 
 interface UserData {
   username: string
@@ -98,7 +99,12 @@ export default function Register({ registered, setRegistered }: Props) {
   
   return (
     <>
-      <div
+      <Banner 
+        bannerInfo={{
+          title: "Create your profile to start your garden"
+        }}
+        />
+      {/* <div
         className="banner-container relative flex h-96 items-center justify-center bg-cover bg-center"
         style={{
           backgroundImage: `url('/images/homepage/Homepage_banner_bg.png')`,
@@ -110,7 +116,7 @@ export default function Register({ registered, setRegistered }: Props) {
             Create your profile to start your garden.
           </h2>
         </div>
-      </div>
+      </div> */}
       <div className="align-center flex justify-center py-20 text-gray-800 text-left">
         <div className="container w-1/2 mx-auto rounded bg-slate-100 p-3">
           <div className="m-2 flex gap-2">
