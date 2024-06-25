@@ -36,17 +36,34 @@ function GardenForm({
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
   )
+  const [searching, setSearching] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>('')
+  const [searchedPlant, setSearchedPlant] = useState<string>('')
   const todaysDate = new Date().toISOString().split('T')[0] // date as string
 
   let plantList: string[] = []
   if (plantsQuery.data) {
-    plantList = plantsQuery.data.map((plant: Plant) => plant.name)
+    plantList = plantsQuery.data.map((plant: Plant) => plant.name.toLowerCase())
+    if (searching === true && plantList.includes(searchedPlant.toLowerCase())) {
+      setMessage('We found it! Select from the list.')
+      setSearching(false)
+      setTimeout(() => {
+        setMessage('')
+      }, 10000)
+    }
   }
 
+  //TODO:
+  // if pending add "searching"
+  // if a result comes back say "we found it"
+
   function handlePlantSelect(option: string) {
-    console.log(plantsQuery.data)
     if (!plantList.includes(option)) {
+      //search gemini
       addPlant.mutate(option)
+      setSearching(true)
+      setSearchedPlant(option)
+      setMessage('searching...')
       return
     }
 
@@ -308,6 +325,7 @@ function GardenForm({
           handlePlantSelect={handlePlantSelect}
           plotSunLevel={currentPlot?.sunLight}
         />
+        {message && <p>{message}</p>}
         <br />
         {currentPlot?.plants && currentPlot?.plants.length > 0 && (
           <p className="font-semibold">Planted:</p>
