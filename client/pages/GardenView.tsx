@@ -17,6 +17,8 @@ import {
   PlotDatum,
   PlotDatumDB,
 } from '../../models/growGrub.ts'
+import Banner from '../components/Banner.tsx'
+
 
 export function GardenView() {
   const saveGarden = useSaveGarden()
@@ -33,11 +35,17 @@ export function GardenView() {
     currentGardenID === null
   ) {
     return (
-      <GardenSelect
-        gardenData={getGardens.data.gardens}
-        switchSelectedGarden={switchSelectedGarden}
-      />
-      
+      <>
+        <Banner 
+          bannerInfo= {{
+            title: "Select A Garden"
+          }}
+        />
+        <GardenSelect
+          gardenData={getGardens.data.gardens}
+          switchSelectedGarden={switchSelectedGarden}
+        />
+      </>
     )
   
   }
@@ -66,14 +74,14 @@ export function GardenView() {
 
   return (
     <>
-    {/* Page Banner - hard coded - currently WIP of componentising it */}
-    <div className="banner-container h-40 flex items-center justify-center">
-        <div className="mx-auto max-w-7xl text-center">
-          <h2 className="banner-title item-center">My Garden</h2>
-        </div>
-      </div>
-    
-      <div className="gardenview py-20">
+      <Banner 
+        bannerInfo={{
+          title: 'Create My Garden'
+        }}
+      />
+      <div className="gardenview">
+        <p>{activeID}</p>
+
         <GardenGrid
           plotData={plotData}
           setPlotData={setPlotData}

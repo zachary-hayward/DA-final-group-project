@@ -4,6 +4,7 @@ import { useGetSinglePlant } from '../hooks/useHooks'
 
 import InstructionListItem from '../components/InstructionListItem'
 import SimpleTable from '../components/SimpleTable'
+import Banner from '../components/Banner'
 
 // // mockData
 // const plantData: {
@@ -79,7 +80,7 @@ export default function SinglePlant() {
   return (
     <>
       {/* Page Banner - hard coded - currently WIP of componentising it */}
-      <div>
+      {/* <div>
         <div className="banner-container">
           <div className="mx-auto max-w-7xl">
             <div className="banner-flex">
@@ -103,8 +104,17 @@ export default function SinglePlant() {
               </div>
               </div>
           </div>
-        </div>
+        </div> */}
+        <Banner 
+        bannerInfo={{
+          title: plantData1.plantName,
+          subtitle: plantData1.scientificName,
+          description: plantData1.description,
+        }}
+        />
+
         {/* Care Instructions*/}
+      <div>
         <div>
           <div className="list-container">
             <h3 className="container-title">Care instructions</h3>
