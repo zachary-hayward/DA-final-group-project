@@ -19,7 +19,6 @@ import {
 } from '../../models/growGrub.ts'
 import Banner from '../components/Banner.tsx'
 
-
 export function GardenView() {
   const saveGarden = useSaveGarden()
   const saveNewGarden = useSaveNewGarden()
@@ -36,9 +35,9 @@ export function GardenView() {
   ) {
     return (
       <>
-        <Banner 
-          bannerInfo= {{
-            title: "Select A Garden"
+        <Banner
+          bannerInfo={{
+            title: 'Select A Garden',
           }}
         />
         <GardenSelect
@@ -47,7 +46,6 @@ export function GardenView() {
         />
       </>
     )
-  
   }
 
   function switchSelectedGarden(id: number) {
@@ -74,14 +72,12 @@ export function GardenView() {
 
   return (
     <>
-      <Banner 
+      <Banner
         bannerInfo={{
-          title: 'Create My Garden'
+          title: 'Create My Garden',
         }}
       />
-      <div className="gardenview">
-        <p>{activeID}</p>
-
+      <div className="gardenview ml-1">
         <GardenGrid
           plotData={plotData}
           setPlotData={setPlotData}

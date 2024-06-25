@@ -65,6 +65,18 @@ export function GardenGrid({
     setLayout(newLay)
   }
 
+  function getName(i: string) {
+    const currPlot = [...plotData].find(
+      (plotEntry) => plotEntry.plotNumber == i,
+    )
+    if (currPlot?.plants && currPlot?.plants.length > 0) {
+      const plantEmojiArr: string[] = []
+      currPlot?.plants.forEach(() => plantEmojiArr.push('🌱'))
+      const plantEmojiString = plantEmojiArr.join(' ')
+      return plantEmojiString
+    } else return currPlot?.name
+  }
+
   function handleGoBack() {
     confirmAlert({
       title: `Are you sure?`,
@@ -84,7 +96,9 @@ export function GardenGrid({
       {currentGardenID && (
         <GoBackButton onClick={handleGoBack}>My gardens</GoBackButton>
       )}
-      <SecondaryButton onClick={handleAdd}>Add Plot</SecondaryButton>
+      <div className="mb-1 mt-1">
+        <SecondaryButton onClick={handleAdd}>Add Plot</SecondaryButton>
+      </div>
       <ResponsiveGridLayout
         className="layout"
         onLayoutChange={handleLayoutChange}
@@ -103,10 +117,7 @@ export function GardenGrid({
             }
             data-grid={{ x: plot.x, y: plot.y, h: plot.h, w: plot.w }}
           >
-            {
-              [...plotData].find((plotEntry) => plotEntry.plotNumber == plot.i)
-                ?.name
-            }
+            {getName(plot.i)}
           </button>
         ))}
       </ResponsiveGridLayout>

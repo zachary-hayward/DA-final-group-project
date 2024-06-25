@@ -7,15 +7,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
-    plants: [
-      {
-        name: 'cucumber',
-        plantName: 'cucumber',
-        id: null,
-        last_watered: null,
-        date_planted: 'today?',
-      },
-    ],
+    plants: [],
   },
   {
     plotNumber: '2',
@@ -25,15 +17,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
-    plants: [
-      {
-        name: 'cucumber',
-        plantName: 'cucumber',
-        id: null,
-        last_watered: null,
-        date_planted: 'today?',
-      },
-    ],
+    plants: [],
   },
   {
     plotNumber: '4',
@@ -43,15 +27,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
-    plants: [
-      {
-        name: 'cucumber',
-        plantName: 'cucumber',
-        id: null,
-        last_watered: null,
-        date_planted: 'today?',
-      },
-    ],
+    plants: [],
   },
   {
     plotNumber: '6',
@@ -61,15 +37,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
-    plants: [
-      {
-        name: 'cucumber',
-        plantName: 'cucumber',
-        id: null,
-        last_watered: null,
-        date_planted: 'today?',
-      },
-    ],
+    plants: [],
   },
   {
     plotNumber: '7',
@@ -79,15 +47,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
-    plants: [
-      {
-        name: 'cucumber',
-        plantName: 'cucumber',
-        id: null,
-        last_watered: null,
-        date_planted: 'today?',
-      },
-    ],
+    plants: [],
   },
   {
     plotNumber: '8',
@@ -97,15 +57,7 @@ export const plotDataDefaultState = [
     size: 3,
     rainExposure: 'partially',
     growable: true,
-    plants: [
-      {
-        name: 'cucumber',
-        plantName: 'cucumber',
-        id: null,
-        last_watered: null,
-        date_planted: 'today?',
-      },
-    ],
+    plants: [],
   },
   {
     plotNumber: '9',

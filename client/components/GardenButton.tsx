@@ -13,10 +13,10 @@ function GardenButton({ garden, switchSelectedGarden }: Props) {
   return (
     <button
       type="button"
-      className="inline-flex items-center rounded-md bg-green-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      className="ml-3 rounded-lg  bg-green-700 p-6  text-sm font-semibold text-white shadow-md transition duration-300 hover:bg-green-800 hover:shadow-lg focus-visible:outline-indigo-600"
       onClick={handleClick}
     >
-      Garden name here {garden.id}
+      Garden {garden.id} 🌱
     </button>
   )
 }

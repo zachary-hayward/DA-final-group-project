@@ -40,6 +40,17 @@ const PlantsTable: React.FC<PlantsProps> = () => {
     console.log(getMyPlants.data)
   }
 
+  if (getMyPlants.data.length === 0) {
+    return (
+      <>
+        <p className="ml-5">
+          {`You haven't got any plants yet, head over to`}{' '}
+          <Link to={'/my-garden'}>My Garden</Link> {` to plan your garden.`}
+        </p>
+      </>
+    )
+  }
+
   function getDaysUntilHarvest(days: number, datePlanted: string) {
     const dateSplit = datePlanted.split('-')
     const todaysDate = new Date()
@@ -84,7 +95,7 @@ const PlantsTable: React.FC<PlantsProps> = () => {
           <tbody>
             {getMyPlants.data.map((plant: MyPlant, index: number) => (
               <tr
-                key={`${plant.name}+${plant.plantsId}`}
+                key={`${plant.name}+${plant.plotsPlantsId}`}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
               >
                 <td className="border border-slate-200 px-4 py-2">
