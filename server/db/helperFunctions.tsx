@@ -87,40 +87,42 @@ export function refreshTasks(
   // Check to see if there should be a watering task assocaited with each joined plant_plot row
   for (const row of rows) {
     // Assume the plant needs watering if the last_watered field is falsey
-    if (!row.last_watered) {
+    if (row.last_watered === null) {
+      console.log(row)
       tasksToSort.push({
         type: 'water',
         plots_plants_id: row.id,
         overdue_by: 0,
         completed: false,
       })
-    }
-
-    let daysBetweenWatering: number
-
-    // Convert watering_frequency string to the number of days between watering.
-    // Values for watering_frequency are inferred from routes/googleGemini.ts
-    if (row.watering_frequency == 'low') {
-      daysBetweenWatering = 7
-    } else if (row.watering_frequency == 'moderate') {
-      daysBetweenWatering = 4
     } else {
-      daysBetweenWatering = 2
-    }
+      let daysBetweenWatering: number
 
-    const lastWateredDateObject = new Date(row.last_watered)
+      // Convert watering_frequency string to the number of days between watering.
+      // Values for watering_frequency are inferred from routes/googleGemini.ts
+      if (row.watering_frequency == 'low') {
+        daysBetweenWatering = 7
+      } else if (row.watering_frequency == 'moderate') {
+        daysBetweenWatering = 4
+      } else {
+        daysBetweenWatering = 2
+      }
 
-    const daysSinceLastWater =
-      (currentDate.getTime() - lastWateredDateObject.getTime()) / millisecPerDay
+      const lastWateredDateObject = new Date(row.last_watered)
 
-    // if the plant needs watering, add an associated task into tasksToSort
-    if (daysSinceLastWater >= daysBetweenWatering) {
-      tasksToSort.push({
-        type: 'water',
-        plots_plants_id: row.id,
-        overdue_by: Math.floor(daysSinceLastWater - daysBetweenWatering),
-        completed: false,
-      })
+      const daysSinceLastWater =
+        (currentDate.getTime() - lastWateredDateObject.getTime()) /
+        millisecPerDay
+
+      // if the plant needs watering, add an associated task into tasksToSort
+      if (daysSinceLastWater >= daysBetweenWatering) {
+        tasksToSort.push({
+          type: 'water',
+          plots_plants_id: row.id,
+          overdue_by: Math.floor(daysSinceLastWater - daysBetweenWatering),
+          completed: false,
+        })
+      }
     }
   }
 

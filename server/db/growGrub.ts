@@ -183,28 +183,35 @@ export async function saveNewPlotPlants(
   plantsIDs: PlantID[],
 ) {
   const plantsToInsert: NewPlant[] = []
-  plotData.forEach((plot, i) => {
-    if (plot.plants.length > 0) {
-      plot.plants.forEach((plant) => {
-        const newPlant = {
-          plant_id: plantsIDs.find(
-            (currentPlant) =>
-              currentPlant.name.toLowerCase() === plant.plantName.toLowerCase(),
-          )?.id,
-          user_id: userId,
-          plot_id: plotIdArr[i].id,
-          date_planted: plant.date_planted,
-          name: plant.name,
-        }
-        plantsToInsert.push(newPlant)
-      })
+  if (plotData.length > 0) {
+    plotData.forEach((plot, i) => {
+      if (plot.plants.length > 0) {
+        plot.plants.forEach((plant) => {
+          const newPlant = {
+            plant_id: plantsIDs.find(
+              (currentPlant) =>
+                currentPlant.name.toLowerCase() ===
+                plant.plantName.toLowerCase(),
+            )?.id,
+            user_id: userId,
+            plot_id: plotIdArr[i].id,
+            date_planted: plant.date_planted,
+            name: plant.name,
+          }
+          plantsToInsert.push(newPlant)
+        })
+      }
+    })
+    if (plantsToInsert.length > 0) {
+      await db('plots_plants').insert(plantsToInsert)
     }
-  })
-  await db('plots_plants').insert(plantsToInsert)
+  }
 }
 
 export async function saveNewPlants(plantsToInsert: NewPlant[]) {
-  await db('plots_plants').insert(plantsToInsert)
+  if (plantsToInsert.length > 0) {
+    await db('plots_plants').insert(plantsToInsert)
+  }
 }
 
 export async function addVege(promptResult) {
@@ -382,7 +389,7 @@ export async function getPlotsPlantsJoinByAuth(auth0_id: string) {
     .join('plots', 'plots.garden_id', 'gardens.id')
     .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
     .join('plants', 'plants.id', 'plots_plants.plant_id')
-    .select('plots_plants.*', 'plants.*')
+    .select('plants.*', 'plots_plants.*')
 }
 
 export async function getAllTasksByAuth(auth0_id: string) {

@@ -317,6 +317,7 @@ router.put('/tasks', checkJwt, async (req: JwtRequest, res) => {
     try {
       const currentDate = new Date()
       const plotsPlants = await db.getPlotsPlantsJoinByAuth(auth0Id)
+      console.log(`plotsPlants join data is:`, plotsPlants)
       const existingUncompletedTasks =
         await db.getUncompletedTasksByAuth(auth0Id)
 
@@ -328,8 +329,10 @@ router.put('/tasks', checkJwt, async (req: JwtRequest, res) => {
 
       await db.updateTasks(tasksToUpdate)
       await db.createTasks(tasksToCreate)
-
+      console.log(tasksToUpdate)
+      console.log(tasksToCreate)
       const refreshedTasks = await db.getUpdatedTasksByAuth(auth0Id)
+      console.log(refreshedTasks)
       res.json(refreshedTasks)
     } catch (error) {
       console.log(error)
@@ -373,7 +376,7 @@ router.patch('/tasks/:id', checkJwt, async (req: JwtRequest, res) => {
 // Route for testing only - returns PlotsPlantsJoin for auth0_id user auth0|123
 router.get('/tasksTEST1', async (req, res) => {
   try {
-    const plotsPlants = await db.getPlotsPlantsJoinByAuth('auth0|123')
+    const plotsPlants = await db.getPlotsPlantsJoinByAuth('auth0|456')
     res.json(plotsPlants)
   } catch (error) {
     console.log(error)
@@ -384,7 +387,7 @@ router.get('/tasksTEST1', async (req, res) => {
 // Route for testing only - returns tasks for auth0_id user auth0|123
 router.get('/tasksTEST2', async (req, res) => {
   try {
-    const plotsPlants = await db.getUpdatedTasksByAuth('auth0|123')
+    const plotsPlants = await db.getUpdatedTasksByAuth('auth0|456')
     res.json(plotsPlants)
   } catch (error) {
     console.log(error)
@@ -394,7 +397,7 @@ router.get('/tasksTEST2', async (req, res) => {
 
 // Route for testing only - refreshes and retrives tasks for auth0_id user auth0|123
 router.put('/tasksTEST3', async (req, res) => {
-  const auth0Id = 'auth0|123'
+  const auth0Id = 'auth0|456'
   if (!auth0Id) return res.sendStatus(401)
   else
     try {

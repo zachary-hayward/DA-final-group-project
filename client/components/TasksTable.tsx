@@ -54,25 +54,25 @@ const TaskTable: React.FC<TaskProps> = ({
   lastPerformed,
 }) => {
   // const getTasks = useGetUpdatedTasks()
-  const testTaskQuery = useGetTestTasks()
+  const taskQuery = useGetTasks()
 
   // console.log(testTasks)
 
   const completeSingleTask = useCompleteSingleTask()
 
-  if (testTaskQuery.isError) return <p>error</p>
+  if (taskQuery.isError) return <p>error</p>
 
-  if (testTaskQuery.isPending) return <p>loading</p>
+  if (taskQuery.isPending) return <p>loading</p>
 
   // if (getTasks.data) {
   //   console.log('getTasks.data: ', getTasks.data)
   // }
 
-  if (testTaskQuery.data) {
-    console.log('getTestTasks.data: ', testTaskQuery.data)
+  if (taskQuery.data) {
+    console.log('getTestTasks.data: ', taskQuery.data)
   }
 
-  const testTasks = testTaskQuery.data
+  const tasks = taskQuery.data
 
   return (
     <div className="list-container mx-auto py-12">
@@ -105,7 +105,7 @@ const TaskTable: React.FC<TaskProps> = ({
 
           {/* Table body */}
           <tbody>
-            {testTasks.map((task, index) => (
+            {tasks.map((task, index) => (
               <tr
                 key={`tasktablerow${task.id}`}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
