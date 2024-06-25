@@ -44,6 +44,7 @@ function GardenForm({
   let plantList: string[] = []
   if (plantsQuery.data) {
     plantList = plantsQuery.data.map((plant: Plant) => plant.name.toLowerCase())
+    console.log(plantList)
     if (searching === true && plantList.includes(searchedPlant.toLowerCase())) {
       setMessage('We found it! Select from the list.')
       setSearching(false)
@@ -58,30 +59,30 @@ function GardenForm({
   // if a result comes back say "we found it"
 
   function handlePlantSelect(option: string) {
-    if (!plantList.includes(option)) {
+    if (!plantList.includes(option.toLowerCase())) {
       //search gemini
       addPlant.mutate(option)
       setSearching(true)
       setSearchedPlant(option)
       setMessage('searching...')
       return
+    } else {
+      const newPlantsArr = [
+        ...currentPlot!.plants,
+        {
+          plantName: option,
+          name: option,
+          id: null,
+          last_watered: null,
+          date_planted: todaysDate,
+        },
+      ]
+      const newPlot = {
+        ...currentPlot!,
+        plants: [...newPlantsArr],
+      }
+      setPlots(newPlot)
     }
-
-    const newPlantsArr = [
-      ...currentPlot!.plants,
-      {
-        plantName: option,
-        name: option,
-        id: null,
-        last_watered: null,
-        date_planted: todaysDate,
-      },
-    ]
-    const newPlot = {
-      ...currentPlot!,
-      plants: [...newPlantsArr],
-    }
-    setPlots(newPlot)
   }
 
   function removePlant(e: React.MouseEvent<HTMLButtonElement>) {
