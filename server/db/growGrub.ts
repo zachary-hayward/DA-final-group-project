@@ -309,8 +309,28 @@ export async function addPlant(promptResult) {
 
 export async function getSinglePlantById(plantName: string) {
   return db('plant_care_data')
+    .join('plants', 'plants.name', 'plant_care_data.plantName')
     .where({ plantName: plantName })
-    .select('*')
+    .select(
+      'plant_care_data.scientificName as scientificName',
+      'plant_care_data.id as id',
+      'plantName',
+      'description',
+      'soil',
+      'sunlight',
+      'watering',
+      'fertilization',
+      'pruning',
+      'pests',
+      'diseases',
+      'indoorsPlantingTime',
+      'outdoorsPlantingTime',
+      'spacing',
+      'plantingTime',
+      'havestingTime',
+      'harvestingTips',
+      'plants.photo_src as photoSrc',
+    )
     .first()
 }
 
