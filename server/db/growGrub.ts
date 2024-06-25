@@ -327,7 +327,7 @@ export async function getSinglePlantById(plantName: string) {
       'outdoorsPlantingTime',
       'spacing',
       'plantingTime',
-      'havestingTime',
+      'harvestingTime',
       'harvestingTips',
       'plants.photo_src as photoSrc',
     )
