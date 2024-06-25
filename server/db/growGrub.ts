@@ -229,7 +229,7 @@ export async function addVege(promptResult) {
         promptResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
       spacing: promptResult.plantCareData[0].plantingTime.spacing,
       plantingTime: promptResult.plantCareData[0].plantingTime.plantingTime,
-      havestingTime: promptResult.plantCareData[0].harvesting.harvestingTime,
+      harvestingTime: promptResult.plantCareData[0].harvesting.harvestingTime,
       harvestingTips: promptResult.plantCareData[0].harvesting.harvestingTips,
     }
     // console.log(promptResult.plantCareData[0].harvesting.harvestingTime)
