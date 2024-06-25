@@ -4,6 +4,7 @@ import { useGetSinglePlant } from '../hooks/useHooks'
 
 import InstructionListItem from '../components/InstructionListItem'
 import SimpleTable from '../components/SimpleTable'
+import Banner from '../components/Banner'
 
 // // mockData
 // const plantData: {
@@ -76,10 +77,11 @@ export default function SinglePlant() {
   if (isError || !plantData1) {
     return <p>Fail to loading...</p>
   }
+  console.log(plantData1.photoSrc)
   return (
     <>
       {/* Page Banner - hard coded - currently WIP of componentising it */}
-      <div>
+      {/* <div>
         <div className="banner-container">
           <div className="mx-auto max-w-7xl">
             <div className="banner-flex">
@@ -94,23 +96,33 @@ export default function SinglePlant() {
                   </p>
                 </div>
               </div>
-              <div className="ml-8 flex-shrink-0">
+              <div className="ml-8 flex-shrink-0 overflow-hidden w-80 h-70 rounded-lg">
                 <img
-                  src="/images/photos/tomato-plant.png"
+                  src="/images/photos/tomatoes.jpg"
                   alt={plantData1.plantName}
-                  className="h-50 w-auto"
+                  className="object-cover w-full h-full rounded-lg"
                 />
               </div>
-            </div>
+              </div>
           </div>
-        </div>
-        {/* Care Instructions*/}
+        </div> */}
+      <Banner
+        bannerInfo={{
+          title: plantData1.plantName,
+          subtitle: plantData1.scientificName,
+          description: plantData1.description,
+          imgURL: plantData1.photoSrc,
+        }}
+      />
+
+      {/* Care Instructions*/}
+      <div>
         <div>
           <div className="list-container">
             <h3 className="container-title">Care instructions</h3>
             <InstructionListItem
               iconSrc={'/images/flat-icons/soil.png'}
-              title={'Soil'} // Hard coded for now because of mockdata!
+              title={'Soil'}
               description={plantData1.soil}
             />
             <InstructionListItem
@@ -172,14 +184,13 @@ export default function SinglePlant() {
             />
           </div>
 
-          {/* Harvesting Instructions*/}
           <div>
             <div className="list-container">
               <h3 className="container-title">Harvesting</h3>
               <InstructionListItem
                 iconSrc={'/images/flat-icons/harvest.png'}
                 title={'Season'}
-                description={plantData1.havestingTime}
+                description={plantData1.harvestingTime}
               />
               <InstructionListItem
                 iconSrc={'/images/flat-icons/idea.png'}

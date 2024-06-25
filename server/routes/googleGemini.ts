@@ -21,14 +21,18 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
   try {
     const vege1 = req.query.vege
     console.log(vege1)
-    const prompt = `give me json data with whitespacing between each word about plant care information about ${vege1} that contains plant care information, 
-    difficulty should be one of "easy", "medium" or "hard", 
-    watering should be one of three properties: low, moderate or high, 
-    sunlight should be "full-shade", "part-sun" or "full-sun",
-    cycle should be one of "annual", "biennieal", "perennial" or "short-lived-perennial", plantingTime should be the season and month with the seed planting months in New Zealand, plantingSeason should be: "year-round", "summer", "winter", "autumn", "spring" or "early-spring", "late-spring" etc, 
+    const prompt = `give me json data with whitespacing between each word about plant care information about ${vege1} that contains plant care information. 
+    The following properties should be all lowercase, with no spaces in between words.
+    difficulty should be one of "easy", "medium" or "hard". 
+    watering should be one of three properties: low, moderate or high. 
+    sunlight should be "full-shade", "part-sun" or "full-sun" with no spaces in between.
+    cycle should be one of "annual", "biennieal", "perennial" or "short-lived-perennial". plantingTime should be the season and month with the seed planting months in New Zealand, plantingSeason should be: "year-round", "summer", "winter", "autumn", "spring" or "early-spring", "late-spring" etc with no spaces in between. 
     planting_starts should be one of: "year-round", "summer", "winter", "autumn",
-"spring" or "early-spring", "late-spring" etc.
-    planting_ends should be the last possible month when a seed could be planted, spacing in metres, in the form of {
+"spring" or "early-spring", "late-spring" etc with no spaces in between.
+    planting_ends should be the last possible month when a seed could be planted.
+    Every other property should have spaces in between the words, but keep the strings short please.
+    spacing is in metres.
+     The json data should bein the form of {
 "plantCareData": [
   {
     "plantName": str,
@@ -45,8 +49,8 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
         "difficulty": str,
         "planting_starts": str,
         "planting_ends": str,
-        "days_from_planting_until_harvest": str,
-        "days_from_seed_until_seedling": str,
+        "days_from_planting_until_harvest": number,
+        "days_from_seed_until_seedling": number,
         "cycle": str,
 
     },
@@ -59,12 +63,12 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
         "plantingSeasonEnd": str
     },
     "harvesting": {
-        "havestingTime": str,
+        "harvestingTime": str,
         "harvestingTips": str
     },
   }
   ]
-} and for each property, keep the strings short please and with spacing between words`
+} `
 
     const genAI = new GoogleGenerativeAI(geminiApiKey)
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })

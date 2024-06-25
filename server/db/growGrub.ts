@@ -235,7 +235,7 @@ export async function addVege(promptResult) {
         promptResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
       spacing: promptResult.plantCareData[0].plantingTime.spacing,
       plantingTime: promptResult.plantCareData[0].plantingTime.plantingTime,
-      havestingTime: promptResult.plantCareData[0].harvesting.harvestingTime,
+      harvestingTime: promptResult.plantCareData[0].harvesting.harvestingTime,
       harvestingTips: promptResult.plantCareData[0].harvesting.harvestingTips,
     }
     // console.log(promptResult.plantCareData[0].harvesting.harvestingTime)
@@ -300,7 +300,8 @@ export async function addPlant(promptResult) {
         promptResult.plantCareData[0].careInstructions.planting_ends,
       watering_frequency:
         promptResult.plantCareData[0].careInstructions.watering,
-      sun_level: promptResult.plantCareData[0].careInstructions.sunlight,
+      sun_level:
+        promptResult.plantCareData[0].careInstructions.sunlight.toLowerCase(),
       cycle: promptResult.plantCareData[0].careInstructions.cycle,
       days_from_planting_until_harvest:
         promptResult.plantCareData[0].careInstructions
@@ -315,9 +316,50 @@ export async function addPlant(promptResult) {
 
 export async function getSinglePlantById(plantName: string) {
   return db('plant_care_data')
+    .join('plants', 'plants.name', 'plant_care_data.plantName')
     .where({ plantName: plantName })
-    .select('*')
+    .select(
+      'plant_care_data.scientificName as scientificName',
+      'plant_care_data.id as id',
+      'plantName',
+      'description',
+      'soil',
+      'sunlight',
+      'watering',
+      'fertilization',
+      'pruning',
+      'pests',
+      'diseases',
+      'indoorsPlantingTime',
+      'outdoorsPlantingTime',
+      'spacing',
+      'plantingTime',
+      'harvestingTime',
+      'harvestingTips',
+      'plants.photo_src as photoSrc',
+    )
     .first()
+}
+
+export async function getMyPlantsInPlots(auth0Id: string) {
+  const result = await db('users')
+    .where('users.auth0_id', auth0Id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .join('plants', 'plots_plants.plant_id', 'plants.id')
+    .select(
+      'plants.id as plantsId',
+      'plants.name as name',
+      'plots_plants.id as plotsPlantsId',
+      'date_planted as datePlanted',
+      'last_watered as lastWatered',
+      'icon_src as iconSrc',
+      'photo_src as photoSrc',
+      'days_from_planting_until_harvest as daysUntilHarvest',
+      'plots.name as plotsName',
+    )
+  return result
 }
 
 export async function getGardensPlantsById(garden_id: number) {

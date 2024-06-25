@@ -1,6 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 interface Props {
   value?: string
+  onChange?: (option: string) => void
   onSelect: (option: string) => void
   options: string[]
   containerClass: string
@@ -8,6 +9,7 @@ interface Props {
 //onSelect will return the string of the option chosen, pass your own function into it so it lifts it to the parent
 export default function DropDownAutoFilter({
   value,
+  onChange,
   onSelect,
   options,
   containerClass,
@@ -23,7 +25,9 @@ export default function DropDownAutoFilter({
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setInputValue(value)
+    if (onChange) onChange(value)
+    else setInputValue(value)
+    
     const newShortList: string[] = []
     options.forEach((option) => {
       if (

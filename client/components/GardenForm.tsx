@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { PlotDatum } from '../../models/growGrub'
+import type { Plant, PlotDatum } from '../../models/growGrub'
 import PrimaryButton from './PrimaryButton'
 import DeleteButton from './DeleteButton'
 import { Layout } from 'react-grid-layout'
@@ -7,6 +7,7 @@ import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import PlotPlantSuggestionDropDown from './PlotPlantSuggestionDropDown'
 import SmallDeleteButton from './SmallDeleteButton'
+import { useHooks } from '../hooks/useHooks'
 
 interface Props {
   plotData: PlotDatum[]
@@ -29,27 +30,59 @@ function GardenForm({
   setLayout,
   currentGardenID,
 }: Props) {
+  const hooks = useHooks()
+  const plantsQuery = hooks.useGetPlants()
+  const addPlant = hooks.useAddPlant()
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
   )
-  const todaysDate = new Date().toISOString().split('T')[0]
+  const [searching, setSearching] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>('')
+  const [searchedPlant, setSearchedPlant] = useState<string>('')
+  const todaysDate = new Date().toISOString().split('T')[0] // date as string
+
+  let plantList: string[] = []
+  if (plantsQuery.data) {
+    plantList = plantsQuery.data.map((plant: Plant) => plant.name.toLowerCase())
+    console.log(plantList)
+    if (searching === true && plantList.includes(searchedPlant.toLowerCase())) {
+      setMessage('We found it! Select from the list.')
+      setSearching(false)
+      setTimeout(() => {
+        setMessage('')
+      }, 7000)
+    }
+  }
+
+  //TODO:
+  // if pending add "searching"
+  // if a result comes back say "we found it"
 
   function handlePlantSelect(option: string) {
-    const newPlantsArr = [
-      ...currentPlot!.plants,
-      {
-        plantName: option,
-        name: option,
-        id: null,
-        last_watered: null,
-        date_planted: todaysDate,
-      },
-    ]
-    const newPlot = {
-      ...currentPlot!,
-      plants: [...newPlantsArr],
+    if (!plantList.includes(option.toLowerCase())) {
+      //search gemini
+      addPlant.mutate(option)
+      setSearching(true)
+      setSearchedPlant(option)
+      setMessage('searching...')
+      return
+    } else {
+      const newPlantsArr = [
+        ...currentPlot!.plants,
+        {
+          plantName: option,
+          name: option,
+          id: null,
+          last_watered: null,
+          date_planted: todaysDate,
+        },
+      ]
+      const newPlot = {
+        ...currentPlot!,
+        plants: [...newPlantsArr],
+      }
+      setPlots(newPlot)
     }
-    setPlots(newPlot)
   }
 
   function removePlant(e: React.MouseEvent<HTMLButtonElement>) {
@@ -293,9 +326,12 @@ function GardenForm({
           handlePlantSelect={handlePlantSelect}
           plotSunLevel={currentPlot?.sunLight}
         />
+        {message && <p>{message}</p>}
         <br />
-        <p>Plants:</p>
-        <ul>
+        {currentPlot?.plants && currentPlot?.plants.length > 0 && (
+          <p className="font-semibold">Planted:</p>
+        )}
+        <ul className="ml-2">
           {currentPlot?.plants &&
             currentPlot?.plants.map((plant, index) => (
               <li key={`${plant}+${index}`}>
@@ -308,16 +344,24 @@ function GardenForm({
               </li>
             ))}
         </ul>
-        <PrimaryButton onClick={handleSubmit}>Save garden & exit</PrimaryButton>
+        <div className="mt-1">
+          <PrimaryButton onClick={handleSubmit}>
+            Save garden & exit
+          </PrimaryButton>
+        </div>
         {/* Conditionally render 'save as new garden' button if currentGardenID isn't null or undefined */}
         {currentGardenID && (
-          <PrimaryButton onClick={handleNewSaveGardenSubmit}>
-            Save as new garden
-          </PrimaryButton>
+          <div className="mt-2">
+            <PrimaryButton onClick={handleNewSaveGardenSubmit}>
+              Save as new garden
+            </PrimaryButton>
+          </div>
         )}
-        <DeleteButton onClick={handleDeleteButtonPush}>
-          Delete plot
-        </DeleteButton>
+        <div className="mt-2">
+          <DeleteButton onClick={handleDeleteButtonPush}>
+            Delete plot
+          </DeleteButton>
+        </div>
       </form>
     </div>
   )
