@@ -105,16 +105,16 @@ export default function SinglePlant() {
               </div>
           </div>
         </div> */}
-        <Banner 
+      <Banner
         bannerInfo={{
           title: plantData1.plantName,
           subtitle: plantData1.scientificName,
           description: plantData1.description,
-          imgURL: plantData1.photosrc,
+          imgURL: plantData1.photoSrc,
         }}
-        />
+      />
 
-        {/* Care Instructions*/}
+      {/* Care Instructions*/}
       <div>
         <div>
           <div className="list-container">
