@@ -40,6 +40,17 @@ const PlantsTable: React.FC<PlantsProps> = () => {
     console.log(getMyPlants.data)
   }
 
+  if (getMyPlants.data.length === 0) {
+    return (
+      <>
+        <p className="ml-5">
+          {`You haven't got any plants yet, head over to`}{' '}
+          <Link to={'/my-garden'}>My Garden</Link> {` to plan your garden.`}
+        </p>
+      </>
+    )
+  }
+
   function getDaysUntilHarvest(days: number, datePlanted: string) {
     const dateSplit = datePlanted.split('-')
     const todaysDate = new Date()

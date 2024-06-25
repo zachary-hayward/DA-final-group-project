@@ -192,7 +192,7 @@ export function useGetMyPlants() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   return useQuery({
     enabled: isAuthenticated,
-    queryKey: ['plants'],
+    queryKey: ['myplants'],
     queryFn: async () => {
       const token = await getAccessTokenSilently()
       const res = await request

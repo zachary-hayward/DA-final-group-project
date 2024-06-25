@@ -332,6 +332,7 @@ export async function getMyPlantsInPlots(auth0Id: string) {
       'days_from_planting_until_harvest as daysUntilHarvest',
       'plots.name as plotsName',
     )
+  console.log(result)
   return result
 }
 
