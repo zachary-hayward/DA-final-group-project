@@ -202,7 +202,6 @@ router.post('/gardens', checkJwt, async (req: JwtRequest, res) => {
     const newGardenID = await db.saveNewGarden(layoutString, user.id)
     const newPlotIDs = await db.saveNewPlots(newGarden.plotData, newGardenID[0])
     const plantsIDs = await getPlantsIds(newGarden.plotData)
-    console.log(plantsIDs)
 
     await db.saveNewPlotPlants(
       newPlotIDs,
