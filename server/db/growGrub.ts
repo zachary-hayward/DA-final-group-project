@@ -343,13 +343,24 @@ export async function getPlotsPlantsJoinByAuth(auth0_id: string) {
     .select('plots_plants.*', 'plants.*')
 }
 
-export async function getTasksByAuth(auth0_id: string) {
+export async function getAllTasksByAuth(auth0_id: string) {
   return db('users')
     .where('users.auth0_id', auth0_id)
     .join('gardens', 'gardens.user_id', 'users.id')
     .join('plots', 'plots.garden_id', 'gardens.id')
     .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
     .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
+    .select('tasks.*')
+}
+
+export async function getUncompletedTasksByAuth(auth0_id: string) {
+  return db('users')
+    .where('users.auth0_id', auth0_id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
+    .where('tasks.completed', false)
     .select('tasks.*')
 }
 
@@ -361,6 +372,7 @@ export async function getUpdatedTasksByAuth(auth0_id: string) {
     .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
     .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
     .join('plants', 'plants.id', 'plots_plants.plant_id')
+    .where('tasks.completed', false)
     .select(
       'tasks.*',
       'plots_plants.name',

@@ -241,3 +241,22 @@ export function useGetTestTasks() {
     },
   })
 }
+
+export function useCompleteSingleTest() {
+  const { getAccessTokenSilently } = useAuth0()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .put(`${rootURL}/tasks`)
+        .set('Authorization', `Bearer ${token}`)
+
+      return res.body
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+}

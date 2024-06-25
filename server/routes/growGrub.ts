@@ -294,18 +294,19 @@ router.put('/tasks', checkJwt, async (req: JwtRequest, res) => {
       console.log('ttassks')
       const currentDate = new Date()
       const plotsPlants = await db.getPlotsPlantsJoinByAuth(auth0Id)
-      const existingTasks = await db.getTasksByAuth(auth0Id)
+      const existingUncompletedTasks =
+        await db.getUncompletedTasksByAuth(auth0Id)
 
       const { tasksToUpdate, tasksToCreate } = refreshTasks(
         plotsPlants,
-        existingTasks,
+        existingUncompletedTasks,
         currentDate,
       )
 
       await db.updateTasks(tasksToUpdate)
       await db.createTasks(tasksToCreate)
 
-      const refreshedTasks = await db.getTasksByAuth(auth0Id)
+      const refreshedTasks = await db.getUpdatedTasksByAuth(auth0Id)
       res.json(refreshedTasks)
     } catch (error) {
       console.log(error)
@@ -339,7 +340,7 @@ router.get('/tasksTEST1', async (req, res) => {
 // Route for testing only - returns tasks for auth0_id user auth0|123
 router.get('/tasksTEST2', async (req, res) => {
   try {
-    const plotsPlants = await db.getTasksByAuth('auth0|123')
+    const plotsPlants = await db.getUpdatedTasksByAuth('auth0|123')
     res.json(plotsPlants)
   } catch (error) {
     console.log(error)
@@ -355,7 +356,7 @@ router.put('/tasksTEST3', async (req, res) => {
     try {
       const currentDate = new Date()
       const plotsPlants = await db.getPlotsPlantsJoinByAuth(auth0Id)
-      const existingTasks = await db.getTasksByAuth(auth0Id)
+      const existingTasks = await db.getUncompletedTasksByAuth(auth0Id)
 
       const { tasksToUpdate, tasksToCreate } = refreshTasks(
         plotsPlants,
