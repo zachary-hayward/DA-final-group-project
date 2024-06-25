@@ -8,7 +8,7 @@ const router = express.Router()
 const geminiApiKey = process.env.API_KEY
 
 router.get('/', checkJwt, async (req: JwtRequest, res) => {
-  console.log(111)
+  // console.log(111)
   const authoId = req.auth?.sub
   if (geminiApiKey === undefined) {
     throw new Error('Missing google gemini key environment variable')
@@ -20,7 +20,7 @@ router.get('/', checkJwt, async (req: JwtRequest, res) => {
 
   try {
     const vege1 = req.query.vege
-    console.log(vege1)
+    // console.log(vege1)
     const prompt = `give me json data with whitespacing between each word about plant care information about ${vege1} that contains plant care information. 
     The following properties should be all lowercase, with no spaces in between words.
     difficulty should be one of "easy", "medium" or "hard". 

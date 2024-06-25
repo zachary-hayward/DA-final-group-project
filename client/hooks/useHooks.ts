@@ -18,6 +18,7 @@ export function useHooks() {
     useGetPlants,
     useGetGardens,
     useAddPlant,
+    useGetTasks,
   }
 }
 
@@ -199,6 +200,78 @@ export function useGetMyPlants() {
         .get(`${rootURL}/myplants`)
         .set('Authorization', `Bearer ${token}`)
       return res.body
+    },
+  })
+}
+
+export function useGetTasks() {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  return useQuery({
+    enabled: isAuthenticated,
+    queryKey: ['tasks'],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .put(`${rootURL}/tasks`)
+        .set('Authorization', `Bearer ${token}`)
+      return res.body
+    },
+  })
+  // return useMutation({
+  //   mutationFn: async () => {
+  //     const token = await getAccessTokenSilently()
+  //     const res = await request
+  //       .put(`api/v1/tasks`)
+  //       .set('Authorization', `Bearer ${token}`)
+  //     return res.body
+  //   },
+  // })
+}
+
+export function useGetUpdatedTasks() {
+  const { getAccessTokenSilently } = useAuth0()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async () => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .put(`${rootURL}/tasks`)
+        .set('Authorization', `Bearer ${token}`)
+
+      return res.body
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+}
+
+export function useGetTestTasks() {
+  return useQuery({
+    queryKey: ['tasks'],
+    queryFn: async () => {
+      const res = await request.put(`${rootURL}/tasksTEST3`)
+      return res.body
+    },
+  })
+}
+
+export function useCompleteSingleTask() {
+  const { getAccessTokenSilently } = useAuth0()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ id }: { id: number }) => {
+      const token = await getAccessTokenSilently()
+      const res = await request
+        .patch(`${rootURL}/tasks/${id}`)
+        .set('Authorization', `Bearer ${token}`)
+
+      return res.body
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
     },
   })
 }
