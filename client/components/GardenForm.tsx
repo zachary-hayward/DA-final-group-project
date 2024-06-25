@@ -295,9 +295,9 @@ function GardenForm({
         />
         <br />
         {currentPlot?.plants && currentPlot?.plants.length > 0 && (
-          <p>Plants:</p>
+          <p className="font-semibold">Planted:</p>
         )}
-        <ul>
+        <ul className="ml-2">
           {currentPlot?.plants &&
             currentPlot?.plants.map((plant, index) => (
               <li key={`${plant}+${index}`}>

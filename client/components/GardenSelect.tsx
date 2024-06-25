@@ -9,7 +9,6 @@ interface Props {
 function GardenSelect({ gardenData, switchSelectedGarden }: Props) {
   return (
     <div className="mx-auto mt-10 flex max-w-7xl flex-col justify-center p-8">
-      {/* <p className="flex flex-row justify-center	">Which garden?</p> */}
       <br />
       <div className="flex flex-row justify-center	">
         {gardenData.map((garden: GardenSimpleDB) => (
