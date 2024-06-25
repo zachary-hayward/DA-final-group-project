@@ -86,7 +86,7 @@ const TaskTable: React.FC<TaskProps> = ({
 
       {/* Table */}
       <div className="overflow-x-auto pt-4">
-        <table>
+        <table className="table-auto">
           {/* Table header */}
           <thead>
             <tr className="bg-slate-50">
@@ -107,10 +107,10 @@ const TaskTable: React.FC<TaskProps> = ({
                 key={`tasktablerow${task.id}`}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
               >
-                <td className="flex items-center border border-slate-200 px-4 py-2">
-                  <div className="flex items-center">
+                <td className="container flex flex-grow items-center border border-slate-200 px-4 py-2">
+                  <div className="flex h-full flex-grow items-center">
                     <img
-                      src={task.photo_src}
+                      src={task.icon_src}
                       alt={task.name}
                       className="mr-2 h-12 w-12"
                     />

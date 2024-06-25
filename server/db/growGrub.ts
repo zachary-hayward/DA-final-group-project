@@ -375,10 +375,10 @@ export async function getUpdatedTasksByAuth(auth0_id: string) {
     .where('tasks.completed', false)
     .select(
       'tasks.*',
-      'plots_plants.name',
+      'plants.name',
       'plots_plants.date_planted',
       'plots_plants.last_watered',
-      'plants.photo_src',
+      'plants.icon_src',
     )
 }
 
