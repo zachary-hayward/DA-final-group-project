@@ -15,7 +15,7 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 mx-auto max-w-3xl text-center text-white">
-          <h2 className="text-4xl font-bold">
+          <h2 className="text-4xl font-bold leading-snug">
             Transform your gardening experience with tools tailored for veggie
             enthusiasts like you.
           </h2>
@@ -38,8 +38,12 @@ export default function Home() {
           link={'/my-tasks'}
         />
       </div>
-
-<TaskTable id={0} title={''} content={''} />
+      <div className="mt-10 mb-20">
+        <div className="list-container mx-auto max-w-7xl">
+        <h3 className="font-bold text-3xl">Today's Tasks</h3>
+        <TaskTable id={0} title={''} content={''} />
+      </div>
+      </div>
     </>
   )
 }

@@ -22,7 +22,7 @@ export default function LandingPageNewUser() {
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 mx-auto max-w-3xl text-center text-white">
-          <h2 className="text-4xl font-bold">
+          <h2 className="text-4xl font-bold leading-snug">
             Transform your gardening experience with tools tailored for veggie
             enthusiasts like you.
           </h2>

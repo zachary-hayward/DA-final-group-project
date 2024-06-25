@@ -73,9 +73,9 @@ export function GardenView() {
   return (
     <>
     {/* Page Banner - hard coded - currently WIP of componentising it */}
-    <div className="banner-container">
+    <div className="banner-container h-40 flex items-center justify-center">
         <div className="mx-auto max-w-7xl text-center">
-          <h2 className="banner-title">My Garden</h2>
+          <h2 className="banner-title item-center">My Garden</h2>
         </div>
       </div>
     
