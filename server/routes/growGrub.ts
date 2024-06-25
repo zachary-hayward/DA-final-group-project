@@ -311,12 +311,10 @@ router.put('/gardens/:id', checkJwt, async (req: JwtRequest, res) => {
 
 // Authenticated route for refreshing and retrieving tasks for user
 router.put('/tasks', checkJwt, async (req: JwtRequest, res) => {
-  console.log('tasks')
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   else
     try {
-      console.log('ttassks')
       const currentDate = new Date()
       const plotsPlants = await db.getPlotsPlantsJoinByAuth(auth0Id)
       const existingUncompletedTasks =
@@ -342,13 +340,13 @@ router.put('/tasks', checkJwt, async (req: JwtRequest, res) => {
 // Authenticated route for completing task
 router.patch('/tasks/:id', checkJwt, async (req: JwtRequest, res) => {
   const { id } = req.params
-  console.log(`task id ${id}`)
+  // console.log(`task id ${id}`)
   const auth0Id = req.auth?.sub
   if (!auth0Id) return res.sendStatus(401)
   else
     try {
       const currentDate = new Date()
-      console.log('try block hit')
+      // console.log('try block hit')
       const completedConfirmation = await db.completeTask(
         Number(id),
         currentDate,

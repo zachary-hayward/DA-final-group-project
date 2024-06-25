@@ -44,7 +44,6 @@ function GardenForm({
   let plantList: string[] = []
   if (plantsQuery.data) {
     plantList = plantsQuery.data.map((plant: Plant) => plant.name.toLowerCase())
-    console.log(plantList)
     if (searching === true && plantList.includes(searchedPlant.toLowerCase())) {
       setMessage('We found it! Select from the list.')
       setSearching(false)
