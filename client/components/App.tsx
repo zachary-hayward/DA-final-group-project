@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Outlet } from 'react-router-dom'
 import Footer from './Footer.tsx'
 import Header from './Header.tsx'
-import LandingPage from '../pages/LandingPage.tsx'
+import LandingPage from '../pages/LandingPageNewUser.tsx'
 import Register from '../pages/Register.tsx'
 import { getUserByAuth } from '../apis/growGrub.ts'
 
@@ -32,7 +32,7 @@ function App() {
   return (
     <>
       <div className="app min-w-screen min-h-screen">
-        <Header />
+        <Header registered={registered}/>
         {!isAuthenticated || processing ? (
           <LandingPage />
         ) : (

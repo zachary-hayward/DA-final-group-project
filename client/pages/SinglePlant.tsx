@@ -94,14 +94,14 @@ export default function SinglePlant() {
                   </p>
                 </div>
               </div>
-              <div className="ml-8 flex-shrink-0">
+              <div className="ml-8 flex-shrink-0 overflow-hidden w-80 h-70 rounded-lg">
                 <img
-                  src="/images/photos/tomato-plant.png"
+                  src="/images/photos/tomatoes.jpg"
                   alt={plantData1.plantName}
-                  className="h-50 w-auto"
+                  className="object-cover w-full h-full rounded-lg"
                 />
               </div>
-            </div>
+              </div>
           </div>
         </div>
         {/* Care Instructions*/}
@@ -172,7 +172,6 @@ export default function SinglePlant() {
             />
           </div>
 
-          {/* Harvesting Instructions*/}
           <div>
             <div className="list-container">
               <h3 className="container-title">Harvesting</h3>

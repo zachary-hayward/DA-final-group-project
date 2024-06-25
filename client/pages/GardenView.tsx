@@ -37,7 +37,9 @@ export function GardenView() {
         gardenData={getGardens.data.gardens}
         switchSelectedGarden={switchSelectedGarden}
       />
+      
     )
+  
   }
 
   function switchSelectedGarden(id: number) {
@@ -64,7 +66,14 @@ export function GardenView() {
 
   return (
     <>
-      <div className="gardenview">
+    {/* Page Banner - hard coded - currently WIP of componentising it */}
+    <div className="banner-container h-40 flex items-center justify-center">
+        <div className="mx-auto max-w-7xl text-center">
+          <h2 className="banner-title item-center">My Garden</h2>
+        </div>
+      </div>
+    
+      <div className="gardenview py-20">
         <GardenGrid
           plotData={plotData}
           setPlotData={setPlotData}
