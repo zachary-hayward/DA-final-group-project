@@ -91,7 +91,6 @@ router.get('/myplants', checkJwt, async (req: JwtRequest, res) => {
   if (!auth0Id) return res.sendStatus(401)
   try {
     const plantsInPlots = await db.getMyPlantsInPlots(auth0Id)
-    console.log(plantsInPlots)
     res.json(plantsInPlots)
   } catch (error) {
     console.log(error)
