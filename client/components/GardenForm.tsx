@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { PlotDatum } from '../../models/growGrub'
+import type { Plant, PlotDatum } from '../../models/growGrub'
 import PrimaryButton from './PrimaryButton'
 import DeleteButton from './DeleteButton'
 import { Layout } from 'react-grid-layout'
@@ -7,6 +7,7 @@ import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import PlotPlantSuggestionDropDown from './PlotPlantSuggestionDropDown'
 import SmallDeleteButton from './SmallDeleteButton'
+import { useHooks } from '../hooks/useHooks'
 
 interface Props {
   plotData: PlotDatum[]
@@ -29,12 +30,26 @@ function GardenForm({
   setLayout,
   currentGardenID,
 }: Props) {
+  const hooks = useHooks()
+  const plantsQuery = hooks.useGetPlants()
+  const addPlant = hooks.useAddPlant()
   const [currentPlot, setCurrentPlot] = useState(
     plotData.find((plot) => plot.plotNumber === activeID),
   )
-  const todaysDate = new Date().toISOString().split('T')[0]
+  const todaysDate = new Date().toISOString().split('T')[0] // date as string
+
+  let plantList: string[] = []
+  if (plantsQuery.data) {
+    plantList = plantsQuery.data.map((plant: Plant) => plant.name)
+  }
 
   function handlePlantSelect(option: string) {
+    console.log(plantsQuery.data)
+    if (!plantList.includes(option)) {
+      addPlant.mutate(option)
+      return
+    }
+
     const newPlantsArr = [
       ...currentPlot!.plants,
       {
