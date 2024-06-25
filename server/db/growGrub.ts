@@ -1,4 +1,10 @@
-import type { User, UserData, Plant, GardenDB } from '../../models/growGrub.ts'
+import type {
+  User,
+  UserData,
+  Plant,
+  GardenDB,
+  Task,
+} from '../../models/growGrub.ts'
 import db from './connection.ts'
 import type { ID, PlantID, NewPlant, PlotDatum } from '../../models/growGrub.ts'
 
@@ -177,28 +183,35 @@ export async function saveNewPlotPlants(
   plantsIDs: PlantID[],
 ) {
   const plantsToInsert: NewPlant[] = []
-  plotData.forEach((plot, i) => {
-    if (plot.plants.length > 0) {
-      plot.plants.forEach((plant) => {
-        const newPlant = {
-          plant_id: plantsIDs.find(
-            (currentPlant) =>
-              currentPlant.name.toLowerCase() === plant.plantName.toLowerCase(),
-          )?.id,
-          user_id: userId,
-          plot_id: plotIdArr[i].id,
-          date_planted: plant.date_planted,
-          name: plant.name,
-        }
-        plantsToInsert.push(newPlant)
-      })
+  if (plotData.length > 0) {
+    plotData.forEach((plot, i) => {
+      if (plot.plants.length > 0) {
+        plot.plants.forEach((plant) => {
+          const newPlant = {
+            plant_id: plantsIDs.find(
+              (currentPlant) =>
+                currentPlant.name.toLowerCase() ===
+                plant.plantName.toLowerCase(),
+            )?.id,
+            user_id: userId,
+            plot_id: plotIdArr[i].id,
+            date_planted: plant.date_planted,
+            name: plant.name,
+          }
+          plantsToInsert.push(newPlant)
+        })
+      }
+    })
+    if (plantsToInsert.length > 0) {
+      await db('plots_plants').insert(plantsToInsert)
     }
-  })
-  await db('plots_plants').insert(plantsToInsert)
+  }
 }
 
 export async function saveNewPlants(plantsToInsert: NewPlant[]) {
-  await db('plots_plants').insert(plantsToInsert)
+  if (plantsToInsert.length > 0) {
+    await db('plots_plants').insert(plantsToInsert)
+  }
 }
 
 export async function addVege(promptResult) {
@@ -310,8 +323,28 @@ export async function addPlant(promptResult) {
 
 export async function getSinglePlantById(plantName: string) {
   return db('plant_care_data')
+    .join('plants', 'plants.name', 'plant_care_data.plantName')
     .where({ plantName: plantName })
-    .select('*')
+    .select(
+      'plant_care_data.scientificName as scientificName',
+      'plant_care_data.id as id',
+      'plantName',
+      'description',
+      'soil',
+      'sunlight',
+      'watering',
+      'fertilization',
+      'pruning',
+      'pests',
+      'diseases',
+      'indoorsPlantingTime',
+      'outdoorsPlantingTime',
+      'spacing',
+      'plantingTime',
+      'harvestingTime',
+      'harvestingTips',
+      'plants.photo_src as photoSrc',
+    )
     .first()
 }
 
@@ -347,4 +380,95 @@ export async function getGardensPlantsById(garden_id: number) {
 export async function deletePlotsPlantsByID(plantIDs: number[]) {
   if (plantIDs.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to delete
   return db('plots_plants').whereIn('id', plantIDs).delete()
+}
+
+export async function getPlotsPlantsJoinByAuth(auth0_id: string) {
+  return db('users')
+    .where('users.auth0_id', auth0_id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .join('plants', 'plants.id', 'plots_plants.plant_id')
+    .select('plants.*', 'plots_plants.*')
+}
+
+export async function getAllTasksByAuth(auth0_id: string) {
+  return db('users')
+    .where('users.auth0_id', auth0_id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
+    .select('tasks.*')
+}
+
+export async function getUncompletedTasksByAuth(auth0_id: string) {
+  return db('users')
+    .where('users.auth0_id', auth0_id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
+    .where('tasks.completed', false)
+    .select('tasks.*')
+}
+
+export async function getUpdatedTasksByAuth(auth0_id: string) {
+  return db('users')
+    .where('users.auth0_id', auth0_id)
+    .join('gardens', 'gardens.user_id', 'users.id')
+    .join('plots', 'plots.garden_id', 'gardens.id')
+    .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+    .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
+    .join('plants', 'plants.id', 'plots_plants.plant_id')
+    .where('tasks.completed', false)
+    .select(
+      'tasks.*',
+      'plants.name',
+      'plots_plants.date_planted',
+      'plots_plants.last_watered',
+      'plants.icon_src',
+    )
+}
+
+export async function updateTasks(tasksToUpdate: Task[]): Promise<void> {
+  try {
+    if (tasksToUpdate.length == 0) return // Exit the function w/o interacting w/ db if there are no plots to update
+    const updatedTaskPromises = tasksToUpdate.map(
+      async (task) =>
+        await db('tasks').where('id', task.id).update({
+          overdue_by: task.overdue_by,
+          completed: false,
+        }),
+    )
+    await Promise.all(updatedTaskPromises)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function createTasks(
+  tasksToCreate: Omit<Task, 'id'>[],
+): Promise<number[]> {
+  if (tasksToCreate.length == 0) return Promise.resolve([]) // Return an empty array if there are no plots to save
+  return db('tasks').insert(tasksToCreate).returning(['id'])
+}
+
+export async function completeTask(id: number, currentDate: Date) {
+  try {
+    console.log(`task number ${id} should now be completed`)
+
+    const receivedTask = await db('tasks').where({ id }).select('*').first()
+
+    await db('plots_plants')
+      .where('id', receivedTask.plots_plants_id)
+      .update('last_watered', currentDate.toISOString().split('T')[0])
+
+    await db('tasks').where({ id }).update({
+      completed: true,
+      overdue_by: 0,
+    })
+  } catch (error) {
+    console.log(error)
+  }
 }

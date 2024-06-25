@@ -77,6 +77,7 @@ export default function SinglePlant() {
   if (isError || !plantData1) {
     return <p>Fail to loading...</p>
   }
+  console.log(plantData1.photoSrc)
   return (
     <>
       {/* Page Banner - hard coded - currently WIP of componentising it */}
@@ -105,16 +106,16 @@ export default function SinglePlant() {
               </div>
           </div>
         </div> */}
-        <Banner 
+      <Banner
         bannerInfo={{
           title: plantData1.plantName,
           subtitle: plantData1.scientificName,
           description: plantData1.description,
-          imgURL: plantData1.photosrc,
+          imgURL: plantData1.photoSrc,
         }}
-        />
+      />
 
-        {/* Care Instructions*/}
+      {/* Care Instructions*/}
       <div>
         <div>
           <div className="list-container">

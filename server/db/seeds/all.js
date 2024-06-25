@@ -27,6 +27,13 @@ export const seed = async function (knex) {
       location: 'Wellington',
       summer_start_month: 'December',
     },
+    {
+      id: 4,
+      auth0_id: 'auth0|790',
+      username: 'Caterpillar',
+      location: 'Christchurch',
+      summer_start_month: 'December',
+    },
   ])
   await knex('gardens').del()
   await knex('gardens').insert([
@@ -53,6 +60,12 @@ export const seed = async function (knex) {
   { i: '9', x: 14, y: 10, w: 33, h: 6 },
   { i: '10', x: 14, y: 13, w: 33, h: 8 }]`,
       name: 'back',
+    },
+    {
+      id: 4,
+      user_id: 4,
+      layout: `[{"w":11,"h":12,"x":0,"y":0,"i":"1","moved":false,"static":false},{"w":3,"h":16,"x":11,"y":0,"i":"2","moved":false,"static":false},{"w":12,"h":20,"x":14,"y":0,"i":"3","moved":false,"static":false},{"w":11,"h":4,"x":0,"y":12,"i":"4","moved":false,"static":false},{"w":21,"h":14,"x":26,"y":6,"i":"6","moved":false,"static":false},{"w":21,"h":6,"x":26,"y":0,"i":"7","moved":false,"static":false},{"w":14,"h":18,"x":0,"y":16,"i":"8","moved":false,"static":false},{"w":33,"h":6,"x":14,"y":20,"i":"9","moved":false,"static":false},{"w":33,"h":8,"x":14,"y":26,"i":"10","moved":false,"static":false}]`,
+      name: 'home',
     },
   ])
   await knex('plants').del()
@@ -1340,6 +1353,87 @@ export const seed = async function (knex) {
       growable: true,
       name: 'Secret garden',
     },
+    {
+      id: 10,
+      garden_id: 4,
+      plot_number: 1,
+      sun_level: 'full-sun',
+      plot_type: 'house',
+      size: 2,
+      growable: true,
+    },
+    {
+      id: 11,
+      garden_id: 4,
+      plot_number: 2,
+      sun_level: 'full-sun',
+      plot_type: 'path',
+      size: 2,
+      growable: true,
+    },
+    {
+      id: 12,
+      garden_id: 4,
+      plot_number: 4,
+      sun_level: 'full-sun',
+      plot_type: 'path',
+      size: 2,
+      growable: true,
+    },
+    {
+      id: 13,
+      garden_id: 4,
+      plot_number: 6,
+      sun_level: 'full-sun',
+      plot_type: 'grass',
+      size: 2,
+      growable: true,
+    },
+    {
+      id: 14,
+      garden_id: 4,
+      plot_number: 7,
+      sun_level: 'full-sun',
+      plot_type: 'garden',
+      size: 2,
+      growable: true,
+    },
+    {
+      id: 15,
+      garden_id: 4,
+      plot_number: 9,
+      sun_level: 'full-sun',
+      plot_type: 'garden',
+      size: 2,
+      growable: true,
+    },
+    {
+      id: 16,
+      garden_id: 4,
+      plot_number: 3,
+      sun_level: 'full-sun',
+      plot_type: 'garden',
+      size: 2,
+      growable: true,
+    },
+    {
+      id: 17,
+      garden_id: 4,
+      plot_number: 10,
+      sun_level: 'full-sun',
+      plot_type: 'garden',
+      size: 2,
+      growable: true,
+    },
+    {
+      id: 18,
+      garden_id: 4,
+      plot_number: 8,
+      sun_level: 'full-sun',
+      plot_type: 'garden',
+      size: 2,
+      growable: true,
+    },
   ])
   await knex('plots_plants').del()
   await knex('plots_plants').insert([
@@ -1348,7 +1442,7 @@ export const seed = async function (knex) {
       plant_id: 1,
       plot_id: 1,
       date_planted: '2024-03-01',
-      last_watered: '2024-03-15',
+      last_watered: '2023-03-15',
       watering_history: '[2024-03-15]',
       user_id: 1,
       name: 'tomato 1',
@@ -1435,6 +1529,44 @@ export const seed = async function (knex) {
     },
   ])
 
+  await knex('tasks').del()
+  await knex('tasks').insert([
+    {
+      id: 1,
+      type: 'water',
+      plots_plants_id: 1,
+      overdue_by: 0,
+      completed: false,
+    },
+    {
+      id: 2,
+      type: 'water',
+      plots_plants_id: 2,
+      overdue_by: 1,
+      completed: false,
+    },
+    {
+      id: 3,
+      type: 'water',
+      plots_plants_id: 3,
+      overdue_by: 3,
+      completed: false,
+    },
+    {
+      id: 4,
+      type: 'water',
+      plots_plants_id: 4,
+      overdue_by: 4,
+      completed: false,
+    },
+    {
+      id: 5,
+      type: 'water',
+      plots_plants_id: 5,
+      overdue_by: 5,
+      completed: false,
+    },
+  ])
   // await knex('plant_notes').del()
   // await knex('plant_notes').insert([
   //   {id: 1, plot_plant_id: 1, date: '2024-03-16', note: 'Plant is growing well.' },

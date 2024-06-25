@@ -1,4 +1,10 @@
-import { PlotDatum, DBPlotDatum, PlotPlant } from '../../models/growGrub'
+import {
+  PlotDatum,
+  DBPlotDatum,
+  PlotPlant,
+  PlotPlantJoinedRowEntry,
+  Task,
+} from '../../models/growGrub'
 import * as db from '../db/growGrub.ts'
 
 export function differentiatePlots(
@@ -64,4 +70,80 @@ export const getAllPlantsInGarden = async (
     (plantId) => !plantsToKeep.find((plant) => plant.id === plantId.id),
   )
   return idsToDelete.map((obj) => obj.id)
+}
+
+export function refreshTasks(
+  rows: PlotPlantJoinedRowEntry[],
+  oldTasks: Task[],
+  currentDate: Date,
+) {
+  const tasksToSort = []
+  const tasksToCreate = []
+  const tasksToUpdate = []
+  // const tasksToDelete = []
+
+  const millisecPerDay = 1000 * 60 * 60 * 24
+
+  // Check to see if there should be a watering task assocaited with each joined plant_plot row
+  for (const row of rows) {
+    // Assume the plant needs watering if the last_watered field is falsey
+    if (row.last_watered === null) {
+      console.log(row)
+      tasksToSort.push({
+        type: 'water',
+        plots_plants_id: row.id,
+        overdue_by: 0,
+        completed: false,
+      })
+    } else {
+      let daysBetweenWatering: number
+
+      // Convert watering_frequency string to the number of days between watering.
+      // Values for watering_frequency are inferred from routes/googleGemini.ts
+      if (row.watering_frequency == 'low') {
+        daysBetweenWatering = 7
+      } else if (row.watering_frequency == 'moderate') {
+        daysBetweenWatering = 4
+      } else {
+        daysBetweenWatering = 2
+      }
+
+      const lastWateredDateObject = new Date(row.last_watered)
+
+      const daysSinceLastWater =
+        (currentDate.getTime() - lastWateredDateObject.getTime()) /
+        millisecPerDay
+
+      // if the plant needs watering, add an associated task into tasksToSort
+      if (daysSinceLastWater >= daysBetweenWatering) {
+        tasksToSort.push({
+          type: 'water',
+          plots_plants_id: row.id,
+          overdue_by: Math.floor(daysSinceLastWater - daysBetweenWatering),
+          completed: false,
+        })
+      }
+    }
+  }
+
+  // Sort the tasks into those that already exist & need to be updated, and those that need to be created
+  for (const newTask of tasksToSort) {
+    const matchingTask = oldTasks.find(
+      (oldTask) =>
+        oldTask.plots_plants_id == newTask.plots_plants_id &&
+        oldTask.type == newTask.type,
+    )
+    if (matchingTask) {
+      tasksToUpdate.push({
+        ...newTask,
+        id: matchingTask.id,
+      })
+    } else {
+      tasksToCreate.push({ ...newTask })
+    }
+  }
+
+  // We could possibly add logic in here that deletes tasks from db
+
+  return { tasksToCreate, tasksToUpdate }
 }
