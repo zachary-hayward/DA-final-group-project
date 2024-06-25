@@ -1,12 +1,7 @@
 import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
-import {
-  useCompleteSingleTask,
-  useGetTasks,
-  useGetTestTasks,
-  useGetUpdatedTasks,
-} from '../hooks/useHooks'
+import { useCompleteSingleTask, useGetTasks } from '../hooks/useHooks'
 
 interface TaskProps {
   id: number
@@ -18,41 +13,34 @@ interface TaskProps {
 }
 
 //mockData
-const tasks: TaskProps = [
-  {
-    id: 1,
-    plantName: 'Tomato',
-    plantImage: '/images/flat-icons/veg-fruit-icons/tomato.png',
-    plantedDate: '3 November 2022',
-    taskType: 'Watering',
-    lastPerformed: '4 December 2023',
-  },
-  {
-    id: 2,
-    plantName: 'Basil',
-    plantImage: '/images/flat-icons/veg-fruit-icons/basil.png',
-    plantedDate: '3 November 2022',
-    taskType: 'Watering',
-    lastPerformed: '4 December 2023',
-  },
-  {
-    id: 3,
-    plantName: 'Cauliflower',
-    plantImage: '/images/flat-icons/veg-fruit-icons/cauliflower.png',
-    plantedDate: '3 November 2022',
-    taskType: 'Watering',
-    lastPerformed: '4 December 2023',
-  },
-]
+// const tasks: TaskProps = [
+//   {
+//     id: 1,
+//     plantName: 'Tomato',
+//     plantImage: '/images/flat-icons/veg-fruit-icons/tomato.png',
+//     plantedDate: '3 November 2022',
+//     taskType: 'Watering',
+//     lastPerformed: '4 December 2023',
+//   },
+//   {
+//     id: 2,
+//     plantName: 'Basil',
+//     plantImage: '/images/flat-icons/veg-fruit-icons/basil.png',
+//     plantedDate: '3 November 2022',
+//     taskType: 'Watering',
+//     lastPerformed: '4 December 2023',
+//   },
+//   {
+//     id: 3,
+//     plantName: 'Cauliflower',
+//     plantImage: '/images/flat-icons/veg-fruit-icons/cauliflower.png',
+//     plantedDate: '3 November 2022',
+//     taskType: 'Watering',
+//     lastPerformed: '4 December 2023',
+//   },
+// ]
 
-const TaskTable: React.FC<TaskProps> = ({
-  id,
-  plantName,
-  plantImage,
-  plantedDate,
-  taskType,
-  lastPerformed,
-}) => {
+const TaskTable: React.FC<TaskProps> = () => {
   // const getTasks = useGetUpdatedTasks()
   const taskQuery = useGetTasks()
 
@@ -68,9 +56,9 @@ const TaskTable: React.FC<TaskProps> = ({
   //   console.log('getTasks.data: ', getTasks.data)
   // }
 
-  if (taskQuery.data) {
-    console.log('getTestTasks.data: ', taskQuery.data)
-  }
+  // if (taskQuery.data) {
+  //   console.log('getTestTasks.data: ', taskQuery.data)
+  // }
 
   const tasks = taskQuery.data
 
@@ -89,7 +77,7 @@ const TaskTable: React.FC<TaskProps> = ({
 
       {/* Table */}
       <div className="overflow-x-auto pt-4">
-        <table className="table-auto">
+        <table className="w-full table-auto">
           {/* Table header */}
           <thead>
             <tr className="bg-slate-50">
@@ -110,48 +98,53 @@ const TaskTable: React.FC<TaskProps> = ({
                 key={`tasktablerow${task.id}`}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
               >
-                <td className="container flex flex-grow items-center border border-slate-200 px-4 py-2">
-                  <div className="flex h-full flex-grow items-center">
+                <td className="border border-slate-200 px-4 py-2">
+                  <div className="flex items-center">
                     <img
                       src={task.icon_src}
                       alt={task.name}
                       className="mr-2 h-12 w-12"
                     />
-                  </div>
-                  <div className="ml-2">
-                    <div className="mb-1 font-semibold">{task.name}</div>
-                    <div className="text-gray-600">
-                      Planted: {task.date_planted}
+                    <div className="flex flex-col">
+                      <div className="font-semibold">{task.name}</div>
+                      <div className="text-gray-600">
+                        Planted: {task.date_planted}
+                      </div>
                     </div>
                   </div>
                 </td>
                 <td className="border border-slate-200 px-4 py-2">
-                  <div className="mb-1 font-medium">
-                    {task.type == 'water'
-                      ? 'Watering'
-                      : 'Task type not recognised'}
-                  </div>
-                  <div className="text-gray-600">
-                    Last watered: {String(task.last_watered)}
-                  </div>
-                  {task.overdue_by > 0 ? (
-                    <div className="text-gray-600">
-                      Overdue by {String(task.overdue_by)}{' '}
-                      {task.overdue_by == 1 ? 'day!' : 'days!'}
+                  <div className="flex flex-col">
+                    <div className="mb-1 font-medium">
+                      {task.type === 'water'
+                        ? 'Watering'
+                        : 'Task type not recognised'}
                     </div>
-                  ) : null}
+                    <div className="text-gray-600">
+                      Last watered:{' '}
+                      {task.last_watered === null ? 'never' : task.last_watered}
+                    </div>
+                    {task.overdue_by > 0 && (
+                      <div className="text-gray-600">
+                        Overdue by {String(task.overdue_by)}{' '}
+                        {task.overdue_by === 1 ? 'day!' : 'days!'}
+                      </div>
+                    )}
+                  </div>
                 </td>
-                <td className="w-1/12 border border-slate-200 px-4 py-2 text-right">
-                  <SecondaryButton
-                    onClick={(
-                      event: MouseEvent<Element, globalThis.MouseEvent>,
-                    ): void => {
-                      event.preventDefault()
-                      completeSingleTask.mutateAsync({ id: task.id })
-                    }}
-                  >
-                    Done
-                  </SecondaryButton>
+                <td className="border border-slate-200 px-4 py-2">
+                  <div className="flex items-center">
+                    <SecondaryButton
+                      onClick={(
+                        event: MouseEvent<Element, globalThis.MouseEvent>,
+                      ): void => {
+                        event.preventDefault()
+                        completeSingleTask.mutateAsync({ id: task.id })
+                      }}
+                    >
+                      Done
+                    </SecondaryButton>
+                  </div>
                 </td>
               </tr>
             ))}

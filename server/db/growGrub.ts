@@ -462,7 +462,7 @@ export async function completeTask(id: number, currentDate: Date) {
 
     await db('plots_plants')
       .where('id', receivedTask.plots_plants_id)
-      .update('last_watered', String(currentDate))
+      .update('last_watered', currentDate.toISOString().split('T')[0])
 
     await db('tasks').where({ id }).update({
       completed: true,
