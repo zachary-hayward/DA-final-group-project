@@ -84,7 +84,9 @@ export function GardenGrid({
       {currentGardenID && (
         <GoBackButton onClick={handleGoBack}>My gardens</GoBackButton>
       )}
-      <SecondaryButton onClick={handleAdd}>Add Plot</SecondaryButton>
+      <div className="mb-1 mt-1">
+        <SecondaryButton onClick={handleAdd}>Add Plot</SecondaryButton>
+      </div>
       <ResponsiveGridLayout
         className="layout"
         onLayoutChange={handleLayoutChange}

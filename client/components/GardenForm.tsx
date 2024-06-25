@@ -294,7 +294,9 @@ function GardenForm({
           plotSunLevel={currentPlot?.sunLight}
         />
         <br />
-        <p>Plants:</p>
+        {currentPlot?.plants && currentPlot?.plants.length > 0 && (
+          <p>Plants:</p>
+        )}
         <ul>
           {currentPlot?.plants &&
             currentPlot?.plants.map((plant, index) => (
@@ -308,16 +310,24 @@ function GardenForm({
               </li>
             ))}
         </ul>
-        <PrimaryButton onClick={handleSubmit}>Save garden & exit</PrimaryButton>
+        <div className="mt-1">
+          <PrimaryButton onClick={handleSubmit}>
+            Save garden & exit
+          </PrimaryButton>
+        </div>
         {/* Conditionally render 'save as new garden' button if currentGardenID isn't null or undefined */}
         {currentGardenID && (
-          <PrimaryButton onClick={handleNewSaveGardenSubmit}>
-            Save as new garden
-          </PrimaryButton>
+          <div className="mt-2">
+            <PrimaryButton onClick={handleNewSaveGardenSubmit}>
+              Save as new garden
+            </PrimaryButton>
+          </div>
         )}
-        <DeleteButton onClick={handleDeleteButtonPush}>
-          Delete plot
-        </DeleteButton>
+        <div className="mt-2">
+          <DeleteButton onClick={handleDeleteButtonPush}>
+            Delete plot
+          </DeleteButton>
+        </div>
       </form>
     </div>
   )
