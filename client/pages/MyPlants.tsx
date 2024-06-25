@@ -4,12 +4,12 @@ import PlantsTable from '../components/PlantsTable'
 export default function TaskPage() {
   return (
     <>
-      <Banner 
+      <Banner
         bannerInfo={{
-          title: "My Plants"
+          title: 'My Plants',
         }}
       />
-      <div className="mx-auto my-20 max-w-7xl">
+      <div className="mx-auto my-10 max-w-7xl">
         <PlantsTable
           id={0}
           plantName={''}
