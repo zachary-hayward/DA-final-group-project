@@ -409,17 +409,15 @@ export async function completeTask(id: number, currentDate: Date) {
   try {
     console.log(`task number ${id} should now be completed`)
 
-    await db('users')
-      .join('gardens', 'gardens.user_id', 'users.id')
-      .join('plots', 'plots.garden_id', 'gardens.id')
-      .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
-      .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
-      .where('tasks.id', id)
-      .update('plots_plants.last_watered', String(currentDate))
+    const receivedTask = await db('tasks').where({ id }).select('*').first()
+
+    await db('plots_plants')
+      .where('id', receivedTask.plots_plants_id)
+      .update('last_watered', String(currentDate))
 
     await db('tasks').where({ id }).update({
       completed: true,
-      overdue_by: null,
+      overdue_by: 0,
     })
   } catch (error) {
     console.log(error)
