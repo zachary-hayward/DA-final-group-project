@@ -2,6 +2,7 @@ import { MouseEvent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
 import {
+  useCompleteSingleTask,
   useGetTasks,
   useGetTestTasks,
   useGetUpdatedTasks,
@@ -56,6 +57,8 @@ const TaskTable: React.FC<TaskProps> = ({
   const testTaskQuery = useGetTestTasks()
 
   // console.log(testTasks)
+
+  const completeSingleTask = useCompleteSingleTask()
 
   if (testTaskQuery.isError) return <p>error</p>
 
@@ -143,7 +146,8 @@ const TaskTable: React.FC<TaskProps> = ({
                     onClick={(
                       event: MouseEvent<Element, globalThis.MouseEvent>,
                     ): void => {
-                      throw new Error('Function not implemented.')
+                      event.preventDefault()
+                      completeSingleTask.mutateAsync({ id: task.id })
                     }}
                   >
                     Done

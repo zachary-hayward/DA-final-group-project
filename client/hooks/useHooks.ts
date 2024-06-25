@@ -234,7 +234,7 @@ export function useGetUpdatedTasks() {
 
 export function useGetTestTasks() {
   return useQuery({
-    queryKey: ['testtasks'],
+    queryKey: ['tasks'],
     queryFn: async () => {
       const res = await request.put(`${rootURL}/tasksTEST3`)
       return res.body
@@ -242,15 +242,15 @@ export function useGetTestTasks() {
   })
 }
 
-export function useCompleteSingleTest() {
+export function useCompleteSingleTask() {
   const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ id }: { id: number }) => {
       const token = await getAccessTokenSilently()
       const res = await request
-        .put(`${rootURL}/tasks`)
+        .patch(`${rootURL}/tasks/${id}`)
         .set('Authorization', `Bearer ${token}`)
 
       return res.body

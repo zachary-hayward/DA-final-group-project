@@ -404,3 +404,24 @@ export async function createTasks(
   if (tasksToCreate.length == 0) return Promise.resolve([]) // Return an empty array if there are no plots to save
   return db('tasks').insert(tasksToCreate).returning(['id'])
 }
+
+export async function completeTask(id: number, currentDate: Date) {
+  try {
+    console.log(`task number ${id} should now be completed`)
+
+    await db('users')
+      .join('gardens', 'gardens.user_id', 'users.id')
+      .join('plots', 'plots.garden_id', 'gardens.id')
+      .join('plots_plants', 'plots_plants.plot_id', 'plots.id')
+      .join('tasks', 'tasks.plots_plants_id', 'plots_plants.id')
+      .where('tasks.id', id)
+      .update('plots_plants.last_watered', String(currentDate))
+
+    await db('tasks').where({ id }).update({
+      completed: true,
+      overdue_by: null,
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

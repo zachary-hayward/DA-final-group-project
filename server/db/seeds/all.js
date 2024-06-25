@@ -29,7 +29,7 @@ export const seed = async function (knex) {
     },
     {
       id: 4,
-      auth0_id: 'google-oauth2|110910367367601408346',
+      auth0_id: 'auth0|790',
       username: 'Caterpillar',
       location: 'Christchurch',
       summer_start_month: 'December',

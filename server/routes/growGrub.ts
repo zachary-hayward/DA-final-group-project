@@ -314,6 +314,27 @@ router.put('/tasks', checkJwt, async (req: JwtRequest, res) => {
     }
 })
 
+// Authenticated route for completing task
+router.patch('/tasks/:id', checkJwt, async (req: JwtRequest, res) => {
+  const { id } = req.params
+  console.log(`task id ${id}`)
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) return res.sendStatus(401)
+  else
+    try {
+      const currentDate = new Date()
+      console.log('try block hit')
+      const completedConfirmation = await db.completeTask(
+        Number(id),
+        currentDate,
+      )
+      res.json(completedConfirmation)
+    } catch (error) {
+      console.log(error)
+      res.sendStatus(500)
+    }
+})
+
 // For testing tasks route:
 // 1) npm run knex seed:run
 // 2) Make a GET request to localhost:3000/api/v1/tasksTEST2 using Thunderclient; expect first entry to be:
