@@ -49,7 +49,7 @@ function GardenForm({
       setSearching(false)
       setTimeout(() => {
         setMessage('')
-      }, 10000)
+      }, 7000)
     }
   }
 
