@@ -3,7 +3,7 @@ import spinachIcon from '/images/flat-icons/spinach.png'
 import carrotIcon from '/images/flat-icons/carrot.png'
 import wateringCanIcon from '/images/flat-icons/watering-can.png'
 import TaskTable from '../components/TasksTable'
-import Banner from "../components/Banner"
+import Banner from '../components/Banner'
 
 export default function Home() {
   return (
@@ -22,32 +22,29 @@ export default function Home() {
           </h2>
         </div>
       </div>
-      <div className="mx-auto mt-10 flex max-w-7xl justify-center p-8">
+      <div className="mx-auto mt-4 flex max-w-7xl justify-center p-8">
         <QuickLinksCards
-          icon={<img src={spinachIcon} alt="Spinach"/>}
+          icon={<img src={spinachIcon} alt="Spinach" />}
           text={'My Garden'}
           link={'/my-garden'}
         />
         <QuickLinksCards
-          icon={<img src={carrotIcon} alt="Carrot"/>}
+          icon={<img src={carrotIcon} alt="Carrot" />}
           text={'My Plants'}
-          link='/my-plants'
+          link="/my-plants"
         />
         <QuickLinksCards
-          icon={<img src={wateringCanIcon} alt="Watering Can"/>}
+          icon={<img src={wateringCanIcon} alt="Watering Can" />}
           text={'My Tasks'}
           link={'/my-tasks'}
         />
       </div>
-      <div className="mt-10 mb-20">
+      <div className="mb-20 mt-10">
         <div className="list-container mx-auto max-w-7xl">
-        <h3 className="font-bold text-3xl">Today's Tasks</h3>
-        <TaskTable id={0} title={''} content={''} />
-      </div>
+          <h3 className="text-3xl font-bold">Today's Tasks</h3>
+          <TaskTable id={0} title={''} content={''} />
+        </div>
       </div>
     </>
   )
 }
-
-
-
