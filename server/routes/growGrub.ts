@@ -349,6 +349,7 @@ router.patch('/tasks/:id', checkJwt, async (req: JwtRequest, res) => {
   else
     try {
       const currentDate = new Date()
+
       // console.log('try block hit')
       const completedConfirmation = await db.completeTask(
         Number(id),
