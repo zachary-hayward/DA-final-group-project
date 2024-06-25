@@ -229,7 +229,7 @@ export async function addVege(promptResult) {
         promptResult.plantCareData[0].plantingTime.outdoorsPlantingTime,
       spacing: promptResult.plantCareData[0].plantingTime.spacing,
       plantingTime: promptResult.plantCareData[0].plantingTime.plantingTime,
-      havestingTime: promptResult.plantCareData[0].harvesting.harvestingTime,
+      harvestingTime: promptResult.plantCareData[0].harvesting.harvestingTime,
       harvestingTips: promptResult.plantCareData[0].harvesting.harvestingTips,
     }
     // console.log(promptResult.plantCareData[0].harvesting.harvestingTime)
@@ -294,7 +294,8 @@ export async function addPlant(promptResult) {
         promptResult.plantCareData[0].careInstructions.planting_ends,
       watering_frequency:
         promptResult.plantCareData[0].careInstructions.watering,
-      sun_level: promptResult.plantCareData[0].careInstructions.sunlight,
+      sun_level:
+        promptResult.plantCareData[0].careInstructions.sunlight.toLowerCase(),
       cycle: promptResult.plantCareData[0].careInstructions.cycle,
       days_from_planting_until_harvest:
         promptResult.plantCareData[0].careInstructions

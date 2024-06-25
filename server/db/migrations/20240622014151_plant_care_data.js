@@ -19,7 +19,7 @@ export function up(knex) {
     table.string('outdoorsPlantingTime')
     table.string('spacing')
     table.string('plantingTime')
-    table.string('havestingTime')
+    table.string('harvestingTime')
     table.string('harvestingTips')
   })
 }

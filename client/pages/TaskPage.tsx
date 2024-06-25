@@ -5,12 +5,13 @@ export default function TaskPage() {
   return (
     <>
       {/* Page Banner - hard coded - currently WIP of componentising it */}
-      <Banner 
+      <Banner
         bannerInfo={{
-          title: "My Tasks"
-        }}/>
+          title: 'My Tasks',
+        }}
+      />
 
-      <div className="my-20">
+      <div className="mb-20 mt-10">
         <TasksTable
           id={0}
           plantName={''}

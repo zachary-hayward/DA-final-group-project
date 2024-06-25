@@ -86,7 +86,12 @@ function PlotPlantSuggestionDropDown({
   if (plantsQuery.data) {
     const filteredBySun = plantsQuery.data.filter(
       (plant: Plant) =>
-        plant.sun_level.includes(plotSunLevel!) || plotSunLevel === undefined,
+        plant.sun_level.includes(plotSunLevel!) ||
+        plotSunLevel === undefined ||
+        (plant.sun_level.includes('partial-shade') &&
+          plotSunLevel! === 'part-sun') ||
+        (plant.sun_level.includes('partial-sun') &&
+          plotSunLevel! === 'part-sun'),
     )
     const filteredBySeason = filteredBySun.filter(
       (plant) =>
