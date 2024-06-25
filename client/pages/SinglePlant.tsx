@@ -110,6 +110,7 @@ export default function SinglePlant() {
           title: plantData1.plantName,
           subtitle: plantData1.scientificName,
           description: plantData1.description,
+          imgURL: plantData1.photosrc,
         }}
         />
 
