@@ -77,6 +77,7 @@ export default function SinglePlant() {
   if (isError || !plantData1) {
     return <p>Fail to loading...</p>
   }
+  console.log(plantData1.photoSrc)
   return (
     <>
       {/* Page Banner - hard coded - currently WIP of componentising it */}
