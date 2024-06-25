@@ -1,3 +1,133 @@
+@import 'react-grid-layout/css/styles.css';
+@import 'react-resizable/css/styles.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Table stying */
+.table-header {
+  @apply bg-slate-50 px-4 py-2 text-left font-light uppercase;
+}
+
+/* Page Banner */
+.banner-container {
+  @apply bg-lime-200 p-8 px-4;
+}
+
+.banner-flex {
+  @apply flex items-center justify-center;
+}
+
+.banner-title {
+  @apply text-4xl font-bold text-green-800;
+}
+
+/* Instruction List */
+
+.list-container {
+  @apply mx-auto max-w-4xl py-2;
+}
+
+.list-grid {
+  @apply grid grid-cols-12 items-center gap-5 rounded-lg bg-slate-50 px-6 py-4;
+}
+
+.list-title {
+  @apply text-lg font-semibold text-green-800;
+}
+
+.list-description {
+  @apply text-base text-green-800;
+}
+
+.container-title {
+  @apply pb-5 pt-10 text-2xl font-medium;
+}
+
+/* Grid */
+
+.gardenview {
+  display: flex;
+  flex-direction: row;
+}
+
+.garden-grid {
+  flex: 3;
+}
+
+.garden-form {
+  margin-left: 0.5em;
+  padding: 1em 1em;
+  flex: 1;
+  background-color: #fbfbfb;
+  height: 100vh;
+}
+
+.dropmenu {
+  border-width: 1px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0.25em;
+  padding: 0.1em;
+}
+
+.save-garden {
+  background-color: #609936;
+  color: white;
+  padding: 0.25em 0.7em;
+  border-radius: 0.35em;
+  margin-top: 1em;
+}
+
+.add-plant {
+  background-color: #e4ffd0;
+  padding: 0.25em 0.7em;
+  border-radius: 0.35em;
+}
+
+.del-plot {
+  background-color: crimson;
+  color: #fbfbfb;
+  padding: 0.35em 0.7em;
+  border-radius: 0.35em;
+  font-weight: 400;
+}
+
+.del-plot:hover {
+  background-color: red;
+}
+
+#nameInput {
+  background-color: #fbfbfb;
+}
+
+.house {
+  background-color: lightseagreen;
+  border: solid black;
+}
+
+.grass {
+  background-color: #609936;
+}
+
+.garden {
+  background-color: rgb(137, 94, 57);
+}
+
+.path {
+  background-color: grey;
+}
+
+.mt0 {
+  margin-top: 0;
+}
+
+.react-confirm-alert-body > h1 {
+  font-size: xx-large;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+
+.smlDel {
+  margin-left: 0.25em;
+}
